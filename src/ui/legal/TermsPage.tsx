@@ -1,5 +1,3 @@
-function TermsPage() {
+export function TermsPage() {
     return <div>TermsPage</div>;
 }
-
-export default TermsPage;

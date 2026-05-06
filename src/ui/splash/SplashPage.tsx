@@ -1,5 +1,3 @@
-function SplashPage() {
+export function SplashPage() {
     return <div>SplashPage</div>;
 }
-
-export default SplashPage;

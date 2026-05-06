@@ -1,16 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from './layout/Layout';
+import { Layout } from './layout/Layout';
 import { ROUTES } from '@/constants/routes';
-import SplashPage from '@/ui/splash/SplashPage';
-import LoginPage from '@/ui/auth/LoginPage';
-import KakaoCallbackPage from '@/ui/auth/KakaoCallbackPage';
-import OnboardingPage from '@/ui/onboarding/OnboardingPage';
-import TermsPage from '@/ui/legal/TermsPage';
-import FeedPage from '@/ui/feed/FeedPage';
-import CardDetailPage from '@/ui/feed/CardDetailPage';
-import MyPage from '@/ui/me/MyPage';
+import { SplashPage } from '@/ui/splash/SplashPage';
+import { LoginPage } from '@/ui/auth/LoginPage';
+import { KakaoCallbackPage } from '@/ui/auth/KakaoCallbackPage';
+import { OnboardingPage } from '@/ui/onboarding/OnboardingPage';
+import { TermsPage } from '@/ui/legal/TermsPage';
+import { FeedPage } from '@/ui/feed/FeedPage';
+import { CardDetailPage } from '@/ui/feed/CardDetailPage';
+import { MyPage } from '@/ui/me/MyPage';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
     {
         element: <Layout />,
         children: [
@@ -25,5 +25,3 @@ const router = createBrowserRouter([
         ],
     },
 ]);
-
-export default router;
