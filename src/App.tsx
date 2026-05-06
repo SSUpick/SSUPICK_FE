@@ -1,9 +1,6 @@
-function App() {
-  return (
-    <main className="flex flex-col min-h-svh">
-      <h1 className="text-2xl font-bold text-center py-10">SSUPICK</h1>
-    </main>
-  )
-}
+import { RouterProvider } from 'react-router-dom';
+import { router } from '@/apps/router';
 
-export default App
+export function App() {
+    return <RouterProvider router={router} />;
+}
