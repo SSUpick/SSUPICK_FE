@@ -7,6 +7,7 @@ export const ROUTES = {
     FEED: '/feed',
     CARD_DETAIL: '/feed/:profileId',
     ME: '/me',
+    SERVER_ERROR: '/500',
 } as const;
 
 export const cardDetailPath = (profileId: string) => `/feed/${profileId}`;

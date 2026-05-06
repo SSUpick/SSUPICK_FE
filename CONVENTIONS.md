@@ -152,6 +152,37 @@ export const useFeed = () =>
 - 색상/spacing 등 디자인 토큰은 `index.css`의 `@theme`에 정의해서 Tailwind 클래스로 사용.
 - 컴포넌트 단위 CSS-in-JS 도입 안 함 (Tailwind로 충분).
 
+### 8.1 단위 — 1rem = 10px, Tailwind 클래스 숫자 = px값
+
+`index.css`에서 `html { font-size: 62.5% }`로 1rem = 10px 고정. `@theme`에서 `--spacing: 0.1rem`으로 두면 **모든 spacing/sizing 클래스의 숫자가 그대로 px값**이 된다.
+
+```css
+@theme {
+    --spacing: 0.1rem; /* 1 unit = 1px @ 1rem=10px */
+}
+```
+
+| 피그마 | 클래스 |
+| --- | --- |
+| 13px | `mt-13`, `px-13`, `gap-13` |
+| 16px | `mt-16`, `gap-16` |
+| 24px | `px-24`, `leading-24` |
+| 184px | `h-184 w-184` |
+| 640px | `max-w-640` |
+
+**룰**
+
+- 피그마 inspect에서 본 px 숫자를 그대로 클래스에 박는다. 머리 굴리기 0.
+- **arbitrary 값 (`mt-[1.3rem]`, `px-[14px]`) 사용 금지.** 모든 값은 일반 유틸 클래스로 표현 가능해야 한다.
+- 폰트 크기는 의미적 클래스 (`text-sm`, `text-base`, `text-lg`)로 쓴다. `text-*` 토큰은 `@theme`에서 px 기준으로 정의돼 있음.
+- 색상도 토큰만 사용 (`bg-pink-default`, `text-black-700`). 임의 hex 금지.
+
+**주의 — 기본 Tailwind 직관 깨짐**
+
+- `mt-4`는 4px (이전 16px 아님). 16px 원하면 `mt-16`
+- `px-2`는 2px. 8px 원하면 `px-8`
+- "n번 반복 = 4n px" 룰은 무시하고 **숫자 = px** 로만 본다
+
 ## 9. import 순서
 
 1. 외부 라이브러리 (`react`, `react-router-dom`, ...)
