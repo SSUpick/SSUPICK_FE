@@ -1,71 +1,78 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  /* Spacing: 0.1rem = 1px @ 1rem=10px → 클래스 숫자 = px값 (mt-13 = 13px) */
-  --spacing: 0.1rem;
+    /* Spacing: 0.1rem = 1px @ 1rem=10px → 클래스 숫자 = px값 (mt-13 = 13px) */
+    --spacing: 0.1rem;
 
-  /* Typography: rebase to 1rem=10px (sizes preserved as default) */
-  --text-2xs: 1rem;
-  --text-xs: 1.2rem;
-  --text-sm: 1.4rem;
-  --text-base: 1.6rem;
-  --text-lg: 1.8rem;
-  --text-xl: 2rem;
-  --text-2xl: 2.4rem;
-  --text-3xl: 3rem;
-  --text-4xl: 3.6rem;
-  --text-5xl: 4.8rem;
+    /* Typography: rebase to 1rem=10px (sizes preserved as default) */
+    --text-2xs: 1rem;
+    --text-xs: 1.2rem;
+    --text-sm: 1.4rem;
+    --text-base: 1.6rem;
+    --text-lg: 1.8rem;
+    --text-xl: 2rem;
+    --text-2xl: 2.4rem;
+    --text-3xl: 3rem;
+    --text-4xl: 3.6rem;
+    --text-5xl: 4.8rem;
 
-  /* Pink */
-  --color-pink-light: #fff5fa;
-  --color-pink-default: #ff50aa;
-  --color-pink-point: #ff339c;
+    /* Pink */
+    --color-pink-light: #fff5fa;
+    --color-pink-default: #ff50aa;
+    --color-pink-point: #ff339c;
 
-  /* Green */
-  --color-green-dark: #526446;
-  --color-green-light: #eefaf0;
-  --color-green-muted: #82a33480;
+    /* Green */
+    --color-green-dark: #526446;
+    --color-green-light: #eefaf0;
+    --color-green-muted: #82a33480;
 
-  /* White */
-  --color-white-default: #ffffff;
+    /* White */
+    --color-white-default: #ffffff;
 
-  /* Kakao */
-  --color-kakao-yellow: #fee500;
-  --color-kakao-text: #262200;
+    /* Kakao */
+    --color-kakao-yellow: #fee500;
+    --color-kakao-text: #262200;
 
-  /* Black (gray scale) */
-  --color-black-100: #f5f7fa;
-  --color-black-200: #edf0f3;
-  --color-black-300: #dddee6;
-  --color-black-400: #a6b0ba;
-  --color-black-700: #707a85;
-  --color-black-800: #2c2f3b;
-  --color-black-900: #000000;
+    /* Black (gray scale) */
+    --color-black-100: #f5f7fa;
+    --color-black-200: #edf0f3;
+    --color-black-300: #dddee6;
+    --color-black-400: #a6b0ba;
+    --color-black-700: #707a85;
+    --color-black-800: #2c2f3b;
+    --color-black-900: #000000;
 
-  /* Red */
-  --color-red-default: #ff1846;
+    /* Red */
+    --color-red-default: #ff1846;
 
-  /* Blue */
-  --color-blue-100: #eff9ff;
-  --color-blue-200: #97d9ff;
-  --color-blue-800: #13a8ff;
+    /* Blue */
+    --color-blue-100: #eff9ff;
+    --color-blue-200: #97d9ff;
+    --color-blue-800: #13a8ff;
 }
 
 html {
-  font-size: 62.5%; /* 1rem = 10px */
+    font-size: 62.5%; /* 1rem = 10px */
 }
 
 body {
-  font-family:
-    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
-    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-  font-size: 1.6rem; /* default body = 16px */
-  background-color: #f5f5f5;
-  min-height: 100svh;
+    font-family:
+        'Pretendard Variable',
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        system-ui,
+        'Apple SD Gothic Neo',
+        'Noto Sans KR',
+        'Malgun Gothic',
+        sans-serif;
+    font-size: 1.6rem; /* default body = 16px */
+    background-color: #f5f5f5;
+    min-height: 100svh;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }

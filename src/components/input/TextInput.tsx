@@ -7,15 +7,8 @@ type TextInputProps = ComponentProps<'input'> & {
     valid?: boolean;
 };
 
-export function TextInput({
-    error = false,
-    valid = false,
-    className,
-    ...props
-}: TextInputProps) {
-    const stateClass = error
-        ? 'border-red-default'
-        : 'border-transparent focus:border-blue-200';
+export function TextInput({ error = false, valid = false, className, ...props }: TextInputProps) {
+    const stateClass = error ? 'border-red-default' : 'border-transparent focus:border-blue-200';
 
     const icon = error ? warningIcon : valid ? successIcon : null;
 

@@ -26,7 +26,7 @@ export function ProfileCreatePage() {
     };
 
     const handleConfirmPhoto = () => {
-        setAttempts((n) => n + 1);
+        setAttempts(n => n + 1);
         setStep('generating');
     };
 
@@ -35,7 +35,7 @@ export function ProfileCreatePage() {
     const handleRetry = () => {
         if (attempts >= MAX_ATTEMPTS) return;
         setStep('generating');
-        setAttempts((n) => n + 1);
+        setAttempts(n => n + 1);
     };
 
     const handleConfirmResult = () => setStep('form');
@@ -43,7 +43,7 @@ export function ProfileCreatePage() {
     const handleSubmitForm = async (values: CardFormValues) => {
         // TODO: API 연동 — 프로필 생성
         void values;
-        await new Promise((r) => window.setTimeout(r, 700));
+        await new Promise(r => window.setTimeout(r, 700));
         navigate(`${ROUTES.FEED}?toast=profileCreate`, { replace: true });
     };
 

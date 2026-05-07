@@ -41,9 +41,7 @@ export function LoginPage() {
             </div>
 
             <div className="absolute top-220 left-1/2 -translate-x-1/2">
-                <SpeechBubble variant="gray">
-                    귀여운 캐릭터로 바로 바꿔줄게!
-                </SpeechBubble>
+                <SpeechBubble variant="gray">귀여운 캐릭터로 바로 바꿔줄게!</SpeechBubble>
             </div>
 
             <div className="absolute bottom-44 left-1/2 w-354 -translate-x-1/2">

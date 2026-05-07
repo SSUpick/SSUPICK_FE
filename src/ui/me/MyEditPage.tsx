@@ -38,7 +38,7 @@ export function MyEditPage() {
     const onSubmit = handleSubmit(async () => {
         setSubmitting(true);
         // TODO: API 연동 — 프로필 수정
-        await new Promise((r) => window.setTimeout(r, 600));
+        await new Promise(r => window.setTimeout(r, 600));
         setSubmitting(false);
         navigate(`${ROUTES.FEED}?toast=profileEdit`, { replace: true });
     });
@@ -57,7 +57,9 @@ export function MyEditPage() {
 
             <div className="flex flex-col gap-22 px-22 pt-30">
                 <FieldGroup label="닉네임">
-                    <EditableInput field={register('nickname', { required: true, maxLength: 10 })} />
+                    <EditableInput
+                        field={register('nickname', { required: true, maxLength: 10 })}
+                    />
                 </FieldGroup>
 
                 <FieldGroup label="MBTI">
@@ -101,9 +103,7 @@ function FieldGroup({ label, helper, children }: FieldGroupProps) {
     return (
         <div className="flex flex-col gap-8">
             <label className="text-base font-semibold text-black-800">{label}</label>
-            {helper && (
-                <p className="-mt-4 text-xs font-medium text-black-400">{helper}</p>
-            )}
+            {helper && <p className="-mt-4 text-xs font-medium text-black-400">{helper}</p>}
             <div className="flex flex-col gap-10">{children}</div>
         </div>
     );

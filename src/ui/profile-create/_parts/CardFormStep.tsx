@@ -42,18 +42,11 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     const [contact, setContact] = useState('');
     const [submitting, setSubmitting] = useState(false);
 
-    const mbti = useMemo(
-        () =>
-            MBTI_PAIRS.map((_, i) => letters[i] ?? '').join(''),
-        [letters],
-    );
+    const mbti = useMemo(() => MBTI_PAIRS.map((_, i) => letters[i] ?? '').join(''), [letters]);
 
-    const contactValid =
-        contact.length >= CONTACT_MIN && contact.length <= CONTACT_MAX;
+    const contactValid = contact.length >= CONTACT_MIN && contact.length <= CONTACT_MAX;
     const contactError = contact.length > 0 && !contactValid;
-    const validKeywords = keywords
-        .map((k) => k.trim())
-        .filter((k) => k.length > 0);
+    const validKeywords = keywords.map(k => k.trim()).filter(k => k.length > 0);
 
     const formValid =
         nickname.length > 0 &&
@@ -61,20 +54,20 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
         gender !== null &&
         mbti.length === 4 &&
         validKeywords.length > 0 &&
-        validKeywords.every((k) => k.length <= KEYWORD_MAX) &&
+        validKeywords.every(k => k.length <= KEYWORD_MAX) &&
         contactValid;
 
     const handleLetter = (rowIdx: number, letter: string) => {
-        setLetters((prev) => ({ ...prev, [rowIdx]: letter }));
+        setLetters(prev => ({ ...prev, [rowIdx]: letter }));
     };
 
     const handleAddKeyword = () => {
         if (keywords.length >= KEYWORDS_MAX_COUNT) return;
-        setKeywords((prev) => [...prev, '']);
+        setKeywords(prev => [...prev, '']);
     };
 
     const handleKeywordChange = (idx: number, value: string) => {
-        setKeywords((prev) => prev.map((k, i) => (i === idx ? value : k)));
+        setKeywords(prev => prev.map((k, i) => (i === idx ? value : k)));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -105,22 +98,14 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 >
                     <TextInput
                         value={nickname}
-                        onChange={(e) =>
-                            setNickname(e.target.value.slice(0, NICKNAME_MAX))
-                        }
+                        onChange={e => setNickname(e.target.value.slice(0, NICKNAME_MAX))}
                         placeholder="숭실대 카리나"
                     />
                 </FormSection>
 
-                <FormSection
-                    title="성별은?"
-                    helpers={['* 성별은 이후에 변경 불가능해요.']}
-                >
+                <FormSection title="성별은?" helpers={['* 성별은 이후에 변경 불가능해요.']}>
                     <div className="flex gap-10">
-                        <ChipButton
-                            active={gender === 'male'}
-                            onClick={() => setGender('male')}
-                        >
+                        <ChipButton active={gender === 'male'} onClick={() => setGender('male')}>
                             남자
                         </ChipButton>
                         <ChipButton
@@ -135,12 +120,12 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 <FormSection title="MBTI는?">
                     <div className="flex flex-col gap-10">
                         <MbtiRow
-                            letters={MBTI_PAIRS.map((p) => p[0])}
+                            letters={MBTI_PAIRS.map(p => p[0])}
                             selected={letters}
                             onPick={handleLetter}
                         />
                         <MbtiRow
-                            letters={MBTI_PAIRS.map((p) => p[1])}
+                            letters={MBTI_PAIRS.map(p => p[1])}
                             selected={letters}
                             onPick={handleLetter}
                         />
@@ -159,11 +144,8 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                             <TextInput
                                 key={idx}
                                 value={kw}
-                                onChange={(e) =>
-                                    handleKeywordChange(
-                                        idx,
-                                        e.target.value.slice(0, KEYWORD_MAX),
-                                    )
+                                onChange={e =>
+                                    handleKeywordChange(idx, e.target.value.slice(0, KEYWORD_MAX))
                                 }
                                 placeholder="ex. 고양이상"
                             />
@@ -192,9 +174,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                     <div className="flex flex-col gap-6">
                         <TextInput
                             value={contact}
-                            onChange={(e) =>
-                                setContact(e.target.value.slice(0, CONTACT_MAX))
-                            }
+                            onChange={e => setContact(e.target.value.slice(0, CONTACT_MAX))}
                             error={contactError}
                             placeholder="@ssu_pick"
                         />
@@ -208,11 +188,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
             </div>
 
             <div className="sticky bottom-0 bg-white-default px-22 pt-14 pb-22">
-                <CtaButton
-                    type="submit"
-                    disabled={!formValid || submitting}
-                    className="w-full"
-                >
+                <CtaButton type="submit" disabled={!formValid || submitting} className="w-full">
                     {submitting ? (
                         <span className="flex items-center justify-center gap-8">
                             <SpinnerIcon className="size-20" />
@@ -234,12 +210,7 @@ type FormSectionProps = {
     children: React.ReactNode;
 };
 
-function FormSection({
-    title,
-    helpers,
-    helperTone = 'default',
-    children,
-}: FormSectionProps) {
+function FormSection({ title, helpers, helperTone = 'default', children }: FormSectionProps) {
     const helperClass =
         helperTone === 'muted'
             ? 'text-sm font-medium text-black-700'
@@ -249,7 +220,7 @@ function FormSection({
             <h2 className="text-lg font-bold text-black-800">{title}</h2>
             {helpers && (
                 <ul className="-mt-4 flex flex-col gap-2">
-                    {helpers.map((h) => (
+                    {helpers.map(h => (
                         <li key={h} className={helperClass}>
                             {h}
                         </li>

@@ -34,9 +34,7 @@ export function CardDetailPage() {
 
     const isWoman = profile.gender === 'woman';
     const genderIcon = isWoman ? womanIcon : manIcon;
-    const mbtiClass = isWoman
-        ? 'bg-pink-light text-pink-point'
-        : 'bg-blue-100 text-blue-800';
+    const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
 
     const handleOpenAttempt = () => {
         if (CURRENT_COUPONS > 0) setModal('coupon');
@@ -72,9 +70,7 @@ export function CardDetailPage() {
             <div className="flex flex-col items-center gap-10 px-22 pt-20">
                 <div className="flex items-center gap-6">
                     <img src={genderIcon} alt="" className="size-20" />
-                    <span className="text-lg font-bold text-black-900">
-                        {profile.nickname}
-                    </span>
+                    <span className="text-lg font-bold text-black-900">{profile.nickname}</span>
                     <span
                         className={`flex h-22 items-center rounded-4 px-8 text-xs font-semibold ${mbtiClass}`}
                     >
@@ -150,7 +146,7 @@ function Backdrop({ children, onClose }: BackdropProps) {
             className="fixed inset-0 z-40 flex items-center justify-center bg-black-900/40 px-22"
             onClick={onClose}
         >
-            <div onClick={(e) => e.stopPropagation()} className="w-full max-w-340">
+            <div onClick={e => e.stopPropagation()} className="w-full max-w-340">
                 {children}
             </div>
         </div>

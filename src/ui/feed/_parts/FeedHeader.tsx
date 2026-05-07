@@ -21,12 +21,7 @@ export function FeedHeader({ title }: FeedHeaderProps) {
                     onClick={() => navigate(ROUTES.COUPON)}
                     className="flex size-32 items-center justify-center rounded-full bg-pink-point"
                 >
-                    <img
-                        src={couponImg}
-                        alt=""
-                        aria-hidden
-                        className="size-20 object-contain"
-                    />
+                    <img src={couponImg} alt="" aria-hidden className="size-20 object-contain" />
                 </button>
                 <button
                     type="button"

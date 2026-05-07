@@ -10,12 +10,7 @@ type PageHeaderProps = {
     rightSlot?: ReactNode;
 };
 
-export function PageHeader({
-    title,
-    showBack = true,
-    onBack,
-    rightSlot,
-}: PageHeaderProps) {
+export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHeaderProps) {
     const navigate = useNavigate();
     const handleBack = () => {
         if (onBack) onBack();

@@ -15,20 +15,13 @@ export function ExplorePage() {
             <FeedHeader title="이상형을 찾아보세요!" />
 
             <main className="grid grid-cols-2 gap-x-23 gap-y-26 px-22 pb-100">
-                {MOCK_PROFILES.map((p) => (
-                    <ProfileCard
-                        key={p.id}
-                        {...p}
-                        onClick={() => navigate(cardDetailPath(p.id))}
-                    />
+                {MOCK_PROFILES.map(p => (
+                    <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
                 ))}
             </main>
 
             <div className="sticky bottom-0 bg-white-default px-22 py-14">
-                <CtaButton
-                    className="w-full"
-                    onClick={() => navigate(ROUTES.PROFILE_CREATE)}
-                >
+                <CtaButton className="w-full" onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
                     프로필 등록하기
                 </CtaButton>
             </div>

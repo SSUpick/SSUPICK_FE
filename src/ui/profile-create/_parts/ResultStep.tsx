@@ -41,9 +41,7 @@ export function ResultStep({
                 </div>
             )}
 
-            <p className="w-full pt-66 text-center text-2xl font-bold text-pink-point">
-                완성!
-            </p>
+            <p className="w-full pt-66 text-center text-2xl font-bold text-pink-point">완성!</p>
             <p className="mt-8 w-full text-center text-base font-medium text-black-800">
                 {isMaxed ? (
                     <>
@@ -53,7 +51,8 @@ export function ResultStep({
                     </>
                 ) : (
                     <>
-                        최대 <span className="font-bold text-pink-point">{maxAttempts}회</span>까지 다시
+                        최대 <span className="font-bold text-pink-point">{maxAttempts}회</span>까지
+                        다시
                         <br />
                         이미지를 만들 수 있어.
                     </>

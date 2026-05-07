@@ -7,9 +7,7 @@ type MbtiButtonProps = {
 };
 
 export function MbtiButton({ children, active = false, onClick }: MbtiButtonProps) {
-    const stateClass = active
-        ? 'bg-pink-light text-pink-point'
-        : 'bg-black-200 text-black-700';
+    const stateClass = active ? 'bg-pink-light text-pink-point' : 'bg-black-200 text-black-700';
 
     return (
         <button

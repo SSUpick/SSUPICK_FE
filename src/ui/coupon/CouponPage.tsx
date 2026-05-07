@@ -30,7 +30,7 @@ export function CouponPage() {
             <PageHeader title="쿠폰 결제하기" />
 
             <ul className="flex flex-col gap-12 px-22 pt-22">
-                {COUPON_PLANS.map((plan) => (
+                {COUPON_PLANS.map(plan => (
                     <li key={plan.id}>
                         <button
                             type="button"

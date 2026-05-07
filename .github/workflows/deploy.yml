@@ -1,48 +1,48 @@
 name: CD
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main]
 
 concurrency:
-  group: cd-${{ github.ref }}
-  cancel-in-progress: true
+    group: cd-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
-  lint:
-    name: CD - Lint
-    runs-on: ubuntu-latest
+    lint:
+        name: CD - Lint
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+            - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+            - name: Lint
+              run: pnpm lint
 
-  sync-fork:
-    name: CD - Sync Fork Repository
-    runs-on: ubuntu-latest
-    needs: lint
-    if: github.repository == 'SSUpick/SSUPICK_FE'
+    sync-fork:
+        name: CD - Sync Fork Repository
+        runs-on: ubuntu-latest
+        needs: lint
+        if: github.repository == 'SSUpick/SSUPICK_FE'
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
 
-      - name: Push to Fork
-        run: |
-          git remote add fork https://x-access-token:${{ secrets.CLAP_TOKEN }}@github.com/ssumai-kr/SSUPICK_FE.git
-          git push fork main --force
+            - name: Push to Fork
+              run: |
+                  git remote add fork https://x-access-token:${{ secrets.CLAP_TOKEN }}@github.com/ssumai-kr/SSUPICK_FE.git
+                  git push fork main --force

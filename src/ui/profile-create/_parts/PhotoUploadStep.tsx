@@ -32,21 +32,10 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
                 onClick={handlePick}
                 className="mt-50 flex h-360 w-260 items-center justify-center self-center rounded-20 border-2 border-dashed border-pink-default/60 bg-white-default/30 backdrop-blur-sm"
             >
-                <img
-                    src={imgPlaceholder}
-                    alt=""
-                    aria-hidden
-                    className="size-130 object-contain"
-                />
+                <img src={imgPlaceholder} alt="" aria-hidden className="size-130 object-contain" />
             </button>
 
-            <input
-                ref={inputRef}
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleChange}
-            />
+            <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChange} />
         </BackdropScene>
     );
 }

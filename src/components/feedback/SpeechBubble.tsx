@@ -7,11 +7,8 @@ type SpeechBubbleProps = {
 
 export function SpeechBubble({ children, variant = 'white' }: SpeechBubbleProps) {
     const containerClass =
-        variant === 'gray'
-            ? 'bg-black-800 text-white-default'
-            : 'bg-white-default text-black-800';
-    const tailClass =
-        variant === 'gray' ? 'border-t-black-800' : 'border-t-white-default';
+        variant === 'gray' ? 'bg-black-800 text-white-default' : 'bg-white-default text-black-800';
+    const tailClass = variant === 'gray' ? 'border-t-black-800' : 'border-t-white-default';
 
     return (
         <div className="relative inline-flex">

@@ -24,7 +24,7 @@ export function GeneratingStep({ onDone }: GeneratingStepProps) {
     return (
         <BackdropScene>
             <div className="flex flex-col items-center gap-10 pt-44">
-                {LINES.map((line) => (
+                {LINES.map(line => (
                     <SpeechBubble key={line} variant="white">
                         {line}
                     </SpeechBubble>

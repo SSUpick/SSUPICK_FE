@@ -25,22 +25,13 @@ export function PaymentPage() {
 
             <section className="flex items-center justify-between px-22 py-14">
                 <div className="flex items-center gap-14">
-                    <img
-                        src={couponImg}
-                        alt=""
-                        aria-hidden
-                        className="size-58 object-contain"
-                    />
+                    <img src={couponImg} alt="" aria-hidden className="size-58 object-contain" />
                     <div className="flex flex-col items-start">
                         <span className="text-lg font-bold text-black-800">쿠폰</span>
-                        <span className="text-xs font-medium text-black-400">
-                            수량 {count}개
-                        </span>
+                        <span className="text-xs font-medium text-black-400">수량 {count}개</span>
                     </div>
                 </div>
-                <span className="text-xl font-bold text-black-800">
-                    {formatPrice(price)}
-                </span>
+                <span className="text-xl font-bold text-black-800">{formatPrice(price)}</span>
             </section>
 
             <div className="h-12 bg-black-100" />

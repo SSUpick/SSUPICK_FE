@@ -18,8 +18,7 @@ const STEPS: Step[] = [
         text: (
             <>
                 기다리고 있었어.
-                <br />
-                {' '}나는 이 섬의 안내자, 슈니야.
+                <br /> 나는 이 섬의 안내자, 슈니야.
             </>
         ),
         showHint: true,
@@ -28,8 +27,7 @@ const STEPS: Step[] = [
         text: (
             <>
                 여기선…
-                <br />
-                {' '}사람 대신 ‘주민’으로 살아가게 돼.
+                <br /> 사람 대신 ‘주민’으로 살아가게 돼.
             </>
         ),
     },
@@ -37,8 +35,7 @@ const STEPS: Step[] = [
         text: (
             <>
                 공개된 주민은
-                <br />
-                {' '}자신만의 <span className="font-bold">주민 카드</span>를 가져야 해.
+                <br /> 자신만의 <span className="font-bold">주민 카드</span>를 가져야 해.
             </>
         ),
     },
@@ -46,8 +43,7 @@ const STEPS: Step[] = [
         text: (
             <>
                 사진 한 장만 주면,
-                <br />
-                {' '}너를 이 섬의 주민으로 만들어줄게!
+                <br /> 너를 이 섬의 주민으로 만들어줄게!
             </>
         ),
     },
@@ -55,8 +51,7 @@ const STEPS: Step[] = [
         text: (
             <>
                 부담되면 나중에 해도 괜찮아.
-                <br />
-                {' '}먼저 주민들을 둘러볼래?
+                <br /> 먼저 주민들을 둘러볼래?
             </>
         ),
         showButtons: true,
@@ -76,10 +71,7 @@ export function OnboardingPage() {
     };
 
     return (
-        <div
-            onClick={handleTap}
-            className="relative min-h-svh w-full overflow-hidden"
-        >
+        <div onClick={handleTap} className="relative min-h-svh w-full overflow-hidden">
             <img
                 src={bg}
                 alt=""
@@ -112,10 +104,7 @@ export function OnboardingPage() {
                     >
                         둘러보기
                     </CtaButton>
-                    <CtaButton
-                        className="px-40"
-                        onClick={() => navigate(ROUTES.PROFILE_CREATE)}
-                    >
+                    <CtaButton className="px-40" onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
                         프로필 만들기
                     </CtaButton>
                 </div>

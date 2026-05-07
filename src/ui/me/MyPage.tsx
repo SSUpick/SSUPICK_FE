@@ -79,24 +79,19 @@ export function MyPage() {
                 <TabButton active={tab === 'opened'} onClick={() => setTab('opened')}>
                     내가 열람한 사람
                 </TabButton>
-                <TabButton
-                    active={tab === 'openedMe'}
-                    onClick={() => setTab('openedMe')}
-                >
+                <TabButton active={tab === 'openedMe'} onClick={() => setTab('openedMe')}>
                     나를 열람한 사람
                 </TabButton>
             </div>
 
             {profiles.length === 0 ? (
                 <div className="m-22 flex flex-col items-center justify-center gap-14 rounded-14 bg-black-100 py-44">
-                    <p className="text-sm font-medium text-black-700">
-                        아직 열람한 사람이 없어요!
-                    </p>
+                    <p className="text-sm font-medium text-black-700">아직 열람한 사람이 없어요!</p>
                     <AvatarIcon className="size-44 text-black-400" />
                 </div>
             ) : (
                 <div className="grid grid-cols-2 gap-x-23 gap-y-26 px-22 py-22">
-                    {profiles.map((p) => (
+                    {profiles.map(p => (
                         <ProfileCard
                             key={p.id}
                             {...p}
@@ -126,10 +121,7 @@ function TabButton({ children, active, onClick }: TabButtonProps) {
         >
             {children}
             {active && (
-                <span
-                    aria-hidden
-                    className="absolute right-0 -bottom-1 left-0 h-2 bg-black-800"
-                />
+                <span aria-hidden className="absolute right-0 -bottom-1 left-0 h-2 bg-black-800" />
             )}
         </button>
     );

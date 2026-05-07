@@ -23,16 +23,16 @@ src/
 
 ## 2. 네이밍
 
-| 대상 | 규칙 | 예시 |
-| --- | --- | --- |
-| 컴포넌트 파일 | PascalCase | `FeedPage.tsx`, `ProfileCard.tsx` |
-| 일반 파일 | camelCase | `useAuth.ts`, `formatDate.ts` |
-| 폴더 | kebab-case 또는 단일 단어 | `profile-create/`, `feed/` |
-| 컴포넌트/타입/인터페이스 | PascalCase | `UserProfile`, `CardProps` |
-| 변수/함수 | camelCase | `getUserId`, `isLoggedIn` |
-| 상수 | UPPER_SNAKE_CASE | `ROUTES`, `MAX_KEYWORDS` |
-| 불리언 | `is/has/can/should` 접두 | `isOpen`, `hasCoupon` |
-| 이벤트 핸들러 | `handle*` (내부), `on*` (props) | `handleClick`, `onSubmit` |
+| 대상                     | 규칙                            | 예시                              |
+| ------------------------ | ------------------------------- | --------------------------------- |
+| 컴포넌트 파일            | PascalCase                      | `FeedPage.tsx`, `ProfileCard.tsx` |
+| 일반 파일                | camelCase                       | `useAuth.ts`, `formatDate.ts`     |
+| 폴더                     | kebab-case 또는 단일 단어       | `profile-create/`, `feed/`        |
+| 컴포넌트/타입/인터페이스 | PascalCase                      | `UserProfile`, `CardProps`        |
+| 변수/함수                | camelCase                       | `getUserId`, `isLoggedIn`         |
+| 상수                     | UPPER_SNAKE_CASE                | `ROUTES`, `MAX_KEYWORDS`          |
+| 불리언                   | `is/has/can/should` 접두        | `isOpen`, `hasCoupon`             |
+| 이벤트 핸들러            | `handle*` (내부), `on*` (props) | `handleClick`, `onSubmit`         |
 
 ## 3. 컴포넌트 작성
 
@@ -61,12 +61,12 @@ export function ProfileCard({ profileId, onSelect }: ProfileCardProps) {
 
 ## 5. 상태 관리
 
-| 상태 종류 | 도구 |
-| --- | --- |
-| 서버 상태 (캐시, 비동기 데이터) | **TanStack Query** |
-| 전역 클라이언트 상태 (인증, UI 토글 등) | **Zustand** |
-| 폼 상태 | **react-hook-form** |
-| 컴포넌트 로컬 상태 | `useState` / `useReducer` |
+| 상태 종류                               | 도구                      |
+| --------------------------------------- | ------------------------- |
+| 서버 상태 (캐시, 비동기 데이터)         | **TanStack Query**        |
+| 전역 클라이언트 상태 (인증, UI 토글 등) | **Zustand**               |
+| 폼 상태                                 | **react-hook-form**       |
+| 컴포넌트 로컬 상태                      | `useState` / `useReducer` |
 
 - 서버 데이터를 zustand에 복제하지 않는다 — query 캐시가 단일 소스.
 - zustand 스토어는 도메인별로 분리 (`store/authStore.ts`, `store/uiStore.ts`).
@@ -162,13 +162,13 @@ export const useFeed = () =>
 }
 ```
 
-| 피그마 | 클래스 |
-| --- | --- |
-| 13px | `mt-13`, `px-13`, `gap-13` |
-| 16px | `mt-16`, `gap-16` |
-| 24px | `px-24`, `leading-24` |
-| 184px | `h-184 w-184` |
-| 640px | `max-w-640` |
+| 피그마 | 클래스                     |
+| ------ | -------------------------- |
+| 13px   | `mt-13`, `px-13`, `gap-13` |
+| 16px   | `mt-16`, `gap-16`          |
+| 24px   | `px-24`, `leading-24`      |
+| 184px  | `h-184 w-184`              |
+| 640px  | `max-w-640`                |
 
 **룰**
 
@@ -207,15 +207,15 @@ import type { LoginResponseDto } from './types';
 
 `type: 한 줄 요약` 형식.
 
-| type | 의미 |
-| --- | --- |
-| `feat` | 새 기능 |
-| `fix` | 버그 수정 |
+| type       | 의미                 |
+| ---------- | -------------------- |
+| `feat`     | 새 기능              |
+| `fix`      | 버그 수정            |
 | `refactor` | 리팩터 (동작 변화 X) |
-| `style` | 포매팅, 세미콜론 등 |
-| `chore` | 빌드/설정/패키지 |
-| `docs` | 문서 |
-| `test` | 테스트 |
+| `style`    | 포매팅, 세미콜론 등  |
+| `chore`    | 빌드/설정/패키지     |
+| `docs`     | 문서                 |
+| `test`     | 테스트               |
 
 예: `feat: 카카오 로그인 콜백 처리`
 

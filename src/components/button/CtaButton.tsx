@@ -20,8 +20,8 @@ export function CtaButton({
     const stateClass = disabled
         ? 'bg-black-300 text-black-400'
         : variant === 'secondary'
-            ? 'bg-green-muted text-green-dark'
-            : 'bg-pink-default text-white-default';
+          ? 'bg-green-muted text-green-dark'
+          : 'bg-pink-default text-white-default';
 
     return (
         <button

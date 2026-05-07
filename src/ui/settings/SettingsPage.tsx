@@ -43,17 +43,11 @@ export function SettingsPage() {
                 {sections.map((section, idx) => (
                     <section
                         key={section.label}
-                        className={
-                            idx === 0
-                                ? 'pb-20'
-                                : 'border-t border-black-200 pt-20 pb-20'
-                        }
+                        className={idx === 0 ? 'pb-20' : 'border-t border-black-200 pt-20 pb-20'}
                     >
-                        <p className="pb-12 text-xs font-medium text-black-400">
-                            {section.label}
-                        </p>
+                        <p className="pb-12 text-xs font-medium text-black-400">{section.label}</p>
                         <ul className="flex flex-col">
-                            {section.items.map((item) => (
+                            {section.items.map(item => (
                                 <li key={item.label}>
                                     <SettingsRow {...item} />
                                 </li>
