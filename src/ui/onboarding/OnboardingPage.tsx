@@ -112,7 +112,12 @@ export function OnboardingPage() {
                     >
                         둘러보기
                     </CtaButton>
-                    <CtaButton className="px-40">프로필 만들기</CtaButton>
+                    <CtaButton
+                        className="px-40"
+                        onClick={() => navigate(ROUTES.PROFILE_CREATE)}
+                    >
+                        프로필 만들기
+                    </CtaButton>
                 </div>
             )}
         </div>

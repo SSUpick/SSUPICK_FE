@@ -1,6 +1,4 @@
 import type { ReactNode } from 'react';
-import bubbleWhite from '@/assets/chatBubble_white.svg';
-import bubbleGray from '@/assets/chatBubble_gray.svg';
 
 type SpeechBubbleProps = {
     children: ReactNode;
@@ -8,18 +6,24 @@ type SpeechBubbleProps = {
 };
 
 export function SpeechBubble({ children, variant = 'white' }: SpeechBubbleProps) {
-    const bubble = variant === 'gray' ? bubbleGray : bubbleWhite;
-    const textClass =
-        variant === 'gray' ? 'text-white-default' : 'text-black-800';
+    const containerClass =
+        variant === 'gray'
+            ? 'bg-black-800 text-white-default'
+            : 'bg-white-default text-black-800';
+    const tailClass =
+        variant === 'gray' ? 'border-t-black-800' : 'border-t-white-default';
 
     return (
         <div className="relative inline-flex">
-            <img src={bubble} alt="" aria-hidden className="block h-50 w-auto" />
             <p
-                className={`absolute inset-x-16 top-8 text-center text-xs font-medium ${textClass}`}
+                className={`rounded-full px-16 py-8 text-xs font-medium whitespace-nowrap ${containerClass}`}
             >
                 {children}
             </p>
+            <span
+                aria-hidden
+                className={`absolute -bottom-6 left-1/2 size-0 -translate-x-1/2 border-x-6 border-t-8 border-x-transparent ${tailClass}`}
+            />
         </div>
     );
 }
