@@ -28,15 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Push source to deploy repo
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.CLAP_TOKEN }}
-        with:
-          source-directory: '.'
-          destination-github-username: ssumai-kr
-          destination-repository-name: SSUPICK_FE
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+        run: |
+          git remote add deploy https://ssumai-kr:${{ secrets.CLAP_TOKEN }}@github.com/ssumai-kr/SSUPICK_FE.git
+          git push deploy HEAD:main --force
