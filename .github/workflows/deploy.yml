@@ -1,16 +1,14 @@
-name: Sync source to deploy repo
+name: Lint and sync to deploy repo
 
 on:
   push:
     branches: [main]
 
 jobs:
-  sync:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
 
@@ -25,7 +23,20 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+  sync:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Push source to deploy repo
-        run: |
-          git remote add deploy https://x-access-token:${{ secrets.CLAP_TOKEN }}@github.com/ssumai-kr/SSUPICK_FE.git
-          git push deploy main --force
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.CLAP_TOKEN }}
+        with:
+          source-directory: '.'
+          destination-github-username: ssumai-kr
+          destination-repository-name: SSUPICK_FE
+          user-email: ${{ secrets.EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: main
