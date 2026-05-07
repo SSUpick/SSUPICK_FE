@@ -1,21 +1,25 @@
 import type { ReactNode } from 'react';
+import bubbleWhite from '@/assets/chatBubble_white.svg';
+import bubbleGray from '@/assets/chatBubble_gray.svg';
 
 type SpeechBubbleProps = {
     children: ReactNode;
-    variant?: 'white' | 'black';
+    variant?: 'white' | 'gray';
 };
 
 export function SpeechBubble({ children, variant = 'white' }: SpeechBubbleProps) {
-    const stateClass =
-        variant === 'black'
-            ? 'bg-black-800 text-white-default'
-            : 'bg-white-default text-black-800';
+    const bubble = variant === 'gray' ? bubbleGray : bubbleWhite;
+    const textClass =
+        variant === 'gray' ? 'text-white-default' : 'text-black-800';
 
     return (
-        <div
-            className={`inline-flex items-center justify-center rounded-12 px-16 py-12 text-xs font-medium shadow-md ${stateClass}`}
-        >
-            {children}
+        <div className="relative inline-flex">
+            <img src={bubble} alt="" aria-hidden className="block h-50 w-auto" />
+            <p
+                className={`absolute inset-x-16 top-8 text-center text-xs font-medium ${textClass}`}
+            >
+                {children}
+            </p>
         </div>
     );
 }

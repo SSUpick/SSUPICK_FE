@@ -56,6 +56,9 @@ html {
 }
 
 body {
+  font-family:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
   font-size: 1.6rem; /* default body = 16px */
   background-color: #f5f5f5;
   min-height: 100svh;

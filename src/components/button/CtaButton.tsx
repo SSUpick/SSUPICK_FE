@@ -6,6 +6,7 @@ type CtaButtonProps = {
     variant?: 'primary' | 'secondary';
     onClick?: () => void;
     type?: 'button' | 'submit';
+    className?: string;
 };
 
 export function CtaButton({
@@ -14,6 +15,7 @@ export function CtaButton({
     variant = 'primary',
     onClick,
     type = 'button',
+    className,
 }: CtaButtonProps) {
     const stateClass = disabled
         ? 'bg-black-300 text-black-400'
@@ -26,7 +28,7 @@ export function CtaButton({
             type={type}
             disabled={disabled}
             onClick={onClick}
-            className={`flex h-58 w-full items-center justify-center rounded-14 text-lg font-semibold ${stateClass}`}
+            className={`flex h-58 items-center justify-center rounded-14 text-lg font-semibold ${stateClass} ${className ?? ''}`}
         >
             {children}
         </button>

@@ -11,6 +11,7 @@ import { CardDetailPage } from '@/ui/feed/CardDetailPage';
 import { MyPage } from '@/ui/me/MyPage';
 import { ServerErrorPage } from '@/ui/error/ServerErrorPage';
 import { NotFoundPage } from '@/ui/error/NotFoundPage';
+import { ExplorePage } from '@/ui/explore/ExplorePage';
 
 export const router = createBrowserRouter([
     {
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
             { path: ROUTES.FEED, element: <FeedPage /> },
             { path: ROUTES.CARD_DETAIL, element: <CardDetailPage /> },
             { path: ROUTES.ME, element: <MyPage /> },
+            { path: ROUTES.EXPLORE, element: <ExplorePage /> },
             { path: ROUTES.SERVER_ERROR, element: <ServerErrorPage /> },
             { path: '*', element: <NotFoundPage /> },
         ],
