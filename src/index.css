@@ -5,6 +5,7 @@
   --spacing: 0.1rem;
 
   /* Typography: rebase to 1rem=10px (sizes preserved as default) */
+  --text-2xs: 1rem;
   --text-xs: 1.2rem;
   --text-sm: 1.4rem;
   --text-base: 1.6rem;
@@ -40,6 +41,14 @@
   --color-black-700: #707a85;
   --color-black-800: #2c2f3b;
   --color-black-900: #000000;
+
+  /* Red */
+  --color-red-default: #ff1846;
+
+  /* Blue */
+  --color-blue-100: #eff9ff;
+  --color-blue-200: #97d9ff;
+  --color-blue-800: #13a8ff;
 }
 
 html {
