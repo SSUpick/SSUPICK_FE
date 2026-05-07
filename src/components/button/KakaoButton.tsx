@@ -9,10 +9,11 @@ export function KakaoButton({ onClick }: KakaoButtonProps) {
         <button
             type="button"
             onClick={onClick}
-            className="relative flex h-58 w-full items-center justify-center rounded-14 bg-kakao-yellow text-lg font-semibold text-kakao-text"
+            className="flex h-58 w-full items-center justify-between rounded-14 bg-kakao-yellow px-10"
         >
-            <img src={kakaoIcon} alt="" aria-hidden className="absolute left-20 size-24" />
-            카카오로 계속하기
+            <img src={kakaoIcon} alt="" aria-hidden className="size-24" />
+            <span className="text-lg font-semibold text-kakao-text">카카오로 계속하기</span>
+            <span aria-hidden className="size-24" />
         </button>
     );
 }
