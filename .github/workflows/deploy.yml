@@ -1,0 +1,44 @@
+name: Build and push to deploy repo
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: Copy vercel.json to dist
+        run: cp vercel.json dist/vercel.json
+
+      - name: Push dist to deploy repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.CLAP_TOKEN }}
+        with:
+          source-directory: dist
+          destination-github-username: ssumai-kr
+          destination-repository-name: SSUPICK_FE
+          user-email: ${{ secrets.EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: main
