@@ -88,7 +88,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white-default flex min-h-svh flex-col">
+        <form onSubmit={handleSubmit} className="bg-white-default flex min-h-dvh flex-col">
             <PageHeader title="카드 만들기" showBack={false} />
 
             <div className="flex flex-col gap-30 px-22 pt-12 pb-22">

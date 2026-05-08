@@ -17,12 +17,12 @@ export function LoginPage() {
                     src={bg}
                     alt=""
                     aria-hidden
-                    className="absolute -bottom-115 left-1/2 max-w-none -translate-x-1/2"
+                    className="absolute top-1/2 left-1/2 min-h-dvh max-w-none -translate-x-1/2 -translate-y-1/2"
                 />
             </div>
 
             <div className="flex min-h-dvh w-full flex-col items-center">
-                <div className="absolute top-105 flex flex-col items-center gap-20 text-center whitespace-nowrap">
+                <div className="absolute bottom-2/3 flex flex-col items-center gap-20 text-center whitespace-nowrap">
                     <p className="text-pink-point text-lg font-medium tracking-tight">
                         부담 없는 아바타 소개팅, 슈픽
                     </p>

@@ -22,6 +22,12 @@
     /* Drop shadow: 말풍선/카드 등 가벼운 그림자 (Figma 기준) */
     --drop-shadow-bubble: 0 0 5px rgba(0, 0, 0, 0.1);
 
+    /* Backdrop blur: 반투명 다이얼로그/대화창 (Figma 6px) */
+    --backdrop-blur-bubble: 6px;
+
+    /* Animation: 말풍선 등 아래에서 위로 슬라이드 + 페이드인 */
+    --animate-bubble-in: bubble-in 0.4s ease-out;
+
     /* Pink */
     --color-pink-light: #fff5fa;
     --color-pink-default: #ff50aa;
@@ -62,6 +68,17 @@
     --radius-10: 1rem;
     --radius-14: 1.4rem;
     --radius-20: 2rem;
+}
+
+@keyframes bubble-in {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 html {

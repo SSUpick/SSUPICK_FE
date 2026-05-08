@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import bg from '@/assets/bg.webp';
-import ssuny from '@/assets/ssuny.webp';
+
+import bg from '@/assets/bg_onBoarding.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { DialogBubble } from '@/components/feedback/DialogBubble';
 import { ROUTES } from '@/constants/routes';
@@ -35,7 +35,7 @@ const STEPS: Step[] = [
         text: (
             <>
                 공개된 주민은
-                <br /> 자신만의 <span className="font-bold">주민 카드</span>를 가져야 해.
+                <br /> 자신만의 주민 카드를 가져야 해.
             </>
         ),
     },
@@ -71,40 +71,32 @@ export function OnboardingPage() {
     };
 
     return (
-        <div onClick={handleTap} className="relative min-h-svh w-full overflow-hidden">
-            <img
-                src={bg}
-                alt=""
-                aria-hidden
-                className="pointer-events-none absolute inset-0 size-full object-cover"
-            />
-            <img
-                src={ssuny}
-                alt=""
-                aria-hidden
-                className="pointer-events-none absolute top-1/2 left-1/2 h-989 w-474 -translate-x-1/2 -translate-y-1/2 object-contain"
-            />
+        <div onClick={handleTap} className="relative min-h-dvh w-full">
+            <div className="pointer-events-none absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
+                <img
+                    src={bg}
+                    alt=""
+                    aria-hidden
+                    className="absolute bottom-0 left-1/2 max-w-none -translate-x-1/2"
+                />
+            </div>
 
             <div className="absolute bottom-135 left-1/2 w-355 -translate-x-1/2">
                 <DialogBubble>{current.text}</DialogBubble>
             </div>
 
             {current.showHint && (
-                <p className="text-white-default/80 absolute bottom-72 left-1/2 -translate-x-1/2 text-lg font-semibold whitespace-nowrap">
+                <p className="text-white-default/80 absolute bottom-72 left-1/2 -translate-x-1/2 animate-pulse text-lg font-semibold tracking-tight whitespace-nowrap">
                     터치해서 계속하기
                 </p>
             )}
 
             {current.showButtons && (
-                <div className="absolute bottom-44 left-1/2 flex -translate-x-1/2 gap-20">
-                    <CtaButton
-                        variant="secondary"
-                        className="px-50"
-                        onClick={() => navigate(ROUTES.EXPLORE)}
-                    >
+                <div className="absolute bottom-44 left-1/2 grid w-full -translate-x-1/2 grid-cols-2 gap-20">
+                    <CtaButton variant="secondary" onClick={() => navigate(ROUTES.EXPLORE)}>
                         둘러보기
                     </CtaButton>
-                    <CtaButton className="px-40" onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
+                    <CtaButton onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
                         프로필 만들기
                     </CtaButton>
                 </div>

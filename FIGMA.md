@@ -190,6 +190,69 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 | --------------------------------------------------- | ---------------------- | -------------------- |
 | `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우) | `--drop-shadow-bubble` | `drop-shadow-bubble` |
 
+### Backdrop blur
+
+| Figma 표기                          | 토큰                       | 클래스                 |
+| ----------------------------------- | -------------------------- | ---------------------- |
+| `backdrop-blur: 6px` (반투명 다이얼로그/대화창) | `--backdrop-blur-bubble`   | `backdrop-blur-bubble` |
+
+### 애니메이션
+
+| 클래스                | 효과                                    | 용도                                   |
+| --------------------- | --------------------------------------- | -------------------------------------- |
+| `animate-pulse`       | opacity 1↔0.5, 2s ease-in-out infinite | 힌트 깜빡임 (예: "터치해서 계속하기")  |
+| `animate-bubble-in`   | translateY 40px→0 + opacity 0→1, 0.4s ease-out | 말풍선/카드가 아래에서 위로 슬라이드 등장 |
+
+#### 사용 패턴
+
+**힌트 깜빡임** — `text-white-default/80` 같은 alpha 색상과 조합 시 0.8↔0.4 변동으로 더 자연스러움. 사용자 인터랙션 후 사라져야 할 때는 **상태 변경으로 unmount** (별도 fade-out 애니메이션 X).
+
+**말풍선 큐 (FIFO + max N, bottom-up 등장)** — 대기/생성 중 메시지를 아래에서 위로 쌓는 패턴 (예: GeneratingStep):
+
+```tsx
+// reverseIndex 0 = 가장 아래(최신), N-1 = 가장 위(가장 오래된)
+const TOP_CLASSES = ['top-240', 'top-160', 'top-80'];
+const MAX = 3;
+
+const [bubbles, setBubbles] = useState<Bubble[]>([]);
+
+// 새 말풍선 = 배열 끝에 push, 초과분은 앞에서 잘림
+setBubbles(prev => [...prev, newBubble].slice(-MAX));
+
+return bubbles.map((bubble, i) => {
+    const reverseIndex = bubbles.length - 1 - i; // 신선도 역순
+    return (
+        <div
+            key={bubble.id}
+            className={`absolute left-1/2 -translate-x-1/2 transition-all duration-500 ${TOP_CLASSES[reverseIndex]}`}
+        >
+            <div className="animate-bubble-in">
+                {/* chatBubble_white.svg + 텍스트 오버레이 (LoginPage 패턴 동일) */}
+                <div className="relative">
+                    <img src={chatBubble_white} alt="" aria-hidden className="block" />
+                    <p className="text-black-800 absolute inset-0 flex items-center justify-center pb-13 text-center text-xs font-medium tracking-tight whitespace-nowrap">
+                        {bubble.text}
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+});
+```
+
+**핵심 매핑** (length L 기준):
+- 새 말풍선은 항상 배열 마지막에 들어감 (i = L-1) → reverseIndex 0 → 맨 아래 슬롯
+- 새 말풍선이 추가되면 기존 말풍선들의 reverseIndex가 1씩 증가 → 위 슬롯으로 클래스 변경 → CSS transition으로 부드럽게 위로 밀림
+- 큐 max 초과 시 가장 오래된 말풍선(`prev[0]`)은 즉시 unmount
+
+**구조 분리**:
+- **외곽 div** — 슬롯 위치(`TOP_CLASSES[reverseIndex]`) + `transition-all duration-500`
+- **중간 div** — `animate-bubble-in` (mount 시 1회 슬라이드인)
+- **내부 div** — chatBubble SVG + 텍스트 오버레이
+- 외곽 transform(`-translate-x-1/2`)과 중간 animation transform이 다른 element라 충돌 X
+
+**한계**: 사라지는 말풍선 exit 애니메이션 없음 (snap unmount). 필요 시 framer-motion `AnimatePresence` 도입.
+
 ## 7. 작업 후 검증
 
 - `pnpm build` 통과 (TypeScript + Vite)
