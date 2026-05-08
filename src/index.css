@@ -49,6 +49,13 @@
     --color-blue-100: #eff9ff;
     --color-blue-200: #97d9ff;
     --color-blue-800: #13a8ff;
+
+    /* Border Radius: 숫자 = px값 (rounded-10 = 10px) */
+    --radius-4: 0.4rem;
+    --radius-8: 0.8rem;
+    --radius-10: 1rem;
+    --radius-14: 1.4rem;
+    --radius-20: 2rem;
 }
 
 html {
@@ -71,8 +78,10 @@ body {
     min-height: 100svh;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+@layer base {
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 }

@@ -45,7 +45,7 @@ export function FeedPage() {
                 </div>
             )}
 
-            <main className="grid grid-cols-2 gap-x-23 gap-y-26 px-22 pb-30">
+            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
                 {MOCK_PROFILES.map(p => (
                     <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
                 ))}
