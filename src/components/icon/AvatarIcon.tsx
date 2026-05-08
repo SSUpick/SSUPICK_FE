@@ -11,8 +11,11 @@ export function AvatarIcon({ className }: AvatarIconProps) {
             aria-hidden
             className={className}
         >
-            <circle cx="12" cy="9" r="4" fill="currentColor" />
-            <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="currentColor" />
+            <circle cx="12" cy="8" r="4.5" fill="currentColor" />
+            <path
+                d="M3 20c0-3.866 4.029-7 9-7s9 3.134 9 7H3Z"
+                fill="currentColor"
+            />
         </svg>
     );
 }
