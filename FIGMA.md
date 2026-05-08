@@ -153,13 +153,14 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 
 ### 색상
 
-| Figma 변수               | 프로젝트 토큰          | 클래스            |
-| ------------------------ | ---------------------- | ----------------- |
-| `pink/point` `#ff339c`   | `--color-pink-point`   | `text-pink-point` |
-| `pink/default` `#ff50aa` | `--color-pink-default` | `bg-pink-default` |
-| `kakao/yellow` `#fee500` | `--color-kakao-yellow` | `bg-kakao-yellow` |
-| `black/900` `#000000`    | `--color-black-900`    | `text-black-900`  |
-| `black/800` `#292b32`    | `--color-black-800`    | `text-black-800`  |
+| Figma 변수                       | 프로젝트 토큰          | 클래스            |
+| -------------------------------- | ---------------------- | ----------------- |
+| `pink/point` `#ff339c`           | `--color-pink-point`   | `text-pink-point` |
+| `pink/default` `#ff50aa`         | `--color-pink-default` | `bg-pink-default` |
+| `pink/100` `#ffe5e9` (마이쿠폰)  | `--color-pink-100`     | `border-pink-100` |
+| `kakao/yellow` `#fee500`         | `--color-kakao-yellow` | `bg-kakao-yellow` |
+| `black/900` `#000000`            | `--color-black-900`    | `text-black-900`  |
+| `black/800` `#292b32`            | `--color-black-800`    | `text-black-800`  |
 
 ### 텍스트 사이즈
 
@@ -171,10 +172,13 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 | 16px     | `--text-base` (1.6rem)    | `text-base` |
 | 18px     | `--text-lg` (1.8rem)      | `text-lg`   |
 | 20px     | `--text-xl` (2rem)        | `text-xl`   |
+| 22px     | `--text-22` (2.2rem)      | `text-22`   |
 | 24px     | `--text-2xl` (2.4rem)     | `text-2xl`  |
 | **32px** | **`--text-3xl` (3.2rem)** | `text-3xl`  |
 | 36px     | `--text-4xl` (3.6rem)     | `text-4xl`  |
 | 48px     | `--text-5xl` (4.8rem)     | `text-5xl`  |
+
+> 22px는 표준 Tailwind 스케일 밖이지만 `2xl(24)`과 `xl(20)` 사이 값으로 디자인에서 단발적으로 등장 (예: 마이쿠폰 "8개"). 의미 클래스로 표현 안 되는 outlier는 숫자 토큰 사용.
 
 ### Letter spacing (tracking)
 
@@ -186,9 +190,10 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 
 ### 그림자
 
-| Figma 표기                                          | 토큰                   | 클래스               |
-| --------------------------------------------------- | ---------------------- | -------------------- |
-| `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우) | `--drop-shadow-bubble` | `drop-shadow-bubble` |
+| Figma 표기                                                  | 토큰                   | 클래스               |
+| ----------------------------------------------------------- | ---------------------- | -------------------- |
+| `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우)         | `--drop-shadow-bubble` | `drop-shadow-bubble` |
+| `0 0 7px rgba(255,80,170,0.1)` (마이쿠폰 카드 핑크 글로우)  | `--drop-shadow-coupon` | `drop-shadow-coupon` |
 
 ## 7. 작업 후 검증
 

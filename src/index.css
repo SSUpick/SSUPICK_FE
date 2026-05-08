@@ -11,6 +11,7 @@
     --text-base: 1.6rem;
     --text-lg: 1.8rem;
     --text-xl: 2rem;
+    --text-22: 2.2rem;
     --text-2xl: 2.4rem;
     --text-3xl: 3.2rem;
     --text-4xl: 3.6rem;
@@ -21,8 +22,10 @@
 
     /* Drop shadow: 말풍선/카드 등 가벼운 그림자 (Figma 기준) */
     --drop-shadow-bubble: 0 0 5px rgba(0, 0, 0, 0.1);
+    --drop-shadow-coupon: 0 0 7px rgba(255, 80, 170, 0.1);
 
     /* Pink */
+    --color-pink-100: #ffe5e9;
     --color-pink-light: #fff5fa;
     --color-pink-default: #ff50aa;
     --color-pink-point: #ff339c;
