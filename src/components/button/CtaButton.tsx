@@ -34,7 +34,7 @@ export function CtaButton({
             type={type}
             disabled={disabled || loading}
             onClick={onClick}
-            className={`rounded-14 flex h-58 items-center justify-center text-lg font-semibold ${stateClass} ${className ?? ''}`}
+            className={`rounded-14 flex h-58 w-full items-center justify-center text-lg font-semibold ${stateClass} ${className ?? ''}`}
         >
             {loading ? (
                 <span className="flex items-center justify-center gap-8">

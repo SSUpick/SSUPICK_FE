@@ -7,10 +7,10 @@ import lockImg from '@/assets/lock.webp';
 import womanIcon from '@/assets/woman_icon.svg';
 import manIcon from '@/assets/man_icon.svg';
 import { CtaButton } from '@/components/button/CtaButton';
-import { Toast } from '@/components/feedback/Toast';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
 import { findProfileById } from '@/features/feed/mock';
+import { toast } from '@/store/toastStore';
 
 const CURRENT_COUPONS = 1;
 const SAMPLE_CONTACT = '@ssupick';
@@ -21,7 +21,6 @@ export function CardDetailPage() {
     const profile = profileId ? findProfileById(profileId) : undefined;
 
     const [unlocked, setUnlocked] = useState(false);
-    const [showToast, setShowToast] = useState(false);
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
 
     if (!profile) {
@@ -45,19 +44,12 @@ export function CardDetailPage() {
         // TODO: API 연동 — 쿠폰 차감 + 프로필 열람
         setModal(null);
         setUnlocked(true);
-        setShowToast(true);
-        window.setTimeout(() => setShowToast(false), 2000);
+        toast.success('프로필 열람에 성공했어요!');
     };
 
     return (
         <div className="bg-white-default relative flex min-h-svh flex-col">
             <PageHeader title={profile.nickname} />
-
-            {showToast && (
-                <div className="pointer-events-none fixed top-66 left-1/2 z-30 -translate-x-1/2">
-                    <Toast message="프로필 열람에 성공했어요!" />
-                </div>
-            )}
 
             <div className="px-22 pt-12">
                 <img

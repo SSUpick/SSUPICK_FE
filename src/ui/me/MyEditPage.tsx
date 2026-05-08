@@ -47,7 +47,10 @@ export function MyEditPage() {
         // TODO: API 연동 시 전송 직전에 sanitizeInput()+trim() 적용해 payload 구성 (백엔드 parameterized query 필수)
         await new Promise(r => window.setTimeout(r, 600));
         setSubmitting(false);
-        navigate(`${ROUTES.FEED}?toast=profileEdit`, { replace: true });
+        navigate(ROUTES.FEED, {
+            replace: true,
+            state: { toast: '프로필 수정에 성공했습니다!' },
+        });
     });
 
     const updateKeyword = (idx: number, val: string) => {

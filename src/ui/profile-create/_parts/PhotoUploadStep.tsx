@@ -23,19 +23,26 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
 
     return (
         <BackdropScene>
-            <p className="text-black-800 w-full pt-66 text-center text-2xl font-bold">
-                사진을 넣어줘!
-            </p>
+            <section className="flex w-full flex-1 flex-col items-center justify-center gap-46">
+                <p className="text-black-800 text-28 text-center font-semibold">사진을 넣어줘!</p>
 
-            <button
-                type="button"
-                onClick={handlePick}
-                className="rounded-20 border-pink-default/60 bg-white-default/30 mt-50 flex h-360 w-260 items-center justify-center self-center border-2 border-dashed backdrop-blur-sm"
-            >
-                <img src={imgPlaceholder} alt="" aria-hidden className="size-130 object-contain" />
-            </button>
+                <button
+                    type="button"
+                    onClick={handlePick}
+                    className="bg-white-default/20 backdrop-blur-bubble border-white-default rounded-14 flex h-421 w-329 items-center justify-center border-2"
+                >
+                    <img
+                        src={imgPlaceholder}
+                        alt=""
+                        aria-hidden
+                        className="h-146 w-169 object-contain"
+                    />
+                </button>
 
-            <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChange} />
+                <div className="h-42 bg-transparent" />
+
+                <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChange} />
+            </section>
         </BackdropScene>
     );
 }
