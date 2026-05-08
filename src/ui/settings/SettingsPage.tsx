@@ -1,10 +1,11 @@
+import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
 
-type SettingsLink = {
+type SettingsItem = {
     label: string;
     to?: string;
     onClick?: () => void;
@@ -13,58 +14,64 @@ type SettingsLink = {
 
 type SettingsSection = {
     label: string;
-    items: SettingsLink[];
+    items: SettingsItem[];
 };
 
-export function SettingsPage() {
-    const sections: SettingsSection[] = [
-        {
-            label: '약관',
-            items: [
-                { label: '서비스 이용약관', to: ROUTES.TERMS, showArrow: true },
-                { label: '개인정보 수집 및 이용 동의', to: ROUTES.TERMS, showArrow: true },
-            ],
-        },
-        {
-            label: '계정 설정',
-            items: [
-                { label: '문의하기', showArrow: true },
-                { label: '로그아웃' },
-                { label: '회원탈퇴' },
-            ],
-        },
-    ];
+const SECTIONS: SettingsSection[] = [
+    {
+        label: '약관',
+        items: [
+            { label: '서비스 이용약관', to: ROUTES.TERMS, showArrow: true },
+            { label: '개인정보 수집 및 이용 동의', to: ROUTES.TERMS, showArrow: true },
+        ],
+    },
+    {
+        label: '계정 설정',
+        items: [
+            { label: '문의하기', showArrow: true },
+            { label: '로그아웃' },
+            { label: '회원탈퇴' },
+        ],
+    },
+];
 
+export function SettingsPage() {
     return (
-        <div className="flex min-h-svh flex-col bg-white-default">
+        <div className="flex w-full flex-col">
             <PageHeader title="설정" />
 
-            <div className="flex flex-1 flex-col px-22 pt-12">
-                {sections.map((section, idx) => (
-                    <section
-                        key={section.label}
-                        className={idx === 0 ? 'pb-20' : 'border-t border-black-200 pt-20 pb-20'}
-                    >
-                        <p className="pb-12 text-xs font-medium text-black-400">{section.label}</p>
-                        <ul className="flex flex-col">
+            <div className="-mx-20 flex flex-col gap-6 pt-4">
+                {SECTIONS.map((section, idx) => (
+                    <Fragment key={section.label}>
+                        {idx > 0 && <SectionDivider />}
+                        <section className="flex flex-col gap-6">
+                            <h2 className="text-black-500 flex h-42 items-center px-24 text-sm font-semibold tracking-tight">
+                                {section.label}
+                            </h2>
                             {section.items.map(item => (
-                                <li key={item.label}>
-                                    <SettingsRow {...item} />
-                                </li>
+                                <SettingsRow key={item.label} {...item} />
                             ))}
-                        </ul>
-                    </section>
+                        </section>
+                    </Fragment>
                 ))}
             </div>
         </div>
     );
 }
 
-function SettingsRow({ label, to, onClick, showArrow }: SettingsLink) {
+function SectionDivider() {
+    return (
+        <div className="flex h-24 items-center px-24" aria-hidden>
+            <div className="bg-black-200 h-px w-full" />
+        </div>
+    );
+}
+
+function SettingsRow({ label, to, onClick, showArrow }: SettingsItem) {
     const inner = (
-        <span className="flex h-44 w-full items-center justify-between text-base font-medium text-black-800">
+        <span className="text-black-800 flex h-42 w-full items-center justify-between px-24 text-base font-semibold tracking-tight">
             {label}
-            {showArrow && <ChevronRightIcon className="size-20 text-black-400" />}
+            {showArrow && <ChevronRightIcon className="text-black-500 size-16" />}
         </span>
     );
 

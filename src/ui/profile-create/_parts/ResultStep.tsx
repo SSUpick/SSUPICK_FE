@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import warningIcon from '@/assets/warning_icon.svg';
 import { CtaButton } from '@/components/button/CtaButton';
+import { toast } from '@/store/toastStore';
 
 import { BackdropScene } from './BackdropScene';
 
@@ -21,12 +21,10 @@ export function ResultStep({
     onConfirm,
 }: ResultStepProps) {
     const isMaxed = attempts >= maxAttempts;
-    const [showCaptureToast, setShowCaptureToast] = useState(false);
 
     useEffect(() => {
         const handler = () => {
-            setShowCaptureToast(true);
-            window.setTimeout(() => setShowCaptureToast(false), 2200);
+            toast.error('사진 저장 기능은 프로필 업로드 후 제공돼요!');
         };
         document.addEventListener('visibilitychange', handler);
         return () => document.removeEventListener('visibilitychange', handler);
@@ -34,58 +32,61 @@ export function ResultStep({
 
     return (
         <BackdropScene>
-            {showCaptureToast && (
-                <div className="pointer-events-none absolute top-22 left-1/2 z-10 flex -translate-x-1/2 items-center gap-6 rounded-10 bg-pink-light px-14 py-10 text-xs font-medium text-pink-point">
-                    <img src={warningIcon} alt="" aria-hidden className="size-16" />
-                    사진 저장 기능은 프로필 업로드 후 제공돼요!
+            {/* 헤더 */}
+            <div className="absolute top-85 left-1/2 flex -translate-x-1/2 flex-col items-center gap-15 text-center whitespace-nowrap">
+                <p className="text-pink-point text-28 font-semibold">완성!</p>
+                <p className="text-black-600 text-xl font-semibold">
+                    {isMaxed ? (
+                        <>
+                            최대 이미지 생성 횟수를
+                            <br />
+                            모두 소비했어.
+                        </>
+                    ) : (
+                        <>
+                            최대 <span className="text-pink-point">{maxAttempts}회</span>까지 다시
+                            <br />
+                            이미지를 만들 수 있어.
+                        </>
+                    )}
+                </p>
+            </div>
+
+            {/* 글래스모피즘 사진 프레임 */}
+            <div className="bg-white-default/50 backdrop-blur-bubble border-white-default rounded-14 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2">
+                <div className="border-white-default rounded-14 h-381 w-305 overflow-hidden border">
+                    <img src={photoUrl} alt="생성된 캐릭터" className="size-full object-cover" />
                 </div>
-            )}
+            </div>
 
-            <p className="w-full pt-66 text-center text-2xl font-bold text-pink-point">완성!</p>
-            <p className="mt-8 w-full text-center text-base font-medium text-black-800">
+            {/* 헬퍼 텍스트 + CTA 영역 */}
+            <div className="absolute inset-x-0 bottom-48 flex flex-col items-center gap-30">
+                <div className="text-green-dark text-base font-medium">
+                    {isMaxed ? (
+                        <p className="text-center">업로드 후 사진은 변경 불가능해요.</p>
+                    ) : (
+                        <>
+                            <p className="text-center">
+                                현재 {maxAttempts}회 중{' '}
+                                <span className="font-bold">{attempts}회</span> 만들었어요.
+                            </p>
+                            <p className="text-center">업로드 후 사진은 변경 불가능해요.</p>
+                        </>
+                    )}
+                </div>
+
                 {isMaxed ? (
-                    <>
-                        최대 이미지 생성 횟수를
-                        <br />
-                        모두 소비했어.
-                    </>
-                ) : (
-                    <>
-                        최대 <span className="font-bold text-pink-point">{maxAttempts}회</span>까지
-                        다시
-                        <br />
-                        이미지를 만들 수 있어.
-                    </>
-                )}
-            </p>
-
-            <img
-                src={photoUrl}
-                alt="생성된 캐릭터"
-                className="mt-22 h-360 w-260 self-center rounded-20 object-cover"
-            />
-
-            <p className="mt-14 w-full text-center text-xs font-medium text-black-400">
-                {isMaxed ? (
-                    '업로드 후 사진은 변경 불가능해요.'
-                ) : (
-                    <>
-                        현재 {maxAttempts}회 중 {attempts}회 만들었어요.
-                        <br />
-                        업로드 후 사진은 변경 불가능해요.
-                    </>
-                )}
-            </p>
-
-            <div className="mt-auto flex gap-10 px-22 pb-30">
-                {!isMaxed && (
-                    <CtaButton variant="secondary" className="flex-1" onClick={onRetry}>
-                        다시 하기
+                    <CtaButton className="w-full" onClick={onConfirm}>
+                        이대로 하기
                     </CtaButton>
+                ) : (
+                    <div className="grid w-full grid-cols-2 gap-20">
+                        <CtaButton variant="secondary" onClick={onRetry}>
+                            다시 하기
+                        </CtaButton>
+                        <CtaButton onClick={onConfirm}>이대로 하기</CtaButton>
+                    </div>
                 )}
-                <CtaButton className="flex-1" onClick={onConfirm}>
-                    이대로 하기
-                </CtaButton>
             </div>
         </BackdropScene>
     );

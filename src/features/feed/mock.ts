@@ -1,4 +1,4 @@
-import sampleImg from '@/assets/ssuny.webp';
+import sampleImg from '@/assets/bg_onBoarding.webp';
 
 import type { FeedProfile } from './types';
 

@@ -1,9 +1,14 @@
 import { Outlet } from 'react-router-dom';
 
+import { ToastContainer } from '@/components/feedback/ToastContainer';
+
 export function Layout() {
     return (
-        <div className="mx-auto flex min-h-svh w-full max-w-640 flex-col bg-white-default">
-            <Outlet />
+        <div>
+            <div className="bg-white-default mx-auto flex min-h-svh w-full max-w-3xl flex-col px-20">
+                <Outlet />
+            </div>
+            <ToastContainer />
         </div>
     );
 }

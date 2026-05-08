@@ -1,9 +1,9 @@
 ---
 name: 버그 리포트
 about: 오작동이나 예상과 다른 동작을 제보해 주세요
-title: "[Bug] "
+title: '[Bug] '
 labels: bug
-assignees: ""
+assignees: ''
 ---
 
 ## 🐛 Bug Issue
@@ -12,8 +12,8 @@ assignees: ""
 
 ## 🔍 재현 방법
 
-1. 
-2. 
+1.
+2.
 
 ## ✅ 기대 동작 / ❌ 실제 동작
 
@@ -22,4 +22,4 @@ assignees: ""
 
 ## 🌿 To-do
 
-- [ ] 
+- [ ]

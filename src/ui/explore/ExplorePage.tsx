@@ -22,7 +22,7 @@ export function ExplorePage() {
     const filtered = MOCK_PROFILES.filter(p => filter === 'all' || p.gender === filter);
 
     return (
-        <div className="flex min-h-svh w-full flex-col bg-white-default">
+        <div className="bg-white-default flex min-h-svh w-full flex-col">
             <FeedHeader title="이상형을 찾아보세요!" />
 
             <div className="flex gap-10 px-22 pb-16">

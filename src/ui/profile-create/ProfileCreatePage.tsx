@@ -34,8 +34,8 @@ export function ProfileCreatePage() {
 
     const handleRetry = () => {
         if (attempts >= MAX_ATTEMPTS) return;
-        setStep('generating');
-        setAttempts(n => n + 1);
+        setPhotoUrl('');
+        setStep('upload');
     };
 
     const handleConfirmResult = () => setStep('form');
@@ -44,7 +44,10 @@ export function ProfileCreatePage() {
         // TODO: API 연동 — 프로필 생성
         void values;
         await new Promise(r => window.setTimeout(r, 700));
-        navigate(`${ROUTES.FEED}?toast=profileCreate`, { replace: true });
+        navigate(ROUTES.FEED, {
+            replace: true,
+            state: { toast: '프로필 등록에 성공했어요!' },
+        });
     };
 
     if (step === 'upload') return <PhotoUploadStep onPicked={handlePicked} />;

@@ -13,14 +13,14 @@ export function ErrorView({ title, description }: ErrorViewProps) {
             <img src={errorImage} alt="" className="h-184 w-184" />
             <div className="flex w-full flex-col items-center gap-33">
                 <div className="flex flex-col items-center gap-20">
-                    <h1 className="text-xl font-semibold text-black-800">{title}</h1>
-                    <p className="whitespace-pre-line text-center text-base text-black-400">
+                    <h1 className="text-black-800 text-xl font-semibold">{title}</h1>
+                    <p className="text-black-400 text-center text-base whitespace-pre-line">
                         {description}
                     </p>
                 </div>
                 <Link
                     to={ROUTES.ROOT}
-                    className="inline-flex items-center justify-center rounded-10 bg-pink-light px-13 py-10 text-base font-semibold text-pink-point"
+                    className="rounded-10 bg-pink-light text-pink-point inline-flex items-center justify-center px-13 py-10 text-base font-semibold"
                 >
                     홈으로
                 </Link>

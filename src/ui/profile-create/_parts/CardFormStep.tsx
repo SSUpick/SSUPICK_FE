@@ -3,9 +3,9 @@ import { useMemo, useState } from 'react';
 import { ChipButton } from '@/components/button/ChipButton';
 import { CtaButton } from '@/components/button/CtaButton';
 import { MbtiButton } from '@/components/button/MbtiButton';
-import { TextInput } from '@/components/input/TextInput';
 import { PlusIcon } from '@/components/icon/PlusIcon';
 import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
+import { TextInput } from '@/components/input/TextInput';
 import { PageHeader } from '@/components/layout/PageHeader';
 
 import type { Gender } from '@/features/profile/types';
@@ -21,6 +21,7 @@ const KEYWORD_MAX = 8;
 const CONTACT_MIN = 2;
 const CONTACT_MAX = 50;
 const KEYWORDS_MAX_COUNT = 3;
+const KEYWORDS_MIN_COUNT = 1;
 
 export type CardFormValues = {
     nickname: string;
@@ -53,7 +54,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
         nickname.length <= NICKNAME_MAX &&
         gender !== null &&
         mbti.length === 4 &&
-        validKeywords.length > 0 &&
+        validKeywords.length >= KEYWORDS_MIN_COUNT &&
         validKeywords.every(k => k.length <= KEYWORD_MAX) &&
         contactValid;
 
@@ -88,10 +89,10 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex min-h-svh flex-col bg-white-default">
+        <form onSubmit={handleSubmit} className="bg-white-default flex min-h-dvh flex-col">
             <PageHeader title="카드 만들기" showBack={false} />
 
-            <div className="flex flex-col gap-30 px-22 pt-12 pb-22">
+            <div className="flex flex-col gap-34 px-8 pt-12 pb-22">
                 <FormSection
                     title="닉네임은?"
                     helpers={[`* 최대 ${NICKNAME_MAX}자 제한이 있어요.`]}
@@ -104,7 +105,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 </FormSection>
 
                 <FormSection title="성별은?" helpers={['* 성별은 이후에 변경 불가능해요.']}>
-                    <div className="flex gap-10">
+                    <div className="flex gap-20">
                         <ChipButton active={gender === 'male'} onClick={() => setGender('male')}>
                             남자
                         </ChipButton>
@@ -118,7 +119,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 </FormSection>
 
                 <FormSection title="MBTI는?">
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col gap-16">
                         <MbtiRow
                             letters={MBTI_PAIRS.map(p => p[0])}
                             selected={letters}
@@ -139,7 +140,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                         `* 키워드 1개 당 최대 ${KEYWORD_MAX}자 제한이 있어요.`,
                     ]}
                 >
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col gap-16">
                         {keywords.map((kw, idx) => (
                             <TextInput
                                 key={idx}
@@ -154,10 +155,10 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                             <button
                                 type="button"
                                 onClick={handleAddKeyword}
-                                className="flex h-60 w-full items-center justify-center rounded-10 border border-pink-point text-pink-point"
+                                className="rounded-10 border-pink-default bg-white-default text-pink-point flex h-55 w-full items-center justify-center border"
                                 aria-label="키워드 추가"
                             >
-                                <PlusIcon className="size-22" />
+                                <PlusIcon className="size-38" />
                             </button>
                         )}
                     </div>
@@ -171,7 +172,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                     ]}
                     helperTone="muted"
                 >
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-8">
                         <TextInput
                             value={contact}
                             onChange={e => setContact(e.target.value.slice(0, CONTACT_MAX))}
@@ -179,7 +180,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                             placeholder="@ssu_pick"
                         />
                         {contactError && (
-                            <p className="text-xs font-medium text-red-default">
+                            <p className="text-red-default text-sm font-medium tracking-tighter">
                                 연락처는 {CONTACT_MIN}자 이상 {CONTACT_MAX}자 이하로 입력해주세요.
                             </p>
                         )}
@@ -187,11 +188,11 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 </FormSection>
             </div>
 
-            <div className="sticky bottom-0 bg-white-default px-22 pt-14 pb-22">
+            <div className="bg-white-default sticky bottom-0 pt-14 pb-22">
                 <CtaButton type="submit" disabled={!formValid || submitting} className="w-full">
                     {submitting ? (
                         <span className="flex items-center justify-center gap-8">
-                            <SpinnerIcon className="size-20" />
+                            <SpinnerIcon className="size-18" />
                             등록 중...
                         </span>
                     ) : (
@@ -211,23 +212,22 @@ type FormSectionProps = {
 };
 
 function FormSection({ title, helpers, helperTone = 'default', children }: FormSectionProps) {
-    const helperClass =
-        helperTone === 'muted'
-            ? 'text-sm font-medium text-black-700'
-            : 'text-xs font-medium text-black-400';
+    const helperColor = helperTone === 'muted' ? 'text-black-700' : 'text-black-400';
     return (
-        <section className="flex flex-col gap-10">
-            <h2 className="text-lg font-bold text-black-800">{title}</h2>
-            {helpers && (
-                <ul className="-mt-4 flex flex-col gap-2">
-                    {helpers.map(h => (
-                        <li key={h} className={helperClass}>
-                            {h}
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <div className="pt-4">{children}</div>
+        <section className="flex flex-col gap-16">
+            <div className="flex flex-col gap-5">
+                <h2 className="text-black-800 text-22 font-semibold tracking-tighter">{title}</h2>
+                {helpers && (
+                    <div
+                        className={`flex flex-col text-sm font-medium tracking-tighter ${helperColor}`}
+                    >
+                        {helpers.map(h => (
+                            <p key={h}>{h}</p>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div>{children}</div>
         </section>
     );
 }

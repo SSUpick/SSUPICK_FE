@@ -10,17 +10,19 @@ type PhotoPreviewStepProps = {
 export function PhotoPreviewStep({ photoUrl, onConfirm }: PhotoPreviewStepProps) {
     return (
         <BackdropScene>
-            <p className="w-full pt-66 text-center text-2xl font-bold text-black-800">
-                이 사진으로 할까?
-            </p>
+            <section className="flex w-full flex-1 flex-col items-center justify-center gap-46">
+                <p className="text-black-800 text-28 text-center font-semibold">
+                    이 사진으로 할까?
+                </p>
 
-            <img
-                src={photoUrl}
-                alt="업로드한 사진"
-                className="mt-30 h-360 w-260 self-center rounded-20 object-cover"
-            />
+                <img
+                    src={photoUrl}
+                    alt="업로드한 사진"
+                    className="rounded-20 h-360 w-260 object-cover"
+                />
+            </section>
 
-            <div className="mt-auto px-22 pb-30">
+            <div className="pb-30">
                 <CtaButton className="w-full" onClick={onConfirm}>
                     응, 이걸로 할래.
                 </CtaButton>

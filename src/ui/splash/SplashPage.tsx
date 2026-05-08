@@ -10,5 +10,5 @@ export function SplashPage() {
         navigate(ROUTES.LOGIN, { replace: true });
     }, [navigate]);
 
-    return <div className="min-h-svh bg-pink-light" />;
+    return <div className="bg-pink-light min-h-svh" />;
 }

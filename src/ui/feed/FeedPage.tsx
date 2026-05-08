@@ -1,52 +1,55 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ProfileCard } from '@/components/card/ProfileCard';
-import { Toast } from '@/components/feedback/Toast';
 import { cardDetailPath } from '@/constants/routes';
 import { MOCK_PROFILES } from '@/features/feed/mock';
+import { useNavigateToast } from '@/hooks/useNavigateToast';
 
 import { FeedHeader } from './_parts/FeedHeader';
 
-const TOAST_MESSAGES: Record<string, string> = {
-    profileEdit: '프로필 수정에 성공했습니다!',
-    paymentSuccess: '쿠폰 결제에 성공했습니다!',
-    profileCreate: '프로필 등록에 성공했어요!',
-    profileOpen: '프로필 열람에 성공했어요!',
-};
+type FeedFilter = 'all' | 'man' | 'woman';
+
+const FILTERS: { key: FeedFilter; label: string }[] = [
+    { key: 'all', label: '전체 보기' },
+    { key: 'man', label: '남자만 보기' },
+    { key: 'woman', label: '여자만 보기' },
+];
 
 export function FeedPage() {
     const navigate = useNavigate();
-    const [params, setParams] = useSearchParams();
-    const toastKey = params.get('toast');
-    const [toast, setToast] = useState<string | null>(
-        toastKey && TOAST_MESSAGES[toastKey] ? TOAST_MESSAGES[toastKey] : null,
-    );
+    const [filter, setFilter] = useState<FeedFilter>('all');
+    useNavigateToast();
 
-    useEffect(() => {
-        if (!toast) return;
-        const timer = window.setTimeout(() => {
-            setToast(null);
-            if (toastKey) {
-                params.delete('toast');
-                setParams(params, { replace: true });
-            }
-        }, 2200);
-        return () => window.clearTimeout(timer);
-    }, [toast, toastKey, params, setParams]);
+    const profiles =
+        filter === 'all' ? MOCK_PROFILES : MOCK_PROFILES.filter(p => p.gender === filter);
 
     return (
-        <div className="relative flex min-h-svh w-full flex-col bg-white-default">
+        <div className="bg-white-default relative flex min-h-svh w-full flex-col">
             <FeedHeader title="이상형을 찾아보세요!" />
 
-            {toast && (
-                <div className="pointer-events-none fixed top-66 left-1/2 z-10 -translate-x-1/2">
-                    <Toast message={toast} />
-                </div>
-            )}
+            <div className="flex items-center gap-10 pb-26">
+                {FILTERS.map(({ key, label }) => {
+                    const active = filter === key;
+                    return (
+                        <button
+                            key={key}
+                            type="button"
+                            onClick={() => setFilter(key)}
+                            className={`rounded-full px-10 py-6 text-xs font-medium tracking-tighter ${
+                                active
+                                    ? 'bg-pink-light text-pink-default'
+                                    : 'bg-black-100 text-black-400'
+                            }`}
+                        >
+                            {label}
+                        </button>
+                    );
+                })}
+            </div>
 
-            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
-                {MOCK_PROFILES.map(p => (
+            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 pb-30">
+                {profiles.map(p => (
                     <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
                 ))}
             </main>
