@@ -20,7 +20,7 @@ export function ErrorView({ title, description }: ErrorViewProps) {
                 </div>
                 <Link
                     to={ROUTES.ROOT}
-                    className="rounded-10 bg-pink-light px-13 py-10 text-base font-semibold text-pink-point"
+                    className="inline-flex items-center justify-center rounded-10 bg-pink-light px-13 py-10 text-base font-semibold text-pink-point"
                 >
                     홈으로
                 </Link>
