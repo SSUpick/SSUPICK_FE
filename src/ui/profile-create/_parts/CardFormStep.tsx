@@ -88,7 +88,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex min-h-svh flex-col bg-white-default">
+        <form onSubmit={handleSubmit} className="bg-white-default flex min-h-svh flex-col">
             <PageHeader title="카드 만들기" showBack={false} />
 
             <div className="flex flex-col gap-30 px-22 pt-12 pb-22">
@@ -154,7 +154,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                             <button
                                 type="button"
                                 onClick={handleAddKeyword}
-                                className="flex h-60 w-full items-center justify-center rounded-10 border border-pink-point text-pink-point"
+                                className="rounded-10 border-pink-point text-pink-point flex h-60 w-full items-center justify-center border"
                                 aria-label="키워드 추가"
                             >
                                 <PlusIcon className="size-22" />
@@ -179,7 +179,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                             placeholder="@ssu_pick"
                         />
                         {contactError && (
-                            <p className="text-xs font-medium text-red-default">
+                            <p className="text-red-default text-xs font-medium">
                                 연락처는 {CONTACT_MIN}자 이상 {CONTACT_MAX}자 이하로 입력해주세요.
                             </p>
                         )}
@@ -187,7 +187,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 </FormSection>
             </div>
 
-            <div className="sticky bottom-0 bg-white-default px-22 pt-14 pb-22">
+            <div className="bg-white-default sticky bottom-0 px-22 pt-14 pb-22">
                 <CtaButton type="submit" disabled={!formValid || submitting} className="w-full">
                     {submitting ? (
                         <span className="flex items-center justify-center gap-8">
@@ -217,7 +217,7 @@ function FormSection({ title, helpers, helperTone = 'default', children }: FormS
             : 'text-xs font-medium text-black-400';
     return (
         <section className="flex flex-col gap-10">
-            <h2 className="text-lg font-bold text-black-800">{title}</h2>
+            <h2 className="text-black-800 text-lg font-bold">{title}</h2>
             {helpers && (
                 <ul className="-mt-4 flex flex-col gap-2">
                     {helpers.map(h => (

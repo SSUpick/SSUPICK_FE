@@ -35,14 +35,14 @@ export function ResultStep({
     return (
         <BackdropScene>
             {showCaptureToast && (
-                <div className="pointer-events-none absolute top-22 left-1/2 z-10 flex -translate-x-1/2 items-center gap-6 rounded-10 bg-pink-light px-14 py-10 text-xs font-medium text-pink-point">
+                <div className="rounded-10 bg-pink-light text-pink-point pointer-events-none absolute top-22 left-1/2 z-10 flex -translate-x-1/2 items-center gap-6 px-14 py-10 text-xs font-medium">
                     <img src={warningIcon} alt="" aria-hidden className="size-16" />
                     사진 저장 기능은 프로필 업로드 후 제공돼요!
                 </div>
             )}
 
-            <p className="w-full pt-66 text-center text-2xl font-bold text-pink-point">완성!</p>
-            <p className="mt-8 w-full text-center text-base font-medium text-black-800">
+            <p className="text-pink-point w-full pt-66 text-center text-2xl font-bold">완성!</p>
+            <p className="text-black-800 mt-8 w-full text-center text-base font-medium">
                 {isMaxed ? (
                     <>
                         최대 이미지 생성 횟수를
@@ -51,7 +51,7 @@ export function ResultStep({
                     </>
                 ) : (
                     <>
-                        최대 <span className="font-bold text-pink-point">{maxAttempts}회</span>까지
+                        최대 <span className="text-pink-point font-bold">{maxAttempts}회</span>까지
                         다시
                         <br />
                         이미지를 만들 수 있어.
@@ -62,10 +62,10 @@ export function ResultStep({
             <img
                 src={photoUrl}
                 alt="생성된 캐릭터"
-                className="mt-22 h-360 w-260 self-center rounded-20 object-cover"
+                className="rounded-20 mt-22 h-360 w-260 self-center object-cover"
             />
 
-            <p className="mt-14 w-full text-center text-xs font-medium text-black-400">
+            <p className="text-black-400 mt-14 w-full text-center text-xs font-medium">
                 {isMaxed ? (
                     '업로드 후 사진은 변경 불가능해요.'
                 ) : (

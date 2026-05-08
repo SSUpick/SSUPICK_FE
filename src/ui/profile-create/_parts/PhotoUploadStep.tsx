@@ -23,14 +23,14 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
 
     return (
         <BackdropScene>
-            <p className="w-full pt-66 text-center text-2xl font-bold text-black-800">
+            <p className="text-black-800 w-full pt-66 text-center text-2xl font-bold">
                 사진을 넣어줘!
             </p>
 
             <button
                 type="button"
                 onClick={handlePick}
-                className="mt-50 flex h-360 w-260 items-center justify-center self-center rounded-20 border-2 border-dashed border-pink-default/60 bg-white-default/30 backdrop-blur-sm"
+                className="rounded-20 border-pink-default/60 bg-white-default/30 mt-50 flex h-360 w-260 items-center justify-center self-center border-2 border-dashed backdrop-blur-sm"
             >
                 <img src={imgPlaceholder} alt="" aria-hidden className="size-130 object-contain" />
             </button>

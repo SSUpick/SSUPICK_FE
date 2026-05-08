@@ -26,7 +26,7 @@ export function CouponPage() {
     };
 
     return (
-        <div className="flex min-h-svh flex-col bg-pink-light">
+        <div className="bg-pink-light flex min-h-svh flex-col">
             <PageHeader title="쿠폰 결제하기" />
 
             <ul className="flex flex-col gap-12 px-22 pt-22">
@@ -35,7 +35,7 @@ export function CouponPage() {
                         <button
                             type="button"
                             onClick={() => handleSelect(plan)}
-                            className="flex h-90 w-full items-center justify-between rounded-14 bg-white-default px-18"
+                            className="rounded-14 bg-white-default flex h-90 w-full items-center justify-between px-18"
                         >
                             <div className="flex items-center gap-14">
                                 <img
@@ -45,15 +45,15 @@ export function CouponPage() {
                                     className="size-58 object-contain"
                                 />
                                 <div className="flex flex-col items-start">
-                                    <span className="text-lg font-bold text-black-800">
+                                    <span className="text-black-800 text-lg font-bold">
                                         {plan.count}개
                                     </span>
-                                    <span className="text-xs font-medium text-black-400">
+                                    <span className="text-black-400 text-xs font-medium">
                                         {plan.count}회 열람
                                     </span>
                                 </div>
                             </div>
-                            <span className="text-xl font-bold text-pink-point">
+                            <span className="text-pink-point text-xl font-bold">
                                 {formatPrice(plan.price)}
                             </span>
                         </button>
@@ -63,7 +63,7 @@ export function CouponPage() {
 
             <button
                 type="button"
-                className="mt-auto self-end px-22 pb-22 text-sm font-medium text-black-400"
+                className="text-black-400 mt-auto self-end px-22 pb-22 text-sm font-medium"
             >
                 문의하기
             </button>

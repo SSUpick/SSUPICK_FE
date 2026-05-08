@@ -15,16 +15,16 @@
 
 ## 트리거 — 다음 중 하나라도 발생하면 md 갱신
 
-| 트리거 | 갱신할 파일 |
-|--------|-------------|
-| Figma 컴포넌트 신규 추가 / 삭제 / 이름 변경 | [FIGMA.md](./FIGMA.md) §5 (기존 컴포넌트 표) |
-| 디자인 토큰 추가 / 변경 (색상, spacing, 타이포 등) | [FIGMA.md](./FIGMA.md) §6 (토큰 매핑 표) + [src/index.css](./src/index.css) `@theme` |
-| 페이지 레이아웃 룰 변경 (max-w, padding, 거터 등) | [FIGMA.md](./FIGMA.md) §9 + [src/apps/layout/Layout.tsx](./src/apps/layout/Layout.tsx) |
-| 자산(`src/assets/`) 추가 / 이름 변경 / 삭제 | [FIGMA.md](./FIGMA.md) §4 (네이밍 미스매치 예시) — 의미 매핑 케이스만 |
-| 코드 컨벤션 변경 (네이밍, 타입, import 순서 등) | [CONVENTIONS.md](./CONVENTIONS.md) |
-| 의존 라이브러리 / 핵심 패턴 변경 | [AGENTS.md](./AGENTS.md) |
-| Figma MCP 사용 중 새로운 안티패턴 발견 | [FIGMA.md](./FIGMA.md) §8 (안티패턴) |
-| 이번 sync 룰 자체 변경 | 이 파일 |
+| 트리거                                             | 갱신할 파일                                                                            |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Figma 컴포넌트 신규 추가 / 삭제 / 이름 변경        | [FIGMA.md](./FIGMA.md) §5 (기존 컴포넌트 표)                                           |
+| 디자인 토큰 추가 / 변경 (색상, spacing, 타이포 등) | [FIGMA.md](./FIGMA.md) §6 (토큰 매핑 표) + [src/index.css](./src/index.css) `@theme`   |
+| 페이지 레이아웃 룰 변경 (max-w, padding, 거터 등)  | [FIGMA.md](./FIGMA.md) §9 + [src/apps/layout/Layout.tsx](./src/apps/layout/Layout.tsx) |
+| 자산(`src/assets/`) 추가 / 이름 변경 / 삭제        | [FIGMA.md](./FIGMA.md) §4 (네이밍 미스매치 예시) — 의미 매핑 케이스만                  |
+| 코드 컨벤션 변경 (네이밍, 타입, import 순서 등)    | [CONVENTIONS.md](./CONVENTIONS.md)                                                     |
+| 의존 라이브러리 / 핵심 패턴 변경                   | [AGENTS.md](./AGENTS.md)                                                               |
+| Figma MCP 사용 중 새로운 안티패턴 발견             | [FIGMA.md](./FIGMA.md) §8 (안티패턴)                                                   |
+| 이번 sync 룰 자체 변경                             | 이 파일                                                                                |
 
 ## 절차
 
@@ -49,13 +49,13 @@ Claude Code / Cursor 등이 디자인 관련 코드를 수정할 때:
 
 ## 단일 소스 원칙
 
-| 룰 종류 | 단일 소스 |
-|--------|-----------|
-| Figma MCP / 디자인-코드 변환 | [FIGMA.md](./FIGMA.md) |
-| 코드 컨벤션 (네이밍, 타입, 폴더 구조) | [CONVENTIONS.md](./CONVENTIONS.md) |
-| 프로젝트 개요 / 일반 에이전트 가이드 | [AGENTS.md](./AGENTS.md) |
-| Claude 전용 메모 | [CLAUDE.md](./CLAUDE.md) |
-| 디자인-문서 동기화 룰 | 이 파일 |
-| 토큰 정의 (CSS 변수) | [src/index.css](./src/index.css) `@theme` |
+| 룰 종류                               | 단일 소스                                 |
+| ------------------------------------- | ----------------------------------------- |
+| Figma MCP / 디자인-코드 변환          | [FIGMA.md](./FIGMA.md)                    |
+| 코드 컨벤션 (네이밍, 타입, 폴더 구조) | [CONVENTIONS.md](./CONVENTIONS.md)        |
+| 프로젝트 개요 / 일반 에이전트 가이드  | [AGENTS.md](./AGENTS.md)                  |
+| Claude 전용 메모                      | [CLAUDE.md](./CLAUDE.md)                  |
+| 디자인-문서 동기화 룰                 | 이 파일                                   |
+| 토큰 정의 (CSS 변수)                  | [src/index.css](./src/index.css) `@theme` |
 
 같은 정보를 두 곳에 쓰지 마라. 한 곳에 쓰고 다른 곳에서는 링크로 참조.

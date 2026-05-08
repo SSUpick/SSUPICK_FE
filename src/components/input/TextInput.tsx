@@ -15,7 +15,7 @@ export function TextInput({ error = false, valid = false, className, ...props }:
     return (
         <div className="relative w-full">
             <input
-                className={`h-60 w-full rounded-10 border bg-black-100 px-14 py-18 text-base font-medium text-black-800 outline-none placeholder:font-normal placeholder:text-black-400 ${icon ? 'pr-46' : ''} ${stateClass} ${className ?? ''}`}
+                className={`rounded-10 bg-black-100 text-black-800 placeholder:text-black-400 h-60 w-full border px-14 py-18 text-base font-medium outline-none placeholder:font-normal ${icon ? 'pr-46' : ''} ${stateClass} ${className ?? ''}`}
                 {...props}
             />
             {icon && (

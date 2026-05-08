@@ -28,7 +28,7 @@ export function CtaButton({
             type={type}
             disabled={disabled}
             onClick={onClick}
-            className={`flex h-58 items-center justify-center rounded-14 text-lg font-semibold ${stateClass} ${className ?? ''}`}
+            className={`rounded-14 flex h-58 items-center justify-center text-lg font-semibold ${stateClass} ${className ?? ''}`}
         >
             {children}
         </button>

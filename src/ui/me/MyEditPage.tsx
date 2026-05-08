@@ -44,14 +44,14 @@ export function MyEditPage() {
     });
 
     return (
-        <form onSubmit={onSubmit} className="flex min-h-svh flex-col bg-white-default">
+        <form onSubmit={onSubmit} className="bg-white-default flex min-h-svh flex-col">
             <PageHeader title="프로필 수정하기" />
 
             <div className="flex justify-center px-22 pt-12">
                 <img
                     src={sampleImg}
                     alt="내 프로필"
-                    className="aspect-9/10 w-200 rounded-14 object-cover"
+                    className="rounded-14 aspect-9/10 w-200 object-cover"
                 />
             </div>
 
@@ -102,8 +102,8 @@ type FieldGroupProps = {
 function FieldGroup({ label, helper, children }: FieldGroupProps) {
     return (
         <div className="flex flex-col gap-8">
-            <label className="text-base font-semibold text-black-800">{label}</label>
-            {helper && <p className="-mt-4 text-xs font-medium text-black-400">{helper}</p>}
+            <label className="text-black-800 text-base font-semibold">{label}</label>
+            {helper && <p className="text-black-400 -mt-4 text-xs font-medium">{helper}</p>}
             <div className="flex flex-col gap-10">{children}</div>
         </div>
     );
@@ -118,9 +118,9 @@ function EditableInput({ field }: EditableInputProps) {
         <div className="relative">
             <input
                 {...field}
-                className="h-50 w-full rounded-10 bg-black-100 px-14 pr-40 text-base font-medium text-black-800 outline-none"
+                className="rounded-10 bg-black-100 text-black-800 h-50 w-full px-14 pr-40 text-base font-medium outline-none"
             />
-            <PencilIcon className="pointer-events-none absolute top-1/2 right-14 size-20 -translate-y-1/2 text-black-400" />
+            <PencilIcon className="text-black-400 pointer-events-none absolute top-1/2 right-14 size-20 -translate-y-1/2" />
         </div>
     );
 }

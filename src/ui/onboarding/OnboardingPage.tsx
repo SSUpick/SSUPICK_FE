@@ -90,7 +90,7 @@ export function OnboardingPage() {
             </div>
 
             {current.showHint && (
-                <p className="absolute bottom-72 left-1/2 -translate-x-1/2 text-lg font-semibold text-white-default/80 whitespace-nowrap">
+                <p className="text-white-default/80 absolute bottom-72 left-1/2 -translate-x-1/2 text-lg font-semibold whitespace-nowrap">
                     터치해서 계속하기
                 </p>
             )}

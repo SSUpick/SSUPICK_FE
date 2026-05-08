@@ -27,7 +27,7 @@ export function CardDetailPage() {
     if (!profile) {
         return (
             <div className="flex min-h-svh items-center justify-center">
-                <p className="text-base text-black-700">존재하지 않는 카드입니다.</p>
+                <p className="text-black-700 text-base">존재하지 않는 카드입니다.</p>
             </div>
         );
     }
@@ -50,7 +50,7 @@ export function CardDetailPage() {
     };
 
     return (
-        <div className="relative flex min-h-svh flex-col bg-white-default">
+        <div className="bg-white-default relative flex min-h-svh flex-col">
             <PageHeader title={profile.nickname} />
 
             {showToast && (
@@ -63,21 +63,21 @@ export function CardDetailPage() {
                 <img
                     src={profile.imageUrl}
                     alt={profile.nickname}
-                    className="aspect-9/10 w-full rounded-14 object-cover"
+                    className="rounded-14 aspect-9/10 w-full object-cover"
                 />
             </div>
 
             <div className="flex flex-col items-center gap-10 px-22 pt-20">
                 <div className="flex items-center gap-6">
                     <img src={genderIcon} alt="" className="size-20" />
-                    <span className="text-lg font-bold text-black-900">{profile.nickname}</span>
+                    <span className="text-black-900 text-lg font-bold">{profile.nickname}</span>
                     <span
-                        className={`flex h-22 items-center rounded-4 px-8 text-xs font-semibold ${mbtiClass}`}
+                        className={`rounded-4 flex h-22 items-center px-8 text-xs font-semibold ${mbtiClass}`}
                     >
                         {profile.mbti}
                     </span>
                 </div>
-                <ul className="flex flex-col items-center gap-4 text-sm font-medium text-black-700">
+                <ul className="text-black-700 flex flex-col items-center gap-4 text-sm font-medium">
                     {profile.keywords.slice(0, 3).map((kw, idx) => (
                         <li key={`${idx}-${kw}`}>#{kw}</li>
                     ))}
@@ -87,10 +87,10 @@ export function CardDetailPage() {
             <section className="mt-24 px-22">
                 <div className="flex items-center gap-8 pb-12">
                     <img src={airplaneImg} alt="" aria-hidden className="size-20" />
-                    <h2 className="text-base font-semibold text-black-800">연락처</h2>
+                    <h2 className="text-black-800 text-base font-semibold">연락처</h2>
                 </div>
                 {unlocked && (
-                    <div className="flex w-full items-center justify-center rounded-14 bg-pink-light px-16 py-14 text-base font-semibold text-pink-point">
+                    <div className="rounded-14 bg-pink-light text-pink-point flex w-full items-center justify-center px-16 py-14 text-base font-semibold">
                         {SAMPLE_CONTACT}
                     </div>
                 )}
@@ -101,7 +101,7 @@ export function CardDetailPage() {
                     <button
                         type="button"
                         onClick={handleOpenAttempt}
-                        className="flex h-58 w-full items-center justify-center gap-8 rounded-14 bg-pink-default text-lg font-semibold text-white-default"
+                        className="rounded-14 bg-pink-default text-white-default flex h-58 w-full items-center justify-center gap-8 text-lg font-semibold"
                     >
                         <img
                             src={couponImg}
@@ -143,7 +143,7 @@ type BackdropProps = {
 function Backdrop({ children, onClose }: BackdropProps) {
     return (
         <div
-            className="fixed inset-0 z-40 flex items-center justify-center bg-black-900/40 px-22"
+            className="bg-black-900/40 fixed inset-0 z-40 flex items-center justify-center px-22"
             onClick={onClose}
         >
             <div onClick={e => e.stopPropagation()} className="w-full max-w-340">
@@ -160,15 +160,15 @@ type CouponConfirmDialogProps = {
 
 function CouponConfirmDialog({ currentCount, onConfirm }: CouponConfirmDialogProps) {
     return (
-        <div className="flex flex-col items-center gap-16 rounded-20 bg-white-default px-22 py-24">
+        <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={couponImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
-            <p className="text-center text-base font-medium text-black-800">
+            <p className="text-black-800 text-center text-base font-medium">
                 상대방 프로필을 열람하려면
                 <br />
                 쿠폰이 1개 차감돼요.
             </p>
-            <p className="text-sm font-medium text-black-400">
-                현재 쿠폰: <span className="font-bold text-pink-point">{currentCount}개</span>
+            <p className="text-black-400 text-sm font-medium">
+                현재 쿠폰: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
             <CtaButton className="w-full" onClick={onConfirm}>
                 열람하기
@@ -183,9 +183,9 @@ type NoCouponDialogProps = {
 
 function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
     return (
-        <div className="flex flex-col items-center gap-16 rounded-20 bg-white-default px-22 py-24">
+        <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={lockImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
-            <p className="text-center text-base font-medium text-black-800">
+            <p className="text-black-800 text-center text-base font-medium">
                 상대방 프로필을 열람하려면
                 <br />
                 쿠폰이 필요해요!

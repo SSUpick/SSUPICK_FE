@@ -36,16 +36,16 @@ export function SettingsPage() {
     ];
 
     return (
-        <div className="flex min-h-svh flex-col bg-white-default">
+        <div className="bg-white-default flex min-h-svh flex-col">
             <PageHeader title="설정" />
 
             <div className="flex flex-1 flex-col px-22 pt-12">
                 {sections.map((section, idx) => (
                     <section
                         key={section.label}
-                        className={idx === 0 ? 'pb-20' : 'border-t border-black-200 pt-20 pb-20'}
+                        className={idx === 0 ? 'pb-20' : 'border-black-200 border-t pt-20 pb-20'}
                     >
-                        <p className="pb-12 text-xs font-medium text-black-400">{section.label}</p>
+                        <p className="text-black-400 pb-12 text-xs font-medium">{section.label}</p>
                         <ul className="flex flex-col">
                             {section.items.map(item => (
                                 <li key={item.label}>
@@ -62,9 +62,9 @@ export function SettingsPage() {
 
 function SettingsRow({ label, to, onClick, showArrow }: SettingsLink) {
     const inner = (
-        <span className="flex h-44 w-full items-center justify-between text-base font-medium text-black-800">
+        <span className="text-black-800 flex h-44 w-full items-center justify-between text-base font-medium">
             {label}
-            {showArrow && <ChevronRightIcon className="size-20 text-black-400" />}
+            {showArrow && <ChevronRightIcon className="text-black-400 size-20" />}
         </span>
     );
 

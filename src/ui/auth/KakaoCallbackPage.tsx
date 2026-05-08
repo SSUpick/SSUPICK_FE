@@ -19,7 +19,7 @@ export function KakaoCallbackPage() {
     }, [navigate, params]);
 
     return (
-        <div className="flex min-h-svh items-center justify-center bg-pink-light text-pink-point">
+        <div className="bg-pink-light text-pink-point flex min-h-svh items-center justify-center">
             <SpinnerIcon className="size-44" />
         </div>
     );

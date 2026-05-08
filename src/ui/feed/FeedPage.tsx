@@ -36,7 +36,7 @@ export function FeedPage() {
     }, [toast, toastKey, params, setParams]);
 
     return (
-        <div className="relative flex min-h-svh w-full flex-col bg-white-default">
+        <div className="bg-white-default relative flex min-h-svh w-full flex-col">
             <FeedHeader title="이상형을 찾아보세요!" />
 
             {toast && (

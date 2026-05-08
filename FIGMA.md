@@ -61,15 +61,47 @@ MCP가 반환하는 px 좌표는 **디자인 의도 추론 입력**이지 그대
 - `mt-[14px]`, `text-[32px]`, `bg-[#292b32]` 같은 arbitrary 값 (CONVENTIONS 8.1 위반)
 - Figma 노드 이름(`Apple Logo`, `Group 47`)을 시맨틱하게 신뢰
 
-## 3. 사이즈 / 타이포 / 색상
+## 3. 텍스트 / 사이즈 / 색상 — 1:1 검증 체크리스트 (필수)
 
-[CONVENTIONS.md 8.1절](./CONVENTIONS.md) 그대로 따른다. 핵심만:
+피그마의 텍스트와 시각 요소를 옮길 때 **다음 속성을 하나도 빠짐 없이** 매칭한다. "가까우니까 OK"는 금지.
 
-- 피그마 inspect의 px 숫자를 그대로 클래스에 박는다. `mt-16` = 16px.
-- arbitrary 값 금지.
-- 텍스트는 의미 클래스만 (`text-sm` / `text-base` / `text-lg` / `text-3xl` …).
-- 토큰에 없는 값(예: 32px이지만 `text-3xl` = 30px)은 **가장 가까운 토큰** 사용. 정확값이 꼭 필요하면 `src/index.css`의 `@theme`에 토큰 추가 후 사용.
-- 색상은 토큰만 (`bg-pink-default`, `text-black-800`). 임의 hex 금지.
+### 텍스트는 다음 6개 속성 전부 점검
+
+| 속성               | Figma 표기                                     | 우리 매핑                                                                                                                                                                     |
+| ------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **font-family**    | `Pretendard` / `Pretendard Variable`           | body 폰트로 자동 적용 (`index.css`). 둘 중 어느 쪽이든 그대로 OK                                                                                                              |
+| **font-size**      | `12px` / `18px` / `32px` 등                    | 의미 클래스 (`text-xs`=12 / `text-lg`=18 / `text-3xl`=32). **토큰값과 다르면 `index.css` `@theme`의 토큰 갱신 또는 새 토큰 추가**. 가장 가까운 값으로 절대 적당히 넘기지 마라 |
+| **font-weight**    | `Medium`(500) / `SemiBold`(600) / `Bold`(700)  | `font-medium` / `font-semibold` / `font-bold`                                                                                                                                 |
+| **color**          | hex (`#ff339c`, `#292b32` 등)                  | 토큰 클래스 (`text-pink-point`, `text-black-800`). **토큰값과 다르면 토큰 갱신** (1bit 차이라도)                                                                              |
+| **letter-spacing** | `-0.18px`, `-0.12px` 등 (보통 폰트 크기 × -1%) | `tracking-tight` (= -0.01em, Pretendard 한국어 표준). 다른 비율이면 토큰 추가                                                                                                 |
+| **line-height**    | `normal` / 숫자 (`24` 등)                      | normal은 그대로. 숫자면 `leading-N` (= Npx)                                                                                                                                   |
+
+### 절대 금지
+
+- ❌ **"가장 가까운 토큰으로 적당히"** — 32px ≠ `text-3xl`(30px) 라고 그냥 쓰는 행위. 토큰을 32px로 바꾸거나 새 토큰 추가.
+- ❌ **눈으로 비슷해 보이는 색** — `#292b32`와 `#2c2f3b`는 다른 색. RGB diff 1bit이라도 다르면 토큰 갱신.
+- ❌ **letter-spacing 누락** — Figma에서 -0.18px이라고 적혀 있으면 무조건 적용. "기본값으로 대충 둬도 되겠지" 금지.
+- ❌ arbitrary 값 (`text-[32px]`, `tracking-[-0.18px]`) — CONVENTIONS 8.1.
+
+### 컴포넌트 점검도 동일 — 기존 컴포넌트라도 Figma와 1:1 비교
+
+말풍선 / 버튼 / 카드 등 **이미 우리 코드에 있는 컴포넌트라도 Figma 컴포넌트와 모든 시각 속성이 매칭되는지 검증**한다. 다음 모두:
+
+- 배경 색 / 그라데이션
+- border / border-radius
+- **drop-shadow / box-shadow** (Figma 우측 패널의 Effects 값 그대로)
+- padding / gap / 내부 정렬
+- 텍스트 속성 6개 (위 표)
+- 아이콘 / 이미지 자산 (`Figma 노드 이름 ≠ 실제 의미` 주의 — §4)
+
+**기존 컴포넌트가 Figma와 다르면 컴포넌트를 갱신**한다. "비슷하니까 OK"로 새 컴포넌트 만들지 마라.
+
+### 토큰 갱신/추가 절차
+
+1. Figma 값 ≠ 기존 토큰값 발견 → `src/index.css` `@theme` 갱신 또는 새 토큰 추가
+2. 영향 범위(`grep`) 확인 — 다른 페이지에 시각 영향 없는지
+3. 코드 적용 + `pnpm build` 통과
+4. **DESIGN_SYNC.md 트리거 발동** — `FIGMA.md` §6 토큰 매핑 표도 함께 갱신, 한 커밋으로 묶음
 
 ## 4. Asset 규칙
 
@@ -90,10 +122,10 @@ MCP가 반환하는 px 좌표는 **디자인 의도 추론 입력**이지 그대
 
 Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 export 한다. 우리 자산은 분리되어 있는 경우가 많다(예: `bg.webp` + `ssuny.webp`). 둘 다 동작 방식이 달라서 어느 쪽을 쓸지 의식적으로 결정해야 한다.
 
-| 단일 합성 | 분리 |
-|----------|------|
-| 캐릭터-배경 정합성 ✅ | 캐릭터 위치/크기 자유 조정 ✅ |
-| 위치 조정 불가, 압축 큼 ❌ | 정합성 직접 맞춰야 함 ❌ |
+| 단일 합성                  | 분리                          |
+| -------------------------- | ----------------------------- |
+| 캐릭터-배경 정합성 ✅      | 캐릭터 위치/크기 자유 조정 ✅ |
+| 위치 조정 불가, 압축 큼 ❌ | 정합성 직접 맞춰야 함 ❌      |
 
 **판단 기준**: 텍스트/말풍선/CTA 같은 요소가 캐릭터 위에 정확히 놓여야 한다면 **단일 합성 우선 검토**. 그렇지 않고 캐릭터만 독립 배치면 분리 OK.
 
@@ -101,13 +133,13 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 
 신규 생성 전 [src/components/](./src/components/) 안의 기존 컴포넌트 먼저 확인.
 
-| 카테고리 | 위치 |
-|---------|------|
-| 버튼 | [src/components/button/](./src/components/button/) — `KakaoButton`, `CtaButton`, `ChipButton`, `OutlineChipButton`, `MbtiButton` |
-| 입력 | [src/components/input/](./src/components/input/) — `TextInput` |
-| 피드백 | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast` |
-| 카드 | [src/components/card/](./src/components/card/) — `ProfileCard` |
-| 레이아웃 | [src/components/layout/](./src/components/layout/) — `PageHeader` |
+| 카테고리 | 위치                                                                                                                             |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 버튼     | [src/components/button/](./src/components/button/) — `KakaoButton`, `CtaButton`, `ChipButton`, `OutlineChipButton`, `MbtiButton` |
+| 입력     | [src/components/input/](./src/components/input/) — `TextInput`                                                                   |
+| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`                                 |
+| 카드     | [src/components/card/](./src/components/card/) — `ProfileCard`                                                                   |
+| 레이아웃 | [src/components/layout/](./src/components/layout/) — `PageHeader`                                                                |
 
 기존 컴포넌트와 같은 의미면 **그대로 사용 또는 prop으로 variant 추가**. 새로 만들 때는:
 
@@ -117,17 +149,46 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 
 ## 6. Figma 토큰 → 프로젝트 토큰 매핑
 
-`get_variable_defs`로 받은 Figma 변수는 [src/index.css](./src/index.css) `@theme`의 우리 토큰으로 매핑한다.
+`get_variable_defs`로 받은 Figma 변수는 [src/index.css](./src/index.css) `@theme`의 우리 토큰으로 매핑한다. **모든 값은 Figma와 1:1 매칭** (§3 "1bit 차이라도 토큰 갱신" 룰 적용).
 
-| Figma 변수 | 프로젝트 토큰 | 클래스 예 |
-|-----------|--------------|----------|
-| `pink/point` `#ff339c` | `--color-pink-point` | `text-pink-point` |
+### 색상
+
+| Figma 변수               | 프로젝트 토큰          | 클래스            |
+| ------------------------ | ---------------------- | ----------------- |
+| `pink/point` `#ff339c`   | `--color-pink-point`   | `text-pink-point` |
 | `pink/default` `#ff50aa` | `--color-pink-default` | `bg-pink-default` |
 | `kakao/yellow` `#fee500` | `--color-kakao-yellow` | `bg-kakao-yellow` |
-| `black/900` `#000000` | `--color-black-900` | `text-black-900` |
-| `black/800` `#292b32` ≈ 우리 `#2c2f3b` | `--color-black-800` | `text-black-800` |
+| `black/900` `#000000`    | `--color-black-900`    | `text-black-900`  |
+| `black/800` `#292b32`    | `--color-black-800`    | `text-black-800`  |
 
-**미세값 차이는 프로젝트 토큰 우선.** Figma `#292b32`와 우리 `#2c2f3b`처럼 1~2비트 차이면 우리 토큰을 쓴다. 정말 새 색이면 디자이너에게 토큰 등록부터 요청.
+### 텍스트 사이즈
+
+| 픽셀값   | 토큰                      | 클래스      |
+| -------- | ------------------------- | ----------- |
+| 10px     | `--text-2xs` (1rem)       | `text-2xs`  |
+| 12px     | `--text-xs` (1.2rem)      | `text-xs`   |
+| 14px     | `--text-sm` (1.4rem)      | `text-sm`   |
+| 16px     | `--text-base` (1.6rem)    | `text-base` |
+| 18px     | `--text-lg` (1.8rem)      | `text-lg`   |
+| 20px     | `--text-xl` (2rem)        | `text-xl`   |
+| 24px     | `--text-2xl` (2.4rem)     | `text-2xl`  |
+| **32px** | **`--text-3xl` (3.2rem)** | `text-3xl`  |
+| 36px     | `--text-4xl` (3.6rem)     | `text-4xl`  |
+| 48px     | `--text-5xl` (4.8rem)     | `text-5xl`  |
+
+### Letter spacing (tracking)
+
+| Figma 표기                                                      | 비율 | 토큰                         | 클래스           |
+| --------------------------------------------------------------- | ---- | ---------------------------- | ---------------- |
+| `-0.18px` (18px 기준) / `-0.12px` (12px 기준) / `-Npx` (N×0.01) | -1%  | `--tracking-tight` (-0.01em) | `tracking-tight` |
+
+> Pretendard 한국어 표기 시 거의 모든 텍스트가 -1% (-0.01em) tracking. Figma 픽셀 표기를 폰트 크기로 나누어 비율 확인 후 토큰 선택.
+
+### 그림자
+
+| Figma 표기                                          | 토큰                   | 클래스               |
+| --------------------------------------------------- | ---------------------- | -------------------- |
+| `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우) | `--drop-shadow-bubble` | `drop-shadow-bubble` |
 
 ## 7. 작업 후 검증
 
@@ -183,7 +244,7 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 ✅ **토큰 + 의미 클래스** (32px ≠ `text-3xl`(30px) 라도 가장 가까운 토큰 사용)
 
 ```tsx
-<p className="text-3xl text-black-800">사진 한 장으로</p>
+<p className="text-black-800 text-3xl">사진 한 장으로</p>
 ```
 
 ### D. 단일 자식인데 gap
@@ -229,7 +290,7 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 ❌
 
 ```tsx
-import appleLogo from '@/assets/apple-logo.png';  // 사실은 카카오 아이콘
+import appleLogo from '@/assets/apple-logo.png'; // 사실은 카카오 아이콘
 ```
 
 ✅ — 이미 있는 자산을 의미 기반으로 매핑
@@ -243,17 +304,17 @@ import kakaoIcon from '@/assets/kakao_icon.svg';
 [Layout.tsx](./src/apps/layout/Layout.tsx)는 모든 페이지의 셸을 다음과 같이 강제한다.
 
 ```tsx
-<div className="mx-auto flex min-h-svh w-full max-w-3xl flex-col bg-white-default px-20">
+<div className="bg-white-default mx-auto flex min-h-svh w-full max-w-3xl flex-col px-20">
     <Outlet />
 </div>
 ```
 
-| 속성 | 값 | 의미 |
-|------|----|----|
+| 속성        | 값                          | 의미                                                            |
+| ----------- | --------------------------- | --------------------------------------------------------------- |
 | `max-w-3xl` | 48rem (= 480px @ 1rem=10px) | 모바일 최대 폭. 더 넓은 화면에서는 가운데 정렬되어 480px로 표시 |
-| `mx-auto` | auto | 가로 가운데 정렬 |
-| `px-20` | 좌우 20px (2rem) | **모든 페이지에 일관된 좌우 거터** |
-| `min-h-svh` | viewport 높이 | 콘텐츠가 적어도 흰 배경이 viewport를 채움 |
+| `mx-auto`   | auto                        | 가로 가운데 정렬                                                |
+| `px-20`     | 좌우 20px (2rem)            | **모든 페이지에 일관된 좌우 거터**                              |
+| `min-h-svh` | viewport 높이               | 콘텐츠가 적어도 흰 배경이 viewport를 채움                       |
 
 ### 페이지 작성 룰
 
@@ -264,16 +325,38 @@ import kakaoIcon from '@/assets/kakao_icon.svg';
 
 ### 풀-블리드(full-bleed) 화면 — 거터 escape
 
-LoginPage 같은 인트로/스플래시 화면처럼 배경 이미지가 화면 끝까지 차야 한다면 `-mx-20`으로 거터를 escape:
+LoginPage 같은 인트로/스플래시 화면처럼 배경 이미지가 화면 끝까지 차야 할 때, **bg 레이어만** 거터를 escape하고 콘텐츠(텍스트/CTA 등)는 padded 영역에 그대로 둔다.
+
+#### 권장 패턴 — bg 레이어만 escape (LoginPage 실사용 패턴)
 
 ```tsx
-<div className="-mx-20 relative w-screen max-w-[inherit] overflow-hidden">
-    <img src={bg} className="absolute inset-0 size-full object-cover" />
-    {/* 안쪽 콘텐츠는 다시 px-20 또는 별도 wrapper */}
+<div className="relative min-h-svh w-full">
+    {/* bg 레이어: -left-20 -right-20으로 Layout px-20을 escape */}
+    <div className="pointer-events-none absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
+        <img src={bg} alt="" aria-hidden className="absolute inset-0 size-full object-cover" />
+        <div
+            aria-hidden
+            className="from-white-default absolute inset-0 bg-linear-to-b to-transparent to-50%"
+        />
+    </div>
+
+    {/* 콘텐츠는 outer 기준(=padded 영역)에 그대로 배치 */}
+    <div className="absolute inset-x-0 bottom-48">
+        <KakaoButton />
+    </div>
 </div>
 ```
 
-거터 escape는 **명시적인 풀-블리드 의도가 있을 때만**. 기본은 거터 유지.
+- bg 레이어 wrapper는 `-left-20 -right-20`으로 양옆 padding을 상쇄 → 화면 끝까지 차는 풀-블리드
+- bg wrapper에 `overflow-hidden`을 둬서 이미지가 자기 wrapper 밖으로 나가지 않게
+- outer div에는 **`overflow-hidden`을 넣지 마라** — 그러면 bg 레이어의 escape가 잘림
+- 콘텐츠 요소(text/bubble/button 등)는 outer 기준 absolute → 자동으로 padded 영역에 배치
+- 풀폭이 필요한 CTA는 wrapper에 `inset-x-0` (`w-354` 같은 고정폭 X)
+
+#### 주의
+
+- 거터 escape는 **명시적인 풀-블리드 의도가 있을 때만**. 일반 페이지는 그대로 두자.
+- outer에 `overflow-hidden`이 없으면 매우 짧은 viewport(<530px 등)에서 캐릭터 이미지가 위로 overflow 가능. 실 디바이스 범위 밖이라 무시 가능, 신경 쓰이면 콘텐츠만 별도 `absolute inset-0 overflow-hidden` wrapper로 감쌀 것.
 
 ## 10. 디자인 변경 ↔ 문서 동기화
 

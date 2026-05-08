@@ -11,9 +11,9 @@ export function SpeechBubble({ children, variant = 'white' }: SpeechBubbleProps)
     const tailClass = variant === 'gray' ? 'border-t-black-800' : 'border-t-white-default';
 
     return (
-        <div className="relative inline-flex">
+        <div className="drop-shadow-bubble relative inline-flex">
             <p
-                className={`rounded-full px-16 py-8 text-xs font-medium whitespace-nowrap ${containerClass}`}
+                className={`rounded-full px-16 py-8 text-center text-xs font-medium tracking-tight whitespace-nowrap ${containerClass}`}
             >
                 {children}
             </p>

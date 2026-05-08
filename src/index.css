@@ -12,9 +12,15 @@
     --text-lg: 1.8rem;
     --text-xl: 2rem;
     --text-2xl: 2.4rem;
-    --text-3xl: 3rem;
+    --text-3xl: 3.2rem;
     --text-4xl: 3.6rem;
     --text-5xl: 4.8rem;
+
+    /* Letter spacing: Pretendard 한국어 기본 -1% (피그마 기준) */
+    --tracking-tight: -0.01em;
+
+    /* Drop shadow: 말풍선/카드 등 가벼운 그림자 (Figma 기준) */
+    --drop-shadow-bubble: 0 0 5px rgba(0, 0, 0, 0.1);
 
     /* Pink */
     --color-pink-light: #fff5fa;
@@ -39,7 +45,7 @@
     --color-black-300: #dddee6;
     --color-black-400: #a6b0ba;
     --color-black-700: #707a85;
-    --color-black-800: #2c2f3b;
+    --color-black-800: #292b32;
     --color-black-900: #000000;
 
     /* Red */
