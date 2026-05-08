@@ -13,8 +13,8 @@ export function FeedHeader({ title }: FeedHeaderProps) {
 
     return (
         <header className="flex items-center justify-between pt-14 pb-14">
-            <h1 className="text-black-900 text-2xl font-semibold">{title}</h1>
-            <div className="flex items-center gap-8">
+            <h1 className="text-black-900 text-22 font-semibold">{title}</h1>
+            <div className="flex items-center gap-10">
                 <button
                     type="button"
                     aria-label="쿠폰"

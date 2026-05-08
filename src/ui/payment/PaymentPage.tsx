@@ -23,7 +23,7 @@ export function PaymentPage() {
         <div className="bg-white-default flex min-h-svh flex-col">
             <PageHeader title="결제하기" />
 
-            <section className="flex items-center justify-between px-22 py-14">
+            <section className="flex items-center justify-between py-14">
                 <div className="flex items-center gap-14">
                     <img src={couponImg} alt="" aria-hidden className="size-58 object-contain" />
                     <div className="flex flex-col items-start">
@@ -36,7 +36,7 @@ export function PaymentPage() {
 
             <div className="bg-black-100 h-12" />
 
-            <section className="flex flex-col gap-12 px-22 pt-20 pb-20">
+            <section className="flex flex-col gap-12 pt-20 pb-20">
                 <h2 className="text-black-800 text-base font-semibold">결제 방법</h2>
                 <button
                     type="button"
@@ -51,7 +51,7 @@ export function PaymentPage() {
                 </button>
             </section>
 
-            <div className="mt-auto px-22 pb-22">
+            <div className="mt-auto pb-22">
                 <CtaButton className="w-full" onClick={handlePay}>
                     {formatPrice(price)} 결제하기
                 </CtaButton>

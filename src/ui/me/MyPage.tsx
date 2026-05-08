@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import sampleImg from '@/assets/ssuny.webp';
+import sampleImg from '@/assets/bg_onBoarding.webp';
 import couponImg from '@/assets/coupon.webp';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';

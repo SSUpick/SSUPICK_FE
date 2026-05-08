@@ -23,7 +23,11 @@ export function ProfileCard({
     const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
 
     return (
-        <button type="button" onClick={onClick} className="flex w-160 flex-col items-start gap-7">
+        <button
+            type="button"
+            onClick={onClick}
+            className="flex h-301 w-160 flex-col items-start gap-7"
+        >
             <img src={imageUrl} alt={nickname} className="rounded-8 h-200 w-160 object-cover" />
             <div className="flex flex-col items-start gap-2">
                 <div className="flex items-center gap-4">

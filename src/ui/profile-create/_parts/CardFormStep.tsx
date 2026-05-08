@@ -218,7 +218,9 @@ function FormSection({ title, helpers, helperTone = 'default', children }: FormS
             <div className="flex flex-col gap-5">
                 <h2 className="text-black-800 text-22 font-semibold tracking-tighter">{title}</h2>
                 {helpers && (
-                    <div className={`flex flex-col text-sm font-medium tracking-tighter ${helperColor}`}>
+                    <div
+                        className={`flex flex-col text-sm font-medium tracking-tighter ${helperColor}`}
+                    >
                         {helpers.map(h => (
                             <p key={h}>{h}</p>
                         ))}

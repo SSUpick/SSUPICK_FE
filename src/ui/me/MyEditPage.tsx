@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import sampleImg from '@/assets/ssuny.webp';
+import sampleImg from '@/assets/bg_onBoarding.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { CloseRoundIcon } from '@/components/icon/CloseRoundIcon';
 import { PencilIcon } from '@/components/icon/PencilIcon';
