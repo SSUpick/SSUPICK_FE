@@ -28,14 +28,14 @@ export function ProfileCard({
             <div className="flex flex-col items-start gap-2">
                 <div className="flex items-center gap-4">
                     <img src={genderIcon} alt="" className="size-15" />
-                    <span className="text-sm font-semibold text-black-900">{nickname}</span>
+                    <span className="text-sm font-semibold leading-22 text-black-900">{nickname}</span>
                     <span
                         className={`flex h-18 items-center justify-center rounded-4 px-8 text-2xs font-semibold ${mbtiClass}`}
                     >
                         {mbti}
                     </span>
                 </div>
-                <ul className="flex flex-col items-start gap-2 text-xs font-medium text-black-700">
+                <ul className="flex flex-col items-start gap-2 text-xs font-medium leading-22 text-black-700">
                     {keywords.slice(0, 3).map((kw, idx) => (
                         <li key={`${idx}-${kw}`}>#{kw}</li>
                     ))}
