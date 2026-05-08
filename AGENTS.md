@@ -4,6 +4,7 @@
 
 코드 컨벤션은 항상 [`CONVENTIONS.md`](./CONVENTIONS.md)를 따른다.
 Figma 디자인을 코드로 옮기는 작업(MCP 호출 포함)은 [`FIGMA.md`](./FIGMA.md)를 우선 참조한다.
+디자인 변경 시 관련 md 갱신 룰은 [`DESIGN_SYNC.md`](./DESIGN_SYNC.md)를 따른다.
 
 ## 프로젝트 개요
 

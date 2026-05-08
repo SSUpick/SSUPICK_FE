@@ -20,32 +20,46 @@ Figma MCP는 디자인 파일 품질에 결과가 강하게 종속된다. 다음
 5. **위 1·3을 모두 받은 뒤에만** 구현 시작
 6. 구현 후 DevTools 모바일 모드(390×844)에서 1:1 시각 비교
 
-## 2. 레이아웃 규칙 — px 절대좌표를 flex/grid로 재해석 (가장 중요)
+## 2. 레이아웃 — 의도에 맞는 도구 선택 (flex / absolute 공존 가능)
 
-본 프로젝트는 **모바일 390×844 고정 디자인**. 그래도 viewport _높이_ 는 디바이스마다 다르다(iPhone SE 667 / Galaxy S20 800 / iPhone 14 Pro 852 …). 따라서 **세로 절대좌표를 그대로 박으면 무조건 깨진다.**
+MCP가 반환하는 px 좌표는 **디자인 의도 추론 입력**이지 그대로 박는 final값이 아니다. 어떤 CSS 도구로 표현할지는 의도에 따라 결정한다. **한쪽으로 강제하지 마라.**
 
-### MUST
+### flex가 적합한 경우
 
-- MCP의 px 좌표는 **참고용**. 의도를 읽고 flex로 변환.
-- **수직 스택은 `flex flex-col` + `gap-N` 또는 `justify-between`** 으로. 각 요소를 `top-N`으로 따로 박지 마라.
-- 단일 자식 가운데 정렬: `flex items-center justify-center` (top/margin으로 흉내 금지)
-- 형제를 양 끝으로: `justify-between` (margin/top으로 흉내 금지)
-- 페이지 셸은 **`flex min-h-svh flex-col`** 로 잡고, 그 안에서 Header / Main / CTA 영역을 `justify-between` 또는 `gap`으로 나눈다.
+- 형제를 양 끝으로 보내기: `justify-between` (margin/top으로 흉내 금지)
+- 단일 자식 가운데 정렬: `items-center justify-center` (margin/top으로 흉내 금지)
+- 같은 의미 그룹 내 균등 간격 스택: `flex flex-col gap-N`
+- 컨테이너 영역 분할(헤더/메인/푸터 등): `flex flex-col` + `justify-between` 또는 `gap`
 
-### MAY
+### absolute가 적합한 경우
 
-- `absolute`는 **겹쳐 쌓는 의도가 명백한 경우에만** 허용:
-    - 풀스크린 배경 이미지 (`inset-0`)
-    - 배지 / 오버레이 / 토스트
-    - 단일 부모-자식 정렬 (배경 이미지 위에 캐릭터 1장 등) — 단, 이 경우 부모도 `absolute` 컨텍스트여야 의미 있음
+- 풀스크린 배경 / 그라데이션 (`inset-0`)
+- 배지 / 오버레이 / 토스트
+- **캔버스 스타일 디자인** — 일러스트 + 텍스트 + CTA가 절대좌표로 합성된 인트로/스플래시 화면처럼, 페이지 자체가 절대좌표 캔버스로 디자인된 경우 페이지 레벨 absolute 사용 OK
+
+### 중요 — 한 페이지 안에서 absolute와 flex는 공존한다
+
+```
+페이지 외곽 = absolute 캔버스          ← OK
+└─ 텍스트 두 줄 그룹 = flex flex-col   ← OK (그룹 내부는 의미적 스택)
+└─ 풀스크린 배경 = absolute inset-0    ← OK
+└─ 캐릭터 = absolute bottom-N           ← OK
+```
+
+"MCP가 absolute 토했으니 무조건 flex로 변환"도, "원본이 절대좌표니 무조건 absolute" 도 둘 다 잘못. **의도 기반 선택.**
+
+### 주의 — top + bottom 앵커 혼용 시 viewport 높이 영향
+
+- 같은 absolute 컨테이너에 `top-N` 자식과 `bottom-N` 자식이 섞이면, viewport 높이가 디자인 기준(844px)과 다를 때 두 그룹 사이 거리가 가변이 된다.
+- 캔버스 스타일 디자인에서 의도된 동작이라면 OK. 다만 §7의 짧은 viewport (iPhone SE 667 등) 시각 검증으로 충돌 없는지 확인 필수.
+- 충돌이 보이면 → 캐릭터 등 가변 요소를 `max-h-N` + `min-h-0` 으로 축소 가능하게 하거나, 충돌하는 부분만 부분 flex로 묶는다.
 
 ### MUST NOT
 
-- **`top-N`(위 기준)과 `bottom-N`(아래 기준)을 한 컨테이너에서 섞기** ← viewport 높이 변화에 따라 요소가 충돌하거나 이격된다 (LoginPage에서 실제 발생, 8번 안티패턴 참고)
-- 단일 자식인데 `gap-N` 넣기
-- `justify-between`이면 충분한데 `mt-N` / `top-N`으로 위치 조정
-- `absolute`를 일반 레이아웃 도구로 사용
+- 단일 자식인데 의도 없이 `gap-N` 넣기
+- `justify-between` 또는 `items-center` 로 충분한 단순 케이스에 `mt-N` / `top-N`으로 위치 흉내
 - `mt-[14px]`, `text-[32px]`, `bg-[#292b32]` 같은 arbitrary 값 (CONVENTIONS 8.1 위반)
+- Figma 노드 이름(`Apple Logo`, `Group 47`)을 시맨틱하게 신뢰
 
 ## 3. 사이즈 / 타이포 / 색상
 
@@ -124,38 +138,25 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 
 ## 8. 안티패턴 (실제 사례)
 
-### A. top/bottom 앵커 혼용 → viewport 높이에 따라 요소 충돌
-
-❌ **이번 LoginPage에서 실제 깨진 패턴**
+### A. top/bottom 앵커 혼용 — 트레이드오프 인지하고 사용
 
 ```tsx
 <div className="relative min-h-svh">
-  <div className="absolute top-105">텍스트</div>
-  <div className="absolute top-271">말풍선</div>
-  <img className="absolute bottom-90 h-440" />
-  <button className="absolute bottom-48" />
+    <div className="absolute top-105">텍스트</div>
+    <img className="absolute bottom-90 h-440" />
 </div>
 ```
 
-iPhone SE(667px)에서 ssuny 상단 = 667 - 90 - 440 = **137px**, 말풍선 하단 = 271 + 50 = 321px → 말풍선이 토끼 몸통 한가운데 박힘.
+이 구조는 viewport 높이에 따라 두 요소 간 거리가 가변이다.
 
-✅ **flex column으로 영역 분할**
+- 844px(피그마 타겟): ssuny 상단 = 844 - 90 - 440 = **314px**, 텍스트와 거리 = 209px
+- 667px(iPhone SE): ssuny 상단 = 667 - 90 - 440 = **137px**, 텍스트와 거리 = 32px (충돌 직전)
 
-```tsx
-<div className="flex min-h-svh flex-col items-center">
-    <header className="flex flex-col items-center gap-20 pt-105">
-        <p className="text-lg font-medium text-pink-point">…</p>
-        <p className="text-3xl font-semibold text-black-800">…</p>
-    </header>
-    <main className="flex flex-1 flex-col items-center justify-end">
-        <SpeechBubble variant="gray">…</SpeechBubble>
-        <img src={ssuny} alt="" className="h-440" />
-    </main>
-    <footer className="w-354 pb-48">
-        <KakaoButton />
-    </footer>
-</div>
-```
+→ **캔버스 디자인이 의도한 동작이면 OK.** 충돌이 보이면 그때 부분적으로 조정하면 된다:
+
+- 가변 요소(캐릭터)에 `max-h-N` + `min-h-0` 적용해서 viewport 높이에 따라 축소되게
+- 충돌하는 두 그룹만 부분 flex로 묶기
+- 문제 없으면 그대로 둬도 됨 — 굳이 전체를 flex로 갈아엎지 마라
 
 ### B. MCP가 토해낸 absolute 좌표 그대로 박기
 
@@ -236,3 +237,44 @@ import appleLogo from '@/assets/apple-logo.png';  // 사실은 카카오 아이�
 ```tsx
 import kakaoIcon from '@/assets/kakao_icon.svg';
 ```
+
+## 9. 페이지 레이아웃 / Outlet 룰
+
+[Layout.tsx](./src/apps/layout/Layout.tsx)는 모든 페이지의 셸을 다음과 같이 강제한다.
+
+```tsx
+<div className="mx-auto flex min-h-svh w-full max-w-3xl flex-col bg-white-default px-20">
+    <Outlet />
+</div>
+```
+
+| 속성 | 값 | 의미 |
+|------|----|----|
+| `max-w-3xl` | 48rem (= 480px @ 1rem=10px) | 모바일 최대 폭. 더 넓은 화면에서는 가운데 정렬되어 480px로 표시 |
+| `mx-auto` | auto | 가로 가운데 정렬 |
+| `px-20` | 좌우 20px (2rem) | **모든 페이지에 일관된 좌우 거터** |
+| `min-h-svh` | viewport 높이 | 콘텐츠가 적어도 흰 배경이 viewport를 채움 |
+
+### 페이지 작성 룰
+
+- 페이지 컴포넌트는 **`w-full`** 로 작성한다. 폭은 Layout이 결정.
+- 좌우 거터는 Layout이 자동 적용 (px-20). 각 페이지에서 `px-N`을 따로 박지 마라.
+- 콘텐츠 영역 폭 = `max(viewport, max-w-3xl) - 40px`. 좁은 viewport(390 등)에서도 좌우 20px 거터는 유지되고 콘텐츠 영역만 축소.
+- Figma 디자인의 절대 px 폭 요소(예: `w=354`)는 콘텐츠 영역 안에서 비례 또는 `w-full`로 변환. 좁은 viewport에서 잘리지 않도록.
+
+### 풀-블리드(full-bleed) 화면 — 거터 escape
+
+LoginPage 같은 인트로/스플래시 화면처럼 배경 이미지가 화면 끝까지 차야 한다면 `-mx-20`으로 거터를 escape:
+
+```tsx
+<div className="-mx-20 relative w-screen max-w-[inherit] overflow-hidden">
+    <img src={bg} className="absolute inset-0 size-full object-cover" />
+    {/* 안쪽 콘텐츠는 다시 px-20 또는 별도 wrapper */}
+</div>
+```
+
+거터 escape는 **명시적인 풀-블리드 의도가 있을 때만**. 기본은 거터 유지.
+
+## 10. 디자인 변경 ↔ 문서 동기화
+
+디자인이 업데이트될 때마다 관련 md 파일을 갱신한다. 자세한 룰과 트리거는 [DESIGN_SYNC.md](./DESIGN_SYNC.md) 참조.
