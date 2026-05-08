@@ -18,7 +18,7 @@ export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHe
     };
 
     return (
-        <header className="relative flex h-44 items-center justify-between px-22">
+        <header className="relative flex h-44 items-center justify-between">
             <div className="flex items-center">
                 {showBack && (
                     <button
@@ -32,7 +32,7 @@ export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHe
                 )}
             </div>
             {title && (
-                <h1 className="text-black-800 absolute left-1/2 -translate-x-1/2 text-base font-semibold">
+                <h1 className="text-black-800 absolute left-1/2 -translate-x-1/2 text-xl font-semibold">
                     {title}
                 </h1>
             )}
