@@ -31,7 +31,7 @@ export function ExplorePage() {
                         key={value}
                         type="button"
                         onClick={() => setFilter(value)}
-                        className={`inline-flex items-center justify-center rounded-full px-10 py-6 text-xs font-semibold ${
+                        className={`inline-flex items-center justify-center rounded-full px-10 py-6 text-xs font-medium ${
                             filter === value
                                 ? 'bg-pink-light text-pink-default'
                                 : 'bg-black-100 text-black-400'

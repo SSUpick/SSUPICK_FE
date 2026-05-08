@@ -13,7 +13,7 @@ export function FeedHeader({ title }: FeedHeaderProps) {
 
     return (
         <header className="flex items-center justify-between px-22 pt-14 pb-14">
-            <h1 className="text-2xl font-bold text-black-900">{title}</h1>
+            <h1 className="text-2xl font-semibold text-black-900">{title}</h1>
             <div className="flex items-center gap-8">
                 <button
                     type="button"
