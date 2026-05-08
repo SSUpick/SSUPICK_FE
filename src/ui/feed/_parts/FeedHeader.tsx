@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
-import couponImg from '@/assets/coupon.webp';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
+import { TicketIcon } from '@/components/icon/TicketIcon';
 import { ROUTES } from '@/constants/routes';
 
 type FeedHeaderProps = {
@@ -19,17 +19,17 @@ export function FeedHeader({ title }: FeedHeaderProps) {
                     type="button"
                     aria-label="쿠폰"
                     onClick={() => navigate(ROUTES.COUPON)}
-                    className="flex size-32 items-center justify-center rounded-full bg-pink-point"
+                    className="rounded-full bg-pink-point p-4 text-white-default"
                 >
-                    <img src={couponImg} alt="" aria-hidden className="size-20 object-contain" />
+                    <TicketIcon className="size-24" />
                 </button>
                 <button
                     type="button"
                     aria-label="마이페이지"
                     onClick={() => navigate(ROUTES.ME)}
-                    className="flex size-32 items-center justify-center rounded-full bg-pink-light text-pink-point"
+                    className="rounded-full bg-pink-light p-4 text-pink-point"
                 >
-                    <AvatarIcon className="size-20" />
+                    <AvatarIcon className="size-24" />
                 </button>
             </div>
         </header>
