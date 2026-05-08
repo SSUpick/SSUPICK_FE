@@ -19,9 +19,11 @@ export function FeedHeader({ title }: FeedHeaderProps) {
                     type="button"
                     aria-label="쿠폰"
                     onClick={() => navigate(ROUTES.COUPON)}
-                    className="rounded-full bg-pink-point p-4 text-white-default"
+                    className="rounded-full bg-pink-point p-4"
                 >
-                    <TicketIcon className="size-24" />
+                    <div className="flex size-24 items-center justify-center">
+                        <TicketIcon className="h-16 w-20" />
+                    </div>
                 </button>
                 <button
                     type="button"
