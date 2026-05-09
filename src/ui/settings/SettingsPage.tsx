@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
+import type { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { CtaButton } from '@/components/button/CtaButton';
 import { Modal } from '@/components/feedback/Modal';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
@@ -9,7 +9,6 @@ import { ROUTES } from '@/constants/routes';
 import { toast } from '@/store/toastStore';
 
 const KAKAO_CHANNEL = 'http://pf.kakao.com/_xjJrxbX/chat';
-const SUPPORT_EMAIL = 'seunghyun020907@naver.com';
 
 type ModalKind = 'inquiry' | 'logout' | 'withdraw' | null;
 
@@ -97,7 +96,13 @@ export function SettingsPage() {
                 {modal === 'withdraw' && (
                     <ConfirmDialog
                         title="정말 탈퇴하시겠어요?"
-                        description="프로필 카드와 쿠폰을 포함한 계정 정보가 삭제되고, 복구할 수 없어요."
+                        description={
+                            <>
+                                프로필 카드와 쿠폰을 포함한 계정 정보가 삭제되고,
+                                <br />
+                                복구할 수 없어요.
+                            </>
+                        }
                         confirmLabel="탈퇴하기"
                         onCancel={closeModal}
                         onConfirm={handleWithdraw}
@@ -164,13 +169,6 @@ function InquiryDialog({ onClose }: InquiryDialogProps) {
                 >
                     카카오톡 1:1 문의
                 </a>
-                <a
-                    href={`mailto:${SUPPORT_EMAIL}`}
-                    className="bg-black-100 text-black-800 rounded-14 flex h-50 w-full flex-col items-center justify-center text-xs font-semibold tracking-tight"
-                >
-                    <span className="text-black-500 text-2xs font-medium">이메일</span>
-                    <span>{SUPPORT_EMAIL}</span>
-                </a>
             </div>
 
             <button
@@ -186,7 +184,7 @@ function InquiryDialog({ onClose }: InquiryDialogProps) {
 
 type ConfirmDialogProps = {
     title: string;
-    description?: string;
+    description?: ReactNode;
     confirmLabel: string;
     onCancel: () => void;
     onConfirm: () => void;
@@ -213,10 +211,20 @@ function ConfirmDialog({
             </div>
 
             <div className="grid w-full grid-cols-2 gap-8">
-                <CtaButton variant="secondary" onClick={onCancel}>
+                <button
+                    type="button"
+                    onClick={onCancel}
+                    className="text-black-700 rounded-14 flex h-58 w-full items-center justify-center bg-transparent text-lg font-semibold"
+                >
                     취소
-                </CtaButton>
-                <CtaButton onClick={onConfirm}>{confirmLabel}</CtaButton>
+                </button>
+                <button
+                    type="button"
+                    onClick={onConfirm}
+                    className="bg-red-100 text-red-default rounded-14 flex h-58 w-full items-center justify-center text-lg font-semibold"
+                >
+                    {confirmLabel}
+                </button>
             </div>
         </div>
     );

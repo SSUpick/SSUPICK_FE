@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { cardDetailPath } from '@/constants/routes';
 import { MOCK_PROFILES } from '@/features/feed/mock';
+import { scrollToTop } from '@/utils/scroll';
 
 import { FeedHeader } from '../feed/_parts/FeedHeader';
 
@@ -44,7 +45,14 @@ export function ExplorePage() {
 
             <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 pb-30">
                 {filtered.map(p => (
-                    <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
+                    <ProfileCard
+                        key={p.id}
+                        {...p}
+                        onClick={() => {
+                            scrollToTop();
+                            navigate(cardDetailPath(p.id));
+                        }}
+                    />
                 ))}
             </main>
         </div>

@@ -25,7 +25,7 @@ export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHe
                         type="button"
                         aria-label="뒤로 가기"
                         onClick={handleBack}
-                        className="text-black-800"
+                        className="text-black-800 z-1"
                     >
                         <ChevronLeftIcon className="size-24" />
                     </button>

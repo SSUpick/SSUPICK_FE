@@ -222,6 +222,8 @@ export function FeedPage() {
 | `black/800` `#292b32`            | `--color-black-800`    | `text-black-800`  |
 | `black/600` `#373942` (보조 헤드라인) | `--color-black-600`    | `text-black-600`  |
 | `toast/bg` `rgba(69,72,82,0.9)` (토스트 배경) | `--color-toast-bg` (#454852) | `bg-toast-bg/90`  |
+| `red/100` `#ffeaea` (탈퇴/로그아웃 다이얼로그 destructive 배경) | `--color-red-100`      | `bg-red-100`      |
+| `red/default` `#ff1846` (destructive 텍스트)   | `--color-red-default`  | `text-red-default` |
 
 ### 텍스트 사이즈
 

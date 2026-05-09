@@ -5,6 +5,7 @@ import couponImg from '@/assets/coupon.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
+import { trackEvent } from '@/utils/analytics';
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
@@ -16,6 +17,7 @@ export function PaymentPage() {
     const [method, setMethod] = useState<'card' | null>('card');
 
     const handlePay = () => {
+        trackEvent('payment_pay_click', { count, price, method });
         navigate(`${ROUTES.PAYMENT_PG}?count=${count}&price=${price}`);
     };
 

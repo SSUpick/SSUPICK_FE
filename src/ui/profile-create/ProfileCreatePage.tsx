@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { PageBackground } from '@/components/layout/PageBackground';
 import { ROUTES } from '@/constants/routes';
+import { trackEvent } from '@/utils/analytics';
 
 import { CardFormStep } from './_parts/CardFormStep';
 import type { CardFormValues } from './_parts/CardFormStep';
@@ -44,6 +45,7 @@ export function ProfileCreatePage() {
     const handleSubmitForm = async (values: CardFormValues) => {
         // TODO: API 연동 — 프로필 생성
         void values;
+        trackEvent('profile_create_submit');
         await new Promise(r => window.setTimeout(r, 700));
         navigate(ROUTES.FEED, {
             replace: true,
