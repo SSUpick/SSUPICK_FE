@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { cardDetailPath } from '@/constants/routes';
 import { MOCK_PROFILES } from '@/features/feed/mock';
+import { scrollToTop } from '@/utils/scroll';
 
 import { FeedHeader } from '../feed/_parts/FeedHeader';
 
@@ -25,7 +26,7 @@ export function ExplorePage() {
         <div className="bg-white-default flex min-h-svh w-full flex-col">
             <FeedHeader title="이상형을 찾아보세요!" />
 
-            <div className="flex gap-10 px-22 pb-16">
+            <div className="flex gap-10 pb-16">
                 {FILTER_OPTIONS.map(({ label, value }) => (
                     <button
                         key={value}
@@ -42,9 +43,16 @@ export function ExplorePage() {
                 ))}
             </div>
 
-            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
+            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 pb-30">
                 {filtered.map(p => (
-                    <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
+                    <ProfileCard
+                        key={p.id}
+                        {...p}
+                        onClick={() => {
+                            scrollToTop();
+                            navigate(cardDetailPath(p.id));
+                        }}
+                    />
                 ))}
             </main>
         </div>

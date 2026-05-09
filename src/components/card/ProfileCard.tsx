@@ -26,9 +26,13 @@ export function ProfileCard({
         <button
             type="button"
             onClick={onClick}
-            className="flex h-301 w-160 flex-col items-start gap-7"
+            className="flex w-full flex-col items-start gap-7"
         >
-            <img src={imageUrl} alt={nickname} className="rounded-8 h-200 w-160 object-cover" />
+            <img
+                src={imageUrl}
+                alt={nickname}
+                className="rounded-8 aspect-3/4 w-full object-cover"
+            />
             <div className="flex flex-col items-start gap-2">
                 <div className="flex items-center gap-4">
                     <img src={genderIcon} alt="" className="size-15" />

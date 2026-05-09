@@ -46,9 +46,7 @@ export function MyPage() {
                     alt={MY_PROFILE.nickname}
                     className="rounded-10 h-171 w-137 object-cover"
                 />
-                <p className="text-black-900 mt-17 text-2xl font-semibold">
-                    {MY_PROFILE.nickname}
-                </p>
+                <p className="text-black-900 mt-17 text-2xl font-semibold">{MY_PROFILE.nickname}</p>
                 <div className="mt-19">
                     <OutlineChipButton onClick={() => navigate(ROUTES.ME_EDIT)}>
                         내 정보 수정
@@ -59,7 +57,7 @@ export function MyPage() {
             <button
                 type="button"
                 onClick={() => navigate(ROUTES.COUPON)}
-                className="rounded-20 border-pink-100 bg-white-default drop-shadow-coupon mt-21 flex h-76 w-full items-center justify-between border pr-31 pl-16"
+                className="rounded-20 bg-white-default drop-shadow-coupon mt-21 flex h-76 w-full items-center justify-between border border-pink-100 pr-31 pl-16"
             >
                 <div className="flex items-center gap-15">
                     <img src={couponImg} alt="" aria-hidden className="h-40 w-57 object-contain" />
@@ -82,7 +80,7 @@ export function MyPage() {
             </div>
 
             {profiles.length === 0 ? (
-                <div className="rounded-20 bg-black-100 mt-26 flex h-146 w-full flex-col items-center gap-31 pt-15">
+                <div className="rounded-20 bg-black-100 mt-26 mb-22 flex h-146 w-full flex-col items-center gap-31 pt-15">
                     <p className="text-black-700 text-lg font-semibold">
                         아직 열람한 사람이 없어요!
                     </p>

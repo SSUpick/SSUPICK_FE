@@ -137,9 +137,9 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | 버튼     | [src/components/button/](./src/components/button/) — `KakaoButton`, `CtaButton`, `ChipButton`, `OutlineChipButton`, `MbtiButton` |
 | 입력     | [src/components/input/](./src/components/input/) — `TextInput`                                                                   |
-| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`, `ToastContainer`               |
+| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`, `ToastContainer`, `Modal`     |
 | 카드     | [src/components/card/](./src/components/card/) — `ProfileCard`                                                                   |
-| 레이아웃 | [src/components/layout/](./src/components/layout/) — `PageHeader`                                                                |
+| 레이아웃 | [src/components/layout/](./src/components/layout/) — `PageHeader`, `PageBackground`                                              |
 
 기존 컴포넌트와 같은 의미면 **그대로 사용 또는 prop으로 variant 추가**. 새로 만들 때는:
 
@@ -222,6 +222,8 @@ export function FeedPage() {
 | `black/800` `#292b32`            | `--color-black-800`    | `text-black-800`  |
 | `black/600` `#373942` (보조 헤드라인) | `--color-black-600`    | `text-black-600`  |
 | `toast/bg` `rgba(69,72,82,0.9)` (토스트 배경) | `--color-toast-bg` (#454852) | `bg-toast-bg/90`  |
+| `red/100` `#ffeaea` (탈퇴/로그아웃 다이얼로그 destructive 배경) | `--color-red-100`      | `bg-red-100`      |
+| `red/default` `#ff1846` (destructive 텍스트)   | `--color-red-default`  | `text-red-default` |
 
 ### 텍스트 사이즈
 
@@ -262,19 +264,21 @@ export function FeedPage() {
 
 > `drop-shadow-*`는 CSS `filter: drop-shadow()` (단일 레이어). 토스트처럼 multi-layer가 필요하면 `box-shadow` 기반 `shadow-*`.
 
-### Backdrop blur
+### Backdrop blur / Filter blur
 
-| Figma 표기                          | 토큰                       | 클래스                 |
-| ----------------------------------- | -------------------------- | ---------------------- |
-| `backdrop-blur: 6px` (반투명 다이얼로그/대화창) | `--backdrop-blur-bubble`   | `backdrop-blur-bubble` |
+| Figma 표기                                            | 토큰                       | 클래스                 |
+| ----------------------------------------------------- | -------------------------- | ---------------------- |
+| `backdrop-blur: 6px` (반투명 다이얼로그/대화창)       | `--backdrop-blur-bubble`   | `backdrop-blur-bubble` |
+| `filter: blur(15px)` (페이지 외곽 배경, PageBackground) | `--blur-page-bg`           | `blur-page-bg`         |
 
 ### 애니메이션
 
-| 클래스                | 효과                                    | 용도                                   |
-| --------------------- | --------------------------------------- | -------------------------------------- |
-| `animate-pulse`       | opacity 1↔0.5, 2s ease-in-out infinite | 힌트 깜빡임 (예: "터치해서 계속하기")  |
-| `animate-bubble-in`   | translateY 40px→0 + opacity 0→1, 0.4s ease-out | 말풍선/카드가 아래에서 위로 슬라이드 등장 |
-| `animate-toast-in`    | opacity 0→1, 0.2s ease-out              | 토스트 등장 (전역 ToastContainer 자동 적용) |
+| 클래스                  | 효과                                            | 용도                                        |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------- |
+| `animate-pulse`         | opacity 1↔0.5, 2s ease-in-out infinite          | 힌트 깜빡임 (예: "터치해서 계속하기")       |
+| `animate-bubble-in`     | translateY 40px→0 + opacity 0→1, 0.4s ease-out  | 말풍선/카드가 아래에서 위로 슬라이드 등장   |
+| `animate-toast-in`      | opacity 0→1, 0.2s ease-out                      | 토스트 등장 (전역 ToastContainer 자동 적용) |
+| `animate-bubble-float`  | translateY 0↔-8px, 2.4s ease-in-out infinite    | 말풍선이 위아래로 부드럽게 떠다니는 효과    |
 
 
 #### 사용 패턴
@@ -494,6 +498,46 @@ LoginPage 같은 인트로/스플래시 화면처럼 배경 이미지가 화면 
 
 - 거터 escape는 **명시적인 풀-블리드 의도가 있을 때만**. 일반 페이지는 그대로 두자.
 - outer에 `overflow-hidden`이 없으면 매우 짧은 viewport(<530px 등)에서 캐릭터 이미지가 위로 overflow 가능. 실 디바이스 범위 밖이라 무시 가능, 신경 쓰이면 콘텐츠만 별도 `absolute inset-0 overflow-hidden` wrapper로 감쌀 것.
+
+### Layout 바깥 배경 — `<PageBackground />`
+
+Layout의 `bg-white-default`는 중앙 480px(`max-w-3xl`) 영역만 흰색으로 칠한다. 더 넓은 viewport에서 좌우 영역은 기본적으로 body의 `#f5f5f5` 회색이 보인다. 인트로/스플래시 류 페이지에서 좌우 영역에 분위기 있는 배경을 깔고 싶으면 [`PageBackground`](./src/components/layout/PageBackground.tsx)를 마운트한다.
+
+```tsx
+import { PageBackground } from '@/components/layout/PageBackground';
+
+export function LoginPage() {
+    return (
+        <>
+            <PageBackground />
+            <div className="relative min-h-dvh w-full">{/* ... */}</div>
+        </>
+    );
+}
+```
+
+**동작 원리** — `fixed -inset-20 -z-10`으로 viewport 전체에 깔리고(blur 엣지 bleed 방지용으로 20px 확장), `-z-10`이라 Layout의 `bg-white-default`가 paint 순서상 위에 칠해져 중앙 480px만 흰색으로 덮인다. 좌우 padded 바깥 영역에서만 blur된 `bg_clean.webp`가 노출된다.
+
+**룰**:
+- 단일 자산 (`bg_clean.webp`) + `blur-page-bg` (15px) 고정 — variant 도입 X (인트로 페이지 일관성)
+- `pointer-events-none` 필수 — 클릭 차단 금지
+- 페이지 컴포넌트의 첫 번째 자식으로 마운트 (Fragment + PageBackground + 페이지 본문 패턴)
+- Layout 자체에 박지 마라 — 라우트별 on/off가 필요해서 페이지 단위로 마운트
+
+### 짧은 세로 viewport 대응 — `short:` 변형
+
+캔버스 스타일(인트로/스플래시) 페이지는 viewport 높이가 디자인 기준(844px)보다 작으면 요소가 겹치거나 잘릴 수 있다. [src/index.css](./src/index.css)에 `@custom-variant short (@media (max-height: 800px))`로 정의된 **`short:` 반응형 변형**을 사용해 단일 임계점에서 살짝 축소한다.
+
+```tsx
+// 800px 이하 viewport에서 자동 적용
+<img className="min-h-dvh short:scale-90" />
+<div className="h-[30dvh] max-h-222 short:h-[26dvh] short:max-h-180" />
+<p className="text-3xl short:text-28">사진 한 장으로</p>
+```
+
+**언제 쓰나**: 캔버스/풀-블리드 페이지에서 §7의 짧은 viewport 검증(667px iPhone SE 등) 시 충돌이 보일 때. 일반 스크롤 페이지에는 불필요.
+
+**룰**: 임계점은 800px 단일 (점진 스케일 X). 더 좁은 분기가 필요하면 `@custom-variant`를 추가하지 말고 의도부터 재검토 (대부분 캔버스 → flex 재설계가 답).
 
 ## 10. 디자인 변경 ↔ 문서 동기화
 

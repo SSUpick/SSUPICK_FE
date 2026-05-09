@@ -24,7 +24,9 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
     return (
         <BackdropScene>
             <section className="flex w-full flex-1 flex-col items-center justify-center gap-46">
-                <p className="text-black-800 text-28 text-center font-semibold">사진을 넣어줘!</p>
+                <p className="text-black-800 text-28 mt-60 text-center font-semibold">
+                    사진을 넣어줘!
+                </p>
 
                 <button
                     type="button"

@@ -4,6 +4,7 @@ export const ROUTES = {
     KAKAO_CALLBACK: '/auth/kakao/callback',
     ONBOARDING: '/onboarding',
     TERMS: '/terms',
+    PRIVACY: '/privacy',
     PROFILE_CREATE: '/profile/create',
     FEED: '/feed',
     CARD_DETAIL: '/feed/:profileId',
