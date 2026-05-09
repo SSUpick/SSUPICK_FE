@@ -1,24 +1,18 @@
-import womanIcon from '@/assets/woman_icon.svg';
 import manIcon from '@/assets/man_icon.svg';
+import womanIcon from '@/assets/woman_icon.svg';
+import type { Gender } from '@/features/user/types';
 
 type ProfileCardProps = {
-    imageUrl: string;
+    profileUrl: string;
     nickname: string;
     mbti: string;
-    keywords: string[];
-    gender: 'woman' | 'man';
+    appeals: string[];
+    gender: Gender;
     onClick?: () => void;
 };
 
-export function ProfileCard({
-    imageUrl,
-    nickname,
-    mbti,
-    keywords,
-    gender,
-    onClick,
-}: ProfileCardProps) {
-    const isWoman = gender === 'woman';
+export function ProfileCard({ profileUrl, nickname, mbti, appeals, gender, onClick }: ProfileCardProps) {
+    const isWoman = gender === 'FEMALE';
     const genderIcon = isWoman ? womanIcon : manIcon;
     const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
 
@@ -28,7 +22,7 @@ export function ProfileCard({
             onClick={onClick}
             className="flex h-301 w-160 flex-col items-start gap-7"
         >
-            <img src={imageUrl} alt={nickname} className="rounded-8 h-200 w-160 object-cover" />
+            <img src={profileUrl} alt={nickname} className="rounded-8 h-200 w-160 object-cover" />
             <div className="flex flex-col items-start gap-2">
                 <div className="flex items-center gap-4">
                     <img src={genderIcon} alt="" className="size-15" />
@@ -42,8 +36,8 @@ export function ProfileCard({
                     </span>
                 </div>
                 <ul className="text-black-700 flex flex-col items-start gap-2 text-xs leading-22 font-medium">
-                    {keywords.slice(0, 3).map((kw, idx) => (
-                        <li key={`${idx}-${kw}`}>#{kw}</li>
+                    {appeals.slice(0, 3).map((appeal, idx) => (
+                        <li key={`${idx}-${appeal}`}>#{appeal}</li>
                     ))}
                 </ul>
             </div>

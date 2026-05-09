@@ -31,7 +31,7 @@ export function CardDetailPage() {
         );
     }
 
-    const isWoman = profile.gender === 'woman';
+    const isWoman = profile.gender === 'FEMALE';
     const genderIcon = isWoman ? womanIcon : manIcon;
     const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
 
@@ -53,7 +53,7 @@ export function CardDetailPage() {
 
             <main className="flex flex-1 flex-col items-center gap-13 pt-12 pb-22">
                 <img
-                    src={profile.imageUrl}
+                    src={profile.profileUrl}
                     alt={profile.nickname}
                     className="rounded-14 aspect-308/385 w-full object-cover"
                 />
@@ -71,7 +71,7 @@ export function CardDetailPage() {
                         </span>
                     </div>
                     <ul className="text-black-700 flex flex-col items-center gap-10 text-base font-medium">
-                        {profile.keywords.slice(0, 3).map((kw, idx) => (
+                        {profile.appeals.slice(0, 3).map((kw, idx) => (
                             <li key={`${idx}-${kw}`}>#{kw}</li>
                         ))}
                     </ul>

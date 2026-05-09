@@ -92,9 +92,9 @@ export function MyPage() {
                 <div className="mt-22 grid grid-cols-2 gap-x-27 gap-y-26 pb-22">
                     {profiles.map(p => (
                         <ProfileCard
-                            key={p.id}
+                            key={p.userId}
                             {...p}
-                            onClick={() => navigate(cardDetailPath(p.id))}
+                            onClick={() => navigate(cardDetailPath(String(p.userId)))}
                         />
                     ))}
                 </div>

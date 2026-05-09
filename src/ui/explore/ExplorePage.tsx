@@ -4,15 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { cardDetailPath } from '@/constants/routes';
 import { MOCK_PROFILES } from '@/features/feed/mock';
+import type { Gender } from '@/features/user/types';
 
 import { FeedHeader } from '../feed/_parts/FeedHeader';
 
-type GenderFilter = 'all' | 'man' | 'woman';
+type GenderFilter = 'all' | Gender;
 
 const FILTER_OPTIONS: { label: string; value: GenderFilter }[] = [
     { label: '전체 보기', value: 'all' },
-    { label: '남자만 보기', value: 'man' },
-    { label: '여자만 보기', value: 'woman' },
+    { label: '남자만 보기', value: 'MALE' },
+    { label: '여자만 보기', value: 'FEMALE' },
 ];
 
 export function ExplorePage() {
@@ -44,7 +45,11 @@ export function ExplorePage() {
 
             <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
                 {filtered.map(p => (
-                    <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
+                    <ProfileCard
+                        key={p.userId}
+                        {...p}
+                        onClick={() => navigate(cardDetailPath(String(p.userId)))}
+                    />
                 ))}
             </main>
         </div>
