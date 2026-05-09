@@ -1,28 +1,36 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import sampleImg from '@/assets/bg_onBoarding.webp';
 import couponImg from '@/assets/coupon.webp';
+import defaultProfileImg from '@/assets/bg_onBoarding.webp';
+import { OutlineChipButton } from '@/components/button/OutlineChipButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
 import { GearIcon } from '@/components/icon/GearIcon';
-import { OutlineChipButton } from '@/components/button/OutlineChipButton';
+import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES, cardDetailPath } from '@/constants/routes';
-import { MOCK_PROFILES } from '@/features/feed/mock';
-
-const MY_PROFILE = {
-    nickname: '숭실대 카리나',
-    imageUrl: sampleImg,
-    couponCount: 8,
-};
+import { useProfileViewList } from '@/features/user/hooks/useProfileViewList';
+import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 
 type Tab = 'opened' | 'openedMe';
 
 export function MyPage() {
     const navigate = useNavigate();
     const [tab, setTab] = useState<Tab>('opened');
-    const profiles = tab === 'openedMe' ? MOCK_PROFILES.slice(0, 4) : [];
+
+    const { data: profile, isLoading: profileLoading } = useUserProfile();
+    const { data: viewList, isLoading: viewLoading } = useProfileViewList();
+
+    const users = tab === 'opened' ? (viewList?.viewedUsers ?? []) : (viewList?.viewerUsers ?? []);
+
+    if (profileLoading) {
+        return (
+            <div className="flex min-h-svh items-center justify-center">
+                <SpinnerIcon className="text-pink-point size-44" />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -42,12 +50,12 @@ export function MyPage() {
 
             <section className="mt-30 flex flex-col items-center">
                 <img
-                    src={MY_PROFILE.imageUrl}
-                    alt={MY_PROFILE.nickname}
+                    src={profile?.profileUrl ?? defaultProfileImg}
+                    alt={profile?.nickname ?? '프로필'}
                     className="rounded-10 h-171 w-137 object-cover"
                 />
                 <p className="text-black-900 mt-17 text-2xl font-semibold">
-                    {MY_PROFILE.nickname}
+                    {profile?.nickname ?? ''}
                 </p>
                 <div className="mt-19">
                     <OutlineChipButton onClick={() => navigate(ROUTES.ME_EDIT)}>
@@ -66,7 +74,7 @@ export function MyPage() {
                     <span className="text-pink-point/80 text-base font-semibold">내 쿠폰</span>
                 </div>
                 <span className="text-pink-point text-22 font-semibold">
-                    {MY_PROFILE.couponCount}개
+                    {profile?.remainingCouponCount ?? 0}개
                 </span>
             </button>
 
@@ -81,19 +89,29 @@ export function MyPage() {
                 </TabButton>
             </div>
 
-            {profiles.length === 0 ? (
+            {viewLoading ? (
+                <div className="mt-26 flex justify-center">
+                    <SpinnerIcon className="text-pink-point size-44" />
+                </div>
+            ) : users.length === 0 ? (
                 <div className="rounded-20 bg-black-100 mt-26 flex h-146 w-full flex-col items-center gap-31 pt-15">
                     <p className="text-black-700 text-lg font-semibold">
-                        아직 열람한 사람이 없어요!
+                        {tab === 'opened'
+                            ? '아직 열람한 사람이 없어요!'
+                            : '아직 나를 열람한 사람이 없어요!'}
                     </p>
                     <AvatarIcon className="text-black-400 size-46" />
                 </div>
             ) : (
                 <div className="mt-22 grid grid-cols-2 gap-x-27 gap-y-26 pb-22">
-                    {profiles.map(p => (
+                    {users.map((p) => (
                         <ProfileCard
                             key={p.userId}
-                            {...p}
+                            profileUrl={p.profileUrl}
+                            nickname={p.nickname}
+                            gender={p.gender}
+                            mbti={p.mbti}
+                            appeals={p.appeals}
                             onClick={() => navigate(cardDetailPath(String(p.userId)))}
                         />
                     ))}
