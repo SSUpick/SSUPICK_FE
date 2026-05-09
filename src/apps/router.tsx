@@ -5,6 +5,7 @@ import { LoginPage } from '@/ui/auth/LoginPage';
 import { KakaoCallbackPage } from '@/ui/auth/KakaoCallbackPage';
 import { OnboardingPage } from '@/ui/onboarding/OnboardingPage';
 import { TermsPage } from '@/ui/legal/TermsPage';
+import { PrivacyPage } from '@/ui/legal/PrivacyPage';
 import { ProfileCreatePage } from '@/ui/profile-create/ProfileCreatePage';
 import { FeedPage } from '@/ui/feed/FeedPage';
 import { CardDetailPage } from '@/ui/feed/CardDetailPage';
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
             { path: ROUTES.KAKAO_CALLBACK, element: <KakaoCallbackPage /> },
             { path: ROUTES.ONBOARDING, element: <OnboardingPage /> },
             { path: ROUTES.TERMS, element: <TermsPage /> },
+            { path: ROUTES.PRIVACY, element: <PrivacyPage /> },
             { path: ROUTES.PROFILE_CREATE, element: <ProfileCreatePage /> },
             { path: ROUTES.FEED, element: <FeedPage /> },
             { path: ROUTES.CARD_DETAIL, element: <CardDetailPage /> },

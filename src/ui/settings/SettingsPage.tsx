@@ -22,7 +22,7 @@ const SECTIONS: SettingsSection[] = [
         label: '약관',
         items: [
             { label: '서비스 이용약관', to: ROUTES.TERMS, showArrow: true },
-            { label: '개인정보 수집 및 이용 동의', to: ROUTES.TERMS, showArrow: true },
+            { label: '개인정보 처리방침', to: ROUTES.PRIVACY, showArrow: true },
         ],
     },
     {

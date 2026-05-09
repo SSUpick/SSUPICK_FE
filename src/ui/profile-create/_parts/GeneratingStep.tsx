@@ -42,7 +42,7 @@ export function GeneratingStep({ onDone }: GeneratingStepProps) {
 
     return (
         <div className="relative min-h-dvh w-full">
-            <div className="pointer-events-none absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
+            <div className="pointer-events-none absolute inset-y-0 -right-20 -left-20 overflow-hidden">
                 <video
                     src={waitingVideo}
                     autoPlay
@@ -51,7 +51,7 @@ export function GeneratingStep({ onDone }: GeneratingStepProps) {
                     playsInline
                     preload="auto"
                     aria-hidden
-                    className="absolute inset-0 size-full object-cover"
+                    className="absolute top-1/2 left-1/2 w-[120dvw] max-w-600 -translate-x-1/2 -translate-y-1/2 object-cover"
                 />
             </div>
 
