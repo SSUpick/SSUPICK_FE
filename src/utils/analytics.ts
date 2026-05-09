@@ -5,11 +5,14 @@ declare global {
     }
 }
 
-const GA_MEASUREMENT_ID = 'G-KSNX1VES8E';
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as
+    | string
+    | undefined;
 
-/** GA4 초기화. Vite의 mode가 production일 때만 동작 (`pnpm dev`에서는 no-op). */
+/** GA4 초기화. Vite mode가 production이고 ID가 주입된 경우에만 동작. */
 export function initAnalytics() {
     if (!import.meta.env.PROD) return;
+    if (!GA_MEASUREMENT_ID) return;
 
     window.dataLayer = window.dataLayer ?? [];
     const gtag = (...args: unknown[]) => {
