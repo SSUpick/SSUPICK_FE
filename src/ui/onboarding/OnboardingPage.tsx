@@ -77,16 +77,16 @@ export function OnboardingPage() {
                     src={bg}
                     alt=""
                     aria-hidden
-                    className="absolute bottom-0 left-1/2 max-w-none -translate-x-1/2"
+                    className="absolute top-1/2 left-1/2 w-dvw max-w-3xl -translate-x-1/2 -translate-y-500"
                 />
             </div>
 
-            <div className="absolute bottom-135 left-1/2 w-355 -translate-x-1/2">
+            <div className="absolute bottom-120 left-1/2 w-full -translate-x-1/2">
                 <DialogBubble>{current.text}</DialogBubble>
             </div>
 
             {current.showHint && (
-                <p className="text-white-default/80 absolute bottom-72 left-1/2 -translate-x-1/2 animate-pulse text-lg font-semibold tracking-tight whitespace-nowrap">
+                <p className="text-white-default/80 absolute bottom-70 left-1/2 -translate-x-1/2 animate-pulse text-lg font-semibold tracking-tight whitespace-nowrap">
                     터치해서 계속하기
                 </p>
             )}

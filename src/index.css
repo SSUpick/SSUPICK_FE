@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* 짧은 세로 viewport (≤ 800px) 대응 — 인트로/스플래시 등 캔버스 화면에서 사용 */
+@custom-variant short (@media (max-height: 800px));
+
 @theme {
     /* Spacing: 0.1rem = 1px @ 1rem=10px → 클래스 숫자 = px값 (mt-13 = 13px) */
     --spacing: 0.1rem;
@@ -30,6 +33,9 @@
     /* Backdrop blur: 반투명 다이얼로그/대화창 (Figma 6px) */
     --backdrop-blur-bubble: 6px;
 
+    /* Filter blur: 페이지 외곽 배경 (Layout max-w-3xl 바깥 영역) */
+    --blur-page-bg: 15px;
+
     /* Toast (Figma 토스트 디자인 시스템) */
     --color-toast-bg: #454852;
     --shadow-toast: 0 0 2px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -37,6 +43,7 @@
     /* Animation: 말풍선 등 아래에서 위로 슬라이드 + 페이드인 */
     --animate-bubble-in: bubble-in 0.4s ease-out;
     --animate-toast-in: toast-in 0.2s ease-out;
+    --animate-bubble-float: bubble-float 2.4s ease-in-out infinite;
 
     /* Pink */
     --color-pink-100: #ffe5e9;
@@ -101,6 +108,16 @@
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes bubble-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
     }
 }
 

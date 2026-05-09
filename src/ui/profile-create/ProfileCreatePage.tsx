@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { PageBackground } from '@/components/layout/PageBackground';
 import { ROUTES } from '@/constants/routes';
 
 import { CardFormStep } from './_parts/CardFormStep';
@@ -50,19 +51,28 @@ export function ProfileCreatePage() {
         });
     };
 
-    if (step === 'upload') return <PhotoUploadStep onPicked={handlePicked} />;
-    if (step === 'preview')
-        return <PhotoPreviewStep photoUrl={photoUrl} onConfirm={handleConfirmPhoto} />;
-    if (step === 'generating') return <GeneratingStep onDone={handleGeneratingDone} />;
-    if (step === 'result')
-        return (
-            <ResultStep
-                photoUrl={photoUrl}
-                attempts={attempts}
-                maxAttempts={MAX_ATTEMPTS}
-                onRetry={handleRetry}
-                onConfirm={handleConfirmResult}
-            />
-        );
-    return <CardFormStep onSubmit={handleSubmitForm} />;
+    const renderStep = () => {
+        if (step === 'upload') return <PhotoUploadStep onPicked={handlePicked} />;
+        if (step === 'preview')
+            return <PhotoPreviewStep photoUrl={photoUrl} onConfirm={handleConfirmPhoto} />;
+        if (step === 'generating') return <GeneratingStep onDone={handleGeneratingDone} />;
+        if (step === 'result')
+            return (
+                <ResultStep
+                    photoUrl={photoUrl}
+                    attempts={attempts}
+                    maxAttempts={MAX_ATTEMPTS}
+                    onRetry={handleRetry}
+                    onConfirm={handleConfirmResult}
+                />
+            );
+        return <CardFormStep onSubmit={handleSubmitForm} />;
+    };
+
+    return (
+        <>
+            <PageBackground />
+            {renderStep()}
+        </>
+    );
 }
