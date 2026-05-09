@@ -64,7 +64,11 @@ export function ResultStep({
 
             <div className="bg-white-default/50 backdrop-blur-bubble border-white-default rounded-14 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2">
                 <div className="border-white-default rounded-14 h-381 w-305 overflow-hidden border">
-                    <img src={generatedImageUrl} alt="생성된 캐릭터" className="size-full object-cover" />
+                    <img
+                        src={generatedImageUrl}
+                        alt="생성된 캐릭터"
+                        className="size-full object-cover"
+                    />
                 </div>
             </div>
 
@@ -84,7 +88,11 @@ export function ResultStep({
                 </div>
 
                 {isMaxed ? (
-                    <CtaButton className="w-full" onClick={() => selectImage()} disabled={isPending}>
+                    <CtaButton
+                        className="w-full"
+                        onClick={() => selectImage()}
+                        disabled={isPending}
+                    >
                         이대로 하기
                     </CtaButton>
                 ) : (

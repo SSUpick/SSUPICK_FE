@@ -30,7 +30,7 @@ export function ProfileCreatePage() {
 
     const { mutate: startGeneration, data: generateResult } = useMutation({
         mutationFn: generateAiImage,
-        onSuccess: (data) => {
+        onSuccess: data => {
             if (data.status === 'DONE') {
                 setAiImage(data);
                 setStep('result');
@@ -61,7 +61,7 @@ export function ProfileCreatePage() {
         if (!photoFile) return;
         try {
             const compressed = await compressImage(photoFile);
-            setAttempts((n) => n + 1);
+            setAttempts(n => n + 1);
             startGeneration(compressed);
             setStep('generating');
         } catch {

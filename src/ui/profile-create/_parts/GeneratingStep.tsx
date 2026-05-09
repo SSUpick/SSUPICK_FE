@@ -35,7 +35,7 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
         let nextId = 0;
         const timers = TIMELINE.map(({ time, text }) =>
             window.setTimeout(() => {
-                setBubbles((prev) => [...prev, { id: nextId++, text }].slice(-MAX_BUBBLES));
+                setBubbles(prev => [...prev, { id: nextId++, text }].slice(-MAX_BUBBLES));
             }, time),
         );
         return () => timers.forEach(window.clearTimeout);
@@ -46,7 +46,7 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
         queryKey: ['ai-image', aiImageId, 'status'],
         queryFn: () => getAiImageStatus(aiImageId!),
         enabled: aiImageId !== null,
-        refetchInterval: (query) => {
+        refetchInterval: query => {
             const status = query.state.data?.status;
             if (status === 'DONE' || status === 'FAILED') return false;
             return POLL_INTERVAL;

@@ -6,4 +6,4 @@ import type { AuthKakaoLoginRequestDto, AuthKakaoLoginResponseDto } from './type
 export const kakaoLogin = (body: AuthKakaoLoginRequestDto) =>
     http
         .post<CommonResponse<AuthKakaoLoginResponseDto>>('/api/oauth/kakao/login', body)
-        .then((r) => r.data.data);
+        .then(r => r.data.data);

@@ -57,7 +57,7 @@ export function MyEditPage() {
         onError: () => toast.error('프로필 수정에 실패했어요.'),
     });
 
-    const onSubmit = handleSubmit((values) => {
+    const onSubmit = handleSubmit(values => {
         const result = keywordsSchema.safeParse(appeals);
         if (!result.success) {
             setAppealError(result.error.issues[0]?.message ?? '키워드 형식 오류');
@@ -67,21 +67,21 @@ export function MyEditPage() {
         submitUpdate({
             nickname: sanitizeInput(values.nickname).trim(),
             mbti: values.mbti.trim(),
-            appeals: appeals.map((k) => sanitizeInput(k).trim()),
+            appeals: appeals.map(k => sanitizeInput(k).trim()),
             contact: sanitizeInput(values.contact).trim(),
         });
     });
 
     const updateAppeal = (idx: number, val: string) => {
-        setAppeals((ks) => ks.map((k, i) => (i === idx ? val : k)));
+        setAppeals(ks => ks.map((k, i) => (i === idx ? val : k)));
         setAppealError(null);
     };
     const removeAppeal = (idx: number) => {
-        setAppeals((ks) => ks.filter((_, i) => i !== idx));
+        setAppeals(ks => ks.filter((_, i) => i !== idx));
         setAppealError(null);
     };
     const addAppeal = () => {
-        setAppeals((ks) => [...ks, '']);
+        setAppeals(ks => [...ks, '']);
         setAppealError(null);
     };
 
@@ -100,7 +100,9 @@ export function MyEditPage() {
             <div className="mt-30 flex justify-center">
                 <img
                     src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
-                    onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
+                    onError={e => {
+                        e.currentTarget.src = defaultProfileImg;
+                    }}
                     alt="내 프로필"
                     className="rounded-8 drop-shadow-card h-285 w-228 object-cover"
                 />
@@ -134,7 +136,7 @@ export function MyEditPage() {
                             <KeywordInput
                                 key={idx}
                                 value={kw}
-                                onChange={(v) => updateAppeal(idx, v)}
+                                onChange={v => updateAppeal(idx, v)}
                                 onRemove={() => removeAppeal(idx)}
                                 placeholder="최대 8자"
                                 allowRemove={appeals.length > 1}
@@ -209,12 +211,12 @@ function EditableInput({ field, onClear, placeholder }: EditableInputProps) {
             <input
                 {...field}
                 placeholder={placeholder}
-                onChange={(e) => {
+                onChange={e => {
                     e.target.value = sanitizeInput(e.target.value);
                     field.onChange(e);
                 }}
                 onFocus={() => setFocused(true)}
-                onBlur={(e) => {
+                onBlur={e => {
                     setFocused(false);
                     field.onBlur(e);
                 }}
@@ -225,7 +227,7 @@ function EditableInput({ field, onClear, placeholder }: EditableInputProps) {
                 <button
                     type="button"
                     aria-label="입력 지우기"
-                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseDown={e => e.preventDefault()}
                     onClick={onClear}
                     className="text-black-400 ml-6 shrink-0"
                 >
@@ -250,7 +252,7 @@ function KeywordInput({ value, onChange, onRemove, placeholder, allowRemove }: K
         <div className="bg-black-100 rounded-10 flex h-60 items-center px-14">
             <input
                 value={value}
-                onChange={(e) => onChange(sanitizeInput(e.target.value))}
+                onChange={e => onChange(sanitizeInput(e.target.value))}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder={placeholder}
@@ -262,7 +264,7 @@ function KeywordInput({ value, onChange, onRemove, placeholder, allowRemove }: K
                 <button
                     type="button"
                     aria-label="키워드 삭제"
-                    onMouseDown={(e) => e.preventDefault()}
+                    onMouseDown={e => e.preventDefault()}
                     onClick={onRemove}
                     className="text-black-400 ml-6 shrink-0"
                 >
@@ -284,7 +286,7 @@ function PlainInput({ field, placeholder }: PlainInputProps) {
             <input
                 {...field}
                 placeholder={placeholder}
-                onChange={(e) => {
+                onChange={e => {
                     e.target.value = sanitizeInput(e.target.value);
                     field.onChange(e);
                 }}

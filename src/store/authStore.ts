@@ -6,7 +6,7 @@ type AuthState = {
     clearTokens: () => void;
 };
 
-export const useAuthStore = create<AuthState>()((set) => ({
+export const useAuthStore = create<AuthState>()(set => ({
     accessToken: localStorage.getItem('accessToken'),
     setTokens: (accessToken, refreshToken) => {
         localStorage.setItem('accessToken', accessToken);

@@ -10,13 +10,13 @@ export const generateAiImage = (file: File) => {
         .post<CommonResponse<AiImageResponseDto>>('/api/ai-images', form, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
-        .then((r) => r.data.data);
+        .then(r => r.data.data);
 };
 
 export const getAiImageStatus = (aiImageId: number) =>
     http
         .get<CommonResponse<AiImageResponseDto>>(`/api/ai-images/${aiImageId}/status`)
-        .then((r) => r.data.data);
+        .then(r => r.data.data);
 
 export const selectAiImage = (aiImageId: number) =>
     http.patch(`/api/ai-images/${aiImageId}/select`).then(() => undefined);

@@ -18,12 +18,12 @@ function getDeviceType(): DeviceType {
 export function KakaoCallbackPage() {
     const navigate = useNavigate();
     const [params] = useSearchParams();
-    const setTokens = useAuthStore((s) => s.setTokens);
+    const setTokens = useAuthStore(s => s.setTokens);
     const hasFired = useRef(false);
 
     const { mutate } = useMutation({
         mutationFn: kakaoLogin,
-        onSuccess: (data) => {
+        onSuccess: data => {
             setTokens(data.accessToken, data.refreshToken);
 
             if (data.onboardingCompleted) {

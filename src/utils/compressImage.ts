@@ -28,7 +28,7 @@ export async function compressImage(file: File): Promise<File> {
 
             ctx.drawImage(img, 0, 0, width, height);
             canvas.toBlob(
-                (blob) => {
+                blob => {
                     if (!blob) {
                         reject(new Error('compression failed'));
                         return;

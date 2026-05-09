@@ -26,9 +26,7 @@ export function useNavigateToast() {
 
     useEffect(() => {
         if (shownRef.current) return;
-        const state = location.state as
-            | { toast?: string; toastState?: 'success' | 'error' }
-            | null;
+        const state = location.state as { toast?: string; toastState?: 'success' | 'error' } | null;
         if (!state?.toast) return;
         shownRef.current = true;
 

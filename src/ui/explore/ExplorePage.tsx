@@ -23,7 +23,7 @@ export function ExplorePage() {
     const [filter, setFilter] = useState<GenderFilter>('all');
     const { data: cards, isLoading } = useUserCardList();
 
-    const filtered = (cards ?? []).filter((p) => filter === 'all' || p.gender === filter);
+    const filtered = (cards ?? []).filter(p => filter === 'all' || p.gender === filter);
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
@@ -57,7 +57,7 @@ export function ExplorePage() {
                 </div>
             ) : (
                 <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
-                    {filtered.map((p) => (
+                    {filtered.map(p => (
                         <ProfileCard
                             key={p.userId}
                             {...p}

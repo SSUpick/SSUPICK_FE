@@ -163,6 +163,7 @@ toast.success('메시지', 3000); // duration override (기본 2200ms)
 [Layout.tsx](./src/apps/layout/Layout.tsx)에 `<ToastContainer />` 1회 mount 되어 있고, 자동으로 viewport top-center에 토스트를 렌더링.
 
 **제약/디자인 룰**:
+
 - 폭: 콘텐츠 사이즈 (`inline-flex`) — **항상 한 줄, 줄바꿈 없음** (`whitespace-nowrap`)
 - bg: `bg-toast-bg/90` (= `rgba(69,72,82,0.9)`)
 - success/error 두 variant — 아이콘만 다름 (`success_icon.svg` vs `warning_icon.svg`), 나머지 시각 동일
@@ -196,12 +197,14 @@ export function FeedPage() {
 ```
 
 **왜 이 패턴인가**:
+
 - 도착 페이지가 mount 후 useEffect로 토스트 호출 → **렌더링 끝난 화면 위에 자연스럽게** 등장 (UX 깔끔)
 - shownRef로 StrictMode 이중 mount 방지 (1회만 발화)
 - 표시 후 history state 자동 정리 → 뒤로가기/새로고침 재발화 방지
 - URL `?toast=key` 같은 dirty URL 안 남김
 
 **❌ 안티패턴** — `?toast=key` URL 파라미터로 토스트 키 전달:
+
 - URL이 더러워짐
 - 키 ↔ 메시지 dictionary 페이지마다 중복
 - 새로고침/공유 시 토스트 재발화 가능
@@ -212,15 +215,15 @@ export function FeedPage() {
 
 ### 색상
 
-| Figma 변수                       | 프로젝트 토큰          | 클래스            |
-| -------------------------------- | ---------------------- | ----------------- |
-| `pink/point` `#ff339c`           | `--color-pink-point`   | `text-pink-point` |
-| `pink/default` `#ff50aa`         | `--color-pink-default` | `bg-pink-default` |
-| `pink/100` `#ffe5e9` (마이쿠폰)  | `--color-pink-100`     | `border-pink-100` |
-| `kakao/yellow` `#fee500`         | `--color-kakao-yellow` | `bg-kakao-yellow` |
-| `black/900` `#000000`            | `--color-black-900`    | `text-black-900`  |
-| `black/800` `#292b32`            | `--color-black-800`    | `text-black-800`  |
-| `black/600` `#373942` (보조 헤드라인) | `--color-black-600`    | `text-black-600`  |
+| Figma 변수                                    | 프로젝트 토큰                | 클래스            |
+| --------------------------------------------- | ---------------------------- | ----------------- |
+| `pink/point` `#ff339c`                        | `--color-pink-point`         | `text-pink-point` |
+| `pink/default` `#ff50aa`                      | `--color-pink-default`       | `bg-pink-default` |
+| `pink/100` `#ffe5e9` (마이쿠폰)               | `--color-pink-100`           | `border-pink-100` |
+| `kakao/yellow` `#fee500`                      | `--color-kakao-yellow`       | `bg-kakao-yellow` |
+| `black/900` `#000000`                         | `--color-black-900`          | `text-black-900`  |
+| `black/800` `#292b32`                         | `--color-black-800`          | `text-black-800`  |
+| `black/600` `#373942` (보조 헤드라인)         | `--color-black-600`          | `text-black-600`  |
 | `toast/bg` `rgba(69,72,82,0.9)` (토스트 배경) | `--color-toast-bg` (#454852) | `bg-toast-bg/90`  |
 
 ### 텍스트 사이즈
@@ -244,38 +247,37 @@ export function FeedPage() {
 
 ### Letter spacing (tracking)
 
-| Figma 표기                                                      | 비율 | 토큰                            | 클래스             |
-| --------------------------------------------------------------- | ---- | ------------------------------- | ------------------ |
-| `-0.18px` (18px 기준) / `-0.12px` (12px 기준) / `-Npx` (N×0.01) | -1%  | `--tracking-tight` (-0.01em)    | `tracking-tight`   |
-| `-0.44px` (22px 기준) / `-0.28px` (14px 기준) / `-Npx` (N×0.02) | -2%  | `--tracking-tighter` (-0.02em)  | `tracking-tighter` |
+| Figma 표기                                                      | 비율 | 토큰                           | 클래스             |
+| --------------------------------------------------------------- | ---- | ------------------------------ | ------------------ |
+| `-0.18px` (18px 기준) / `-0.12px` (12px 기준) / `-Npx` (N×0.01) | -1%  | `--tracking-tight` (-0.01em)   | `tracking-tight`   |
+| `-0.44px` (22px 기준) / `-0.28px` (14px 기준) / `-Npx` (N×0.02) | -2%  | `--tracking-tighter` (-0.02em) | `tracking-tighter` |
 
 > Pretendard 한국어 표기 시 거의 모든 텍스트가 -1% (-0.01em) tracking. Figma 픽셀 표기를 폰트 크기로 나누어 비율 확인 후 토큰 선택.
 
 ### 그림자
 
-| Figma 표기                                                  | 토큰                   | 클래스               |
-| ----------------------------------------------------------- | ---------------------- | -------------------- |
-| `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우)         | `--drop-shadow-bubble` | `drop-shadow-bubble` |
-| `0 0 7px rgba(255,80,170,0.1)` (마이쿠폰 카드 핑크 글로우)  | `--drop-shadow-coupon` | `drop-shadow-coupon` |
-| `4px 4px 20px rgba(0,0,0,0.1)` (프로필 수정 사진 카드)      | `--drop-shadow-card`   | `drop-shadow-card`   |
-| `0 0 2px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.04)` (토스트, multi-layer) | `--shadow-toast` | `shadow-toast` |
+| Figma 표기                                                                   | 토큰                   | 클래스               |
+| ---------------------------------------------------------------------------- | ---------------------- | -------------------- |
+| `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우)                          | `--drop-shadow-bubble` | `drop-shadow-bubble` |
+| `0 0 7px rgba(255,80,170,0.1)` (마이쿠폰 카드 핑크 글로우)                   | `--drop-shadow-coupon` | `drop-shadow-coupon` |
+| `4px 4px 20px rgba(0,0,0,0.1)` (프로필 수정 사진 카드)                       | `--drop-shadow-card`   | `drop-shadow-card`   |
+| `0 0 2px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.04)` (토스트, multi-layer) | `--shadow-toast`       | `shadow-toast`       |
 
 > `drop-shadow-*`는 CSS `filter: drop-shadow()` (단일 레이어). 토스트처럼 multi-layer가 필요하면 `box-shadow` 기반 `shadow-*`.
 
 ### Backdrop blur
 
-| Figma 표기                          | 토큰                       | 클래스                 |
-| ----------------------------------- | -------------------------- | ---------------------- |
-| `backdrop-blur: 6px` (반투명 다이얼로그/대화창) | `--backdrop-blur-bubble`   | `backdrop-blur-bubble` |
+| Figma 표기                                      | 토큰                     | 클래스                 |
+| ----------------------------------------------- | ------------------------ | ---------------------- |
+| `backdrop-blur: 6px` (반투명 다이얼로그/대화창) | `--backdrop-blur-bubble` | `backdrop-blur-bubble` |
 
 ### 애니메이션
 
-| 클래스                | 효과                                    | 용도                                   |
-| --------------------- | --------------------------------------- | -------------------------------------- |
-| `animate-pulse`       | opacity 1↔0.5, 2s ease-in-out infinite | 힌트 깜빡임 (예: "터치해서 계속하기")  |
-| `animate-bubble-in`   | translateY 40px→0 + opacity 0→1, 0.4s ease-out | 말풍선/카드가 아래에서 위로 슬라이드 등장 |
-| `animate-toast-in`    | opacity 0→1, 0.2s ease-out              | 토스트 등장 (전역 ToastContainer 자동 적용) |
-
+| 클래스              | 효과                                           | 용도                                        |
+| ------------------- | ---------------------------------------------- | ------------------------------------------- |
+| `animate-pulse`     | opacity 1↔0.5, 2s ease-in-out infinite         | 힌트 깜빡임 (예: "터치해서 계속하기")       |
+| `animate-bubble-in` | translateY 40px→0 + opacity 0→1, 0.4s ease-out | 말풍선/카드가 아래에서 위로 슬라이드 등장   |
+| `animate-toast-in`  | opacity 0→1, 0.2s ease-out                     | 토스트 등장 (전역 ToastContainer 자동 적용) |
 
 #### 사용 패턴
 
@@ -315,11 +317,13 @@ return bubbles.map((bubble, i) => {
 ```
 
 **핵심 매핑** (length L 기준):
+
 - 새 말풍선은 항상 배열 마지막에 들어감 (i = L-1) → reverseIndex 0 → 맨 아래 슬롯
 - 새 말풍선이 추가되면 기존 말풍선들의 reverseIndex가 1씩 증가 → 위 슬롯으로 클래스 변경 → CSS transition으로 부드럽게 위로 밀림
 - 큐 max 초과 시 가장 오래된 말풍선(`prev[0]`)은 즉시 unmount
 
 **구조 분리**:
+
 - **외곽 div** — 슬롯 위치(`TOP_CLASSES[reverseIndex]`) + `transition-all duration-500`
 - **중간 div** — `animate-bubble-in` (mount 시 1회 슬라이드인)
 - **내부 div** — chatBubble SVG + 텍스트 오버레이

@@ -13,7 +13,14 @@ type ProfileCardProps = {
     onClick?: () => void;
 };
 
-export function ProfileCard({ profileUrl, nickname, mbti, appeals, gender, onClick }: ProfileCardProps) {
+export function ProfileCard({
+    profileUrl,
+    nickname,
+    mbti,
+    appeals,
+    gender,
+    onClick,
+}: ProfileCardProps) {
     const isWoman = gender === 'FEMALE';
     const genderIcon = isWoman ? womanIcon : manIcon;
     const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
@@ -26,7 +33,9 @@ export function ProfileCard({ profileUrl, nickname, mbti, appeals, gender, onCli
         >
             <img
                 src={getImageUrl(profileUrl, defaultProfileImg)}
-                onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
+                onError={e => {
+                    e.currentTarget.src = defaultProfileImg;
+                }}
                 alt={nickname}
                 className="rounded-8 h-200 w-160 object-cover"
             />

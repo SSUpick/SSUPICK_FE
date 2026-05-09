@@ -62,7 +62,9 @@ export function CardDetailPage() {
             <main className="flex flex-1 flex-col items-center gap-13 pt-12 pb-22">
                 <img
                     src={getImageUrl(profile.profileUrl, defaultProfileImg)}
-                    onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
+                    onError={e => {
+                        e.currentTarget.src = defaultProfileImg;
+                    }}
                     alt={profile.nickname}
                     className="rounded-14 aspect-308/385 w-full object-cover"
                 />
@@ -99,7 +101,12 @@ export function CardDetailPage() {
                             onClick={handleOpenAttempt}
                             className="bg-pink-light rounded-20 flex h-82 w-full items-center justify-center gap-8"
                         >
-                            <img src={lockImg} alt="" aria-hidden className="size-32 object-contain" />
+                            <img
+                                src={lockImg}
+                                alt=""
+                                aria-hidden
+                                className="size-32 object-contain"
+                            />
                             <span className="text-pink-point text-xl font-semibold">
                                 쿠폰으로 열람하기
                             </span>
@@ -140,7 +147,7 @@ function Backdrop({ children, onClose }: BackdropProps) {
             className="bg-black-900/40 fixed inset-0 z-40 flex items-center justify-center"
             onClick={onClose}
         >
-            <div onClick={(e) => e.stopPropagation()} className="w-full max-w-340">
+            <div onClick={e => e.stopPropagation()} className="w-full max-w-340">
                 {children}
             </div>
         </div>

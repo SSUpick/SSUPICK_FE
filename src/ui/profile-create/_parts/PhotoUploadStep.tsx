@@ -39,7 +39,13 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
 
                 <div className="h-42 bg-transparent" />
 
-                <input ref={inputRef} type="file" accept="image/jpeg,image/png" hidden onChange={handleChange} />
+                <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/jpeg,image/png"
+                    hidden
+                    onChange={handleChange}
+                />
             </section>
         </BackdropScene>
     );

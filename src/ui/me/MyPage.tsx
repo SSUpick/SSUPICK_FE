@@ -52,7 +52,9 @@ export function MyPage() {
             <section className="mt-30 flex flex-col items-center">
                 <img
                     src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
-                    onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
+                    onError={e => {
+                        e.currentTarget.src = defaultProfileImg;
+                    }}
                     alt={profile?.nickname ?? '프로필'}
                     className="rounded-10 h-171 w-137 object-cover"
                 />
@@ -69,7 +71,7 @@ export function MyPage() {
             <button
                 type="button"
                 onClick={() => navigate(ROUTES.COUPON)}
-                className="rounded-20 border-pink-100 bg-white-default drop-shadow-coupon mt-21 flex h-76 w-full items-center justify-between border pr-31 pl-16"
+                className="rounded-20 bg-white-default drop-shadow-coupon mt-21 flex h-76 w-full items-center justify-between border border-pink-100 pr-31 pl-16"
             >
                 <div className="flex items-center gap-15">
                     <img src={couponImg} alt="" aria-hidden className="h-40 w-57 object-contain" />
@@ -106,7 +108,7 @@ export function MyPage() {
                 </div>
             ) : (
                 <div className="mt-22 grid grid-cols-2 gap-x-27 gap-y-26 pb-22">
-                    {users.map((p) => (
+                    {users.map(p => (
                         <ProfileCard
                             key={p.userId}
                             profileUrl={p.profileUrl}
