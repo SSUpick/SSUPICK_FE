@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import bg from '@/assets/bg_onBoarding.webp';
+import bg from '@/assets/bg_onBoarding_wide.webp';
 import chatBubble_gray from '@/assets/chatBubble_gray.svg';
 import { KakaoButton } from '@/components/button/KakaoButton';
 import { PageBackground } from '@/components/layout/PageBackground';
@@ -29,7 +29,7 @@ export function LoginPage() {
                         <p className="text-pink-point short:text-base text-lg font-medium tracking-tight">
                             부담 없는 아바타 소개팅, 슈픽
                         </p>
-                        <p className="text-black-800 short:text-28 text-3xl font-semibold">
+                        <p className="text-black-800 supershort:text-2xl short:text-28 text-3xl font-semibold">
                             사진 한 장으로
                             <br />
                             캐릭터 만들기!

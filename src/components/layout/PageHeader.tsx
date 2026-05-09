@@ -18,7 +18,7 @@ export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHe
     };
 
     return (
-        <header className="relative flex items-center justify-between py-14">
+        <header className="relative flex min-h-52 items-center justify-between py-14">
             <div className="flex items-center">
                 {showBack && (
                     <button

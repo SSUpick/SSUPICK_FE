@@ -2,6 +2,7 @@
 
 /* 짧은 세로 viewport (≤ 800px) 대응 — 인트로/스플래시 등 캔버스 화면에서 사용 */
 @custom-variant short (@media (max-height: 800px));
+@custom-variant supershort (@media (max-height: 700px));
 
 @theme {
     /* Spacing: 0.1rem = 1px @ 1rem=10px → 클래스 숫자 = px값 (mt-13 = 13px) */

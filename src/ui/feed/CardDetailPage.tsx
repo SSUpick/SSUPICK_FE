@@ -7,6 +7,7 @@ import lockImg from '@/assets/lock.webp';
 import manIcon from '@/assets/man_icon.svg';
 import womanIcon from '@/assets/woman_icon.svg';
 import { CtaButton } from '@/components/button/CtaButton';
+import { Modal } from '@/components/feedback/Modal';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
 import { findProfileById } from '@/features/feed/mock';
@@ -107,41 +108,21 @@ export function CardDetailPage() {
                 </section>
             </main>
 
-            {modal && (
-                <Backdrop onClose={() => setModal(null)}>
-                    {modal === 'coupon' ? (
-                        <CouponConfirmDialog
-                            currentCount={CURRENT_COUPONS}
-                            onConfirm={handleConfirmOpen}
-                        />
-                    ) : (
-                        <NoCouponDialog
-                            onGoToCoupon={() => {
-                                setModal(null);
-                                navigate(ROUTES.COUPON);
-                            }}
-                        />
-                    )}
-                </Backdrop>
-            )}
-        </div>
-    );
-}
-
-type BackdropProps = {
-    children: React.ReactNode;
-    onClose: () => void;
-};
-
-function Backdrop({ children, onClose }: BackdropProps) {
-    return (
-        <div
-            className="bg-black-900/40 fixed inset-0 z-40 flex items-center justify-center"
-            onClick={onClose}
-        >
-            <div onClick={e => e.stopPropagation()} className="w-full max-w-340">
-                {children}
-            </div>
+            <Modal open={modal !== null} onClose={() => setModal(null)}>
+                {modal === 'coupon' ? (
+                    <CouponConfirmDialog
+                        currentCount={CURRENT_COUPONS}
+                        onConfirm={handleConfirmOpen}
+                    />
+                ) : (
+                    <NoCouponDialog
+                        onGoToCoupon={() => {
+                            setModal(null);
+                            navigate(ROUTES.COUPON);
+                        }}
+                    />
+                )}
+            </Modal>
         </div>
     );
 }

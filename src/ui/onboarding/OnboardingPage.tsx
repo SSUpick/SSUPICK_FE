@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import bg from '@/assets/bg_onBoarding.webp';
+import bg from '@/assets/bg_onBoarding_wide.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { DialogBubble } from '@/components/feedback/DialogBubble';
 import { ROUTES } from '@/constants/routes';
@@ -72,12 +72,12 @@ export function OnboardingPage() {
 
     return (
         <div onClick={handleTap} className="relative min-h-dvh w-full">
-            <div className="pointer-events-none absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
+            <div className="absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
                 <img
                     src={bg}
                     alt=""
                     aria-hidden
-                    className="absolute top-1/2 left-1/2 w-dvw max-w-3xl -translate-x-1/2 -translate-y-500"
+                    className="absolute bottom-0 left-1/2 h-[140dvh] max-w-none -translate-x-1/2"
                 />
             </div>
 

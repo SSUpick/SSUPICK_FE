@@ -137,7 +137,7 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | 버튼     | [src/components/button/](./src/components/button/) — `KakaoButton`, `CtaButton`, `ChipButton`, `OutlineChipButton`, `MbtiButton` |
 | 입력     | [src/components/input/](./src/components/input/) — `TextInput`                                                                   |
-| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`, `ToastContainer`               |
+| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`, `ToastContainer`, `Modal`     |
 | 카드     | [src/components/card/](./src/components/card/) — `ProfileCard`                                                                   |
 | 레이아웃 | [src/components/layout/](./src/components/layout/) — `PageHeader`, `PageBackground`                                              |
 
