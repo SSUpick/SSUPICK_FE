@@ -3,17 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import couponImg from '@/assets/coupon.webp';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
+import type { CouponProduct } from '@/features/payment/types';
 
 type CouponPlan = {
     id: string;
+    product: CouponProduct;
     count: number;
     price: number;
+    orderName: string;
 };
 
 const COUPON_PLANS: CouponPlan[] = [
-    { id: '1', count: 1, price: 1000 },
-    { id: '2', count: 4, price: 3000 },
-    { id: '3', count: 8, price: 5000 },
+    { id: '1', product: 'COUPON_1', count: 1, price: 1000, orderName: '쿠폰 1개' },
+    { id: '2', product: 'COUPON_4', count: 4, price: 3000, orderName: '쿠폰 4개' },
+    { id: '3', product: 'COUPON_8', count: 8, price: 5000, orderName: '쿠폰 8개' },
 ];
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
@@ -22,7 +25,9 @@ export function CouponPage() {
     const navigate = useNavigate();
 
     const handleSelect = (plan: CouponPlan) => {
-        navigate(`${ROUTES.PAYMENT}?count=${plan.count}&price=${plan.price}`);
+        navigate(
+            `${ROUTES.PAYMENT}?count=${plan.count}&price=${plan.price}&product=${plan.product}&orderName=${encodeURIComponent(plan.orderName)}`,
+        );
     };
 
     return (

@@ -1,22 +1,26 @@
 import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import couponImg from '@/assets/coupon.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { ROUTES } from '@/constants/routes';
+import { usePayment } from '@/features/payment/hooks/usePayment';
+import type { CouponProduct } from '@/features/payment/types';
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
 export function PaymentPage() {
     const [params] = useSearchParams();
-    const navigate = useNavigate();
     const count = Number(params.get('count') ?? '1');
     const price = Number(params.get('price') ?? '1000');
+    const product = (params.get('product') ?? 'COUPON_1') as CouponProduct;
+    const orderName = params.get('orderName') ?? `쿠폰 ${count}개`;
+
     const [method, setMethod] = useState<'card' | null>('card');
+    const { pay, isPending } = usePayment();
 
     const handlePay = () => {
-        navigate(`${ROUTES.PAYMENT_PG}?count=${count}&price=${price}`);
+        pay(product, price, orderName);
     };
 
     return (
@@ -52,7 +56,12 @@ export function PaymentPage() {
             </section>
 
             <div className="mt-auto pb-22">
-                <CtaButton className="w-full" onClick={handlePay}>
+                <CtaButton
+                    className="w-full"
+                    onClick={handlePay}
+                    loading={isPending}
+                    disabled={method === null}
+                >
                     {formatPrice(price)} 결제하기
                 </CtaButton>
             </div>
