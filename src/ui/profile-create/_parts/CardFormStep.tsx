@@ -8,7 +8,7 @@ import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { TextInput } from '@/components/input/TextInput';
 import { PageHeader } from '@/components/layout/PageHeader';
 
-import type { Gender } from '@/features/profile/types';
+import type { Gender } from '@/features/user/types';
 
 const MBTI_PAIRS: [string, string][] = [
     ['E', 'I'],
@@ -27,7 +27,7 @@ export type CardFormValues = {
     nickname: string;
     gender: Gender;
     mbti: string;
-    keywords: string[];
+    appeals: string[];
     contact: string;
 };
 
@@ -39,7 +39,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     const [nickname, setNickname] = useState('');
     const [gender, setGender] = useState<Gender | null>(null);
     const [letters, setLetters] = useState<Record<number, string>>({});
-    const [keywords, setKeywords] = useState<string[]>(['']);
+    const [appeals, setKeywords] = useState<string[]>(['']);
     const [contact, setContact] = useState('');
     const [submitting, setSubmitting] = useState(false);
 
@@ -47,7 +47,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
 
     const contactValid = contact.length >= CONTACT_MIN && contact.length <= CONTACT_MAX;
     const contactError = contact.length > 0 && !contactValid;
-    const validKeywords = keywords.map(k => k.trim()).filter(k => k.length > 0);
+    const validKeywords = appeals.map(k => k.trim()).filter(k => k.length > 0);
 
     const formValid =
         nickname.length > 0 &&
@@ -63,7 +63,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     };
 
     const handleAddKeyword = () => {
-        if (keywords.length >= KEYWORDS_MAX_COUNT) return;
+        if (appeals.length >= KEYWORDS_MAX_COUNT) return;
         setKeywords(prev => [...prev, '']);
     };
 
@@ -80,7 +80,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 nickname,
                 gender,
                 mbti,
-                keywords: validKeywords,
+                appeals: validKeywords,
                 contact,
             });
         } finally {
@@ -106,12 +106,12 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
 
                 <FormSection title="성별은?" helpers={['* 성별은 이후에 변경 불가능해요.']}>
                     <div className="flex gap-20">
-                        <ChipButton active={gender === 'male'} onClick={() => setGender('male')}>
+                        <ChipButton active={gender === 'MALE'} onClick={() => setGender('MALE')}>
                             남자
                         </ChipButton>
                         <ChipButton
-                            active={gender === 'female'}
-                            onClick={() => setGender('female')}
+                            active={gender === 'FEMALE'}
+                            onClick={() => setGender('FEMALE')}
                         >
                             여자
                         </ChipButton>
@@ -141,7 +141,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                     ]}
                 >
                     <div className="flex flex-col gap-16">
-                        {keywords.map((kw, idx) => (
+                        {appeals.map((kw, idx) => (
                             <TextInput
                                 key={idx}
                                 value={kw}
@@ -151,7 +151,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                                 placeholder="ex. 고양이상"
                             />
                         ))}
-                        {keywords.length < KEYWORDS_MAX_COUNT && (
+                        {appeals.length < KEYWORDS_MAX_COUNT && (
                             <button
                                 type="button"
                                 onClick={handleAddKeyword}

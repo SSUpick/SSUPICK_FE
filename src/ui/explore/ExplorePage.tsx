@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ProfileCard } from '@/components/card/ProfileCard';
+import { AvatarIcon } from '@/components/icon/AvatarIcon';
+import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { cardDetailPath } from '@/constants/routes';
-import { MOCK_PROFILES } from '@/features/feed/mock';
 import type { Gender } from '@/features/user/types';
+import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 
 import { FeedHeader } from '../feed/_parts/FeedHeader';
 
@@ -19,8 +21,9 @@ const FILTER_OPTIONS: { label: string; value: GenderFilter }[] = [
 export function ExplorePage() {
     const navigate = useNavigate();
     const [filter, setFilter] = useState<GenderFilter>('all');
+    const { data: cards, isLoading } = useUserCardList();
 
-    const filtered = MOCK_PROFILES.filter(p => filter === 'all' || p.gender === filter);
+    const filtered = (cards ?? []).filter((p) => filter === 'all' || p.gender === filter);
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
@@ -43,15 +46,26 @@ export function ExplorePage() {
                 ))}
             </div>
 
-            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
-                {filtered.map(p => (
-                    <ProfileCard
-                        key={p.userId}
-                        {...p}
-                        onClick={() => navigate(cardDetailPath(String(p.userId)))}
-                    />
-                ))}
-            </main>
+            {isLoading ? (
+                <div className="flex flex-1 items-center justify-center">
+                    <SpinnerIcon className="text-pink-point size-44" />
+                </div>
+            ) : filtered.length === 0 ? (
+                <div className="flex flex-1 flex-col items-center justify-center gap-16">
+                    <AvatarIcon className="text-black-300 size-60" />
+                    <p className="text-black-400 text-base font-medium">아직 주민이 없어요!</p>
+                </div>
+            ) : (
+                <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 pb-30">
+                    {filtered.map((p) => (
+                        <ProfileCard
+                            key={p.userId}
+                            {...p}
+                            onClick={() => navigate(cardDetailPath(String(p.userId)))}
+                        />
+                    ))}
+                </main>
+            )}
         </div>
     );
 }

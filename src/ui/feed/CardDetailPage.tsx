@@ -3,25 +3,37 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import airplaneImg from '@/assets/airplane.webp';
 import couponImg from '@/assets/coupon.webp';
+import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
-import manIcon from '@/assets/man_icon.svg';
-import womanIcon from '@/assets/woman_icon.svg';
 import { CtaButton } from '@/components/button/CtaButton';
+import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
-import { findProfileById } from '@/features/feed/mock';
+import { useTargetUserProfile } from '@/features/user/hooks/useTargetUserProfile';
+import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 import { toast } from '@/store/toastStore';
-
-const CURRENT_COUPONS = 1;
-const SAMPLE_CONTACT = '@ssupick';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 export function CardDetailPage() {
     const { profileId } = useParams<{ profileId: string }>();
     const navigate = useNavigate();
-    const profile = profileId ? findProfileById(profileId) : undefined;
+    const targetUserId = Number(profileId);
+
+    const { data: profile, isLoading } = useTargetUserProfile(targetUserId);
+    const { data: myProfile } = useUserProfile();
 
     const [unlocked, setUnlocked] = useState(false);
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
+
+    const couponCount = myProfile?.remainingCouponCount ?? 0;
+
+    if (isLoading) {
+        return (
+            <div className="flex min-h-svh items-center justify-center">
+                <SpinnerIcon className="text-pink-point size-44" />
+            </div>
+        );
+    }
 
     if (!profile) {
         return (
@@ -31,17 +43,13 @@ export function CardDetailPage() {
         );
     }
 
-    const isWoman = profile.gender === 'FEMALE';
-    const genderIcon = isWoman ? womanIcon : manIcon;
-    const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
-
     const handleOpenAttempt = () => {
-        if (CURRENT_COUPONS > 0) setModal('coupon');
+        if (couponCount > 0) setModal('coupon');
         else setModal('lock');
     };
 
     const handleConfirmOpen = () => {
-        // TODO: API 연동 — 쿠폰 차감 + 프로필 열람
+        // TODO: API 연동 — 쿠폰 차감
         setModal(null);
         setUnlocked(true);
         toast.success('프로필 열람에 성공했어요!');
@@ -53,26 +61,24 @@ export function CardDetailPage() {
 
             <main className="flex flex-1 flex-col items-center gap-13 pt-12 pb-22">
                 <img
-                    src={profile.profileUrl}
+                    src={getImageUrl(profile.profileUrl, defaultProfileImg)}
+                    onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
                     alt={profile.nickname}
                     className="rounded-14 aspect-308/385 w-full object-cover"
                 />
 
                 <div className="flex flex-col items-center gap-10">
                     <div className="flex items-center gap-7">
-                        <img src={genderIcon} alt="" aria-hidden className="size-28" />
                         <span className="text-black-900 text-22 font-semibold">
                             {profile.nickname}
                         </span>
-                        <span
-                            className={`rounded-6 flex h-28 items-center justify-center px-12 text-base font-semibold ${mbtiClass}`}
-                        >
+                        <span className="rounded-6 bg-pink-light text-pink-point flex h-28 items-center justify-center px-12 text-base font-semibold">
                             {profile.mbti}
                         </span>
                     </div>
                     <ul className="text-black-700 flex flex-col items-center gap-10 text-base font-medium">
-                        {profile.appeals.slice(0, 3).map((kw, idx) => (
-                            <li key={`${idx}-${kw}`}>#{kw}</li>
+                        {profile.appeals.slice(0, 3).map((appeal, idx) => (
+                            <li key={`${idx}-${appeal}`}>#{appeal}</li>
                         ))}
                     </ul>
                 </div>
@@ -85,7 +91,7 @@ export function CardDetailPage() {
 
                     {unlocked ? (
                         <div className="bg-pink-light text-pink-point rounded-20 flex h-82 w-full items-center justify-center text-xl font-semibold">
-                            {SAMPLE_CONTACT}
+                            {profile.contact}
                         </div>
                     ) : (
                         <button
@@ -93,12 +99,7 @@ export function CardDetailPage() {
                             onClick={handleOpenAttempt}
                             className="bg-pink-light rounded-20 flex h-82 w-full items-center justify-center gap-8"
                         >
-                            <img
-                                src={lockImg}
-                                alt=""
-                                aria-hidden
-                                className="size-32 object-contain"
-                            />
+                            <img src={lockImg} alt="" aria-hidden className="size-32 object-contain" />
                             <span className="text-pink-point text-xl font-semibold">
                                 쿠폰으로 열람하기
                             </span>
@@ -111,7 +112,7 @@ export function CardDetailPage() {
                 <Backdrop onClose={() => setModal(null)}>
                     {modal === 'coupon' ? (
                         <CouponConfirmDialog
-                            currentCount={CURRENT_COUPONS}
+                            currentCount={couponCount}
                             onConfirm={handleConfirmOpen}
                         />
                     ) : (
@@ -139,7 +140,7 @@ function Backdrop({ children, onClose }: BackdropProps) {
             className="bg-black-900/40 fixed inset-0 z-40 flex items-center justify-center"
             onClick={onClose}
         >
-            <div onClick={e => e.stopPropagation()} className="w-full max-w-340">
+            <div onClick={(e) => e.stopPropagation()} className="w-full max-w-340">
                 {children}
             </div>
         </div>

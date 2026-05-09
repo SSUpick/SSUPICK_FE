@@ -12,6 +12,7 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES, cardDetailPath } from '@/constants/routes';
 import { useProfileViewList } from '@/features/user/hooks/useProfileViewList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 type Tab = 'opened' | 'openedMe';
 
@@ -50,7 +51,8 @@ export function MyPage() {
 
             <section className="mt-30 flex flex-col items-center">
                 <img
-                    src={profile?.profileUrl ?? defaultProfileImg}
+                    src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
+                    onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
                     alt={profile?.nickname ?? '프로필'}
                     className="rounded-10 h-171 w-137 object-cover"
                 />

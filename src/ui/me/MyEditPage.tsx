@@ -1,19 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import sampleImg from '@/assets/bg_onBoarding.webp';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { CloseRoundIcon } from '@/components/icon/CloseRoundIcon';
 import { PencilIcon } from '@/components/icon/PencilIcon';
 import { PlusIcon } from '@/components/icon/PlusIcon';
+import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
+import { updateUserProfile } from '@/features/user/api';
+import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 import { KEYWORD_MAX_LENGTH, MAX_KEYWORDS, keywordsSchema } from '@/schemas/keyword';
+import { toast } from '@/store/toastStore';
 import { sanitizeInput } from '@/utils/sanitize';
-
-const DEFAULT_KEYWORDS = ['고양이상', '키 160cm', '청순'];
+import { getImageUrl } from '@/utils/getImageUrl';
 
 type EditFormValues = {
     nickname: string;
@@ -21,50 +26,72 @@ type EditFormValues = {
     contact: string;
 };
 
-const DEFAULT_VALUES: EditFormValues = {
-    nickname: '숭실대 카리나',
-    mbti: 'INTJ',
-    contact: '@ssu_pick',
-};
-
 export function MyEditPage() {
     const navigate = useNavigate();
-    const { register, handleSubmit, setValue } = useForm<EditFormValues>({
-        defaultValues: DEFAULT_VALUES,
-    });
-    const [keywords, setKeywords] = useState<string[]>(DEFAULT_KEYWORDS);
-    const [keywordError, setKeywordError] = useState<string | null>(null);
-    const [submitting, setSubmitting] = useState(false);
+    const queryClient = useQueryClient();
+    const { data: profile, isLoading } = useUserProfile();
 
-    const onSubmit = handleSubmit(async () => {
-        const result = keywordsSchema.safeParse(keywords);
+    const { register, handleSubmit, setValue, reset } = useForm<EditFormValues>();
+    const [appeals, setAppeals] = useState<string[]>(['']);
+    const [appealError, setAppealError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!profile) return;
+        reset({
+            nickname: profile.nickname,
+            mbti: profile.mbti,
+            contact: profile.contact,
+        });
+        setAppeals(profile.appeals.length > 0 ? profile.appeals : ['']);
+    }, [profile, reset]);
+
+    const { mutate: submitUpdate, isPending } = useMutation({
+        mutationFn: updateUserProfile,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
+            navigate(ROUTES.ME, {
+                replace: true,
+                state: { toast: '프로필 수정에 성공했습니다!' },
+            });
+        },
+        onError: () => toast.error('프로필 수정에 실패했어요.'),
+    });
+
+    const onSubmit = handleSubmit((values) => {
+        const result = keywordsSchema.safeParse(appeals);
         if (!result.success) {
-            setKeywordError(result.error.issues[0]?.message ?? '키워드 형식 오류');
+            setAppealError(result.error.issues[0]?.message ?? '키워드 형식 오류');
             return;
         }
-        setKeywordError(null);
-        setSubmitting(true);
-        // TODO: API 연동 시 전송 직전에 sanitizeInput()+trim() 적용해 payload 구성 (백엔드 parameterized query 필수)
-        await new Promise(r => window.setTimeout(r, 600));
-        setSubmitting(false);
-        navigate(ROUTES.FEED, {
-            replace: true,
-            state: { toast: '프로필 수정에 성공했습니다!' },
+        setAppealError(null);
+        submitUpdate({
+            nickname: sanitizeInput(values.nickname).trim(),
+            mbti: values.mbti.trim(),
+            appeals: appeals.map((k) => sanitizeInput(k).trim()),
+            contact: sanitizeInput(values.contact).trim(),
         });
     });
 
-    const updateKeyword = (idx: number, val: string) => {
-        setKeywords(ks => ks.map((k, i) => (i === idx ? val : k)));
-        setKeywordError(null);
+    const updateAppeal = (idx: number, val: string) => {
+        setAppeals((ks) => ks.map((k, i) => (i === idx ? val : k)));
+        setAppealError(null);
     };
-    const removeKeyword = (idx: number) => {
-        setKeywords(ks => ks.filter((_, i) => i !== idx));
-        setKeywordError(null);
+    const removeAppeal = (idx: number) => {
+        setAppeals((ks) => ks.filter((_, i) => i !== idx));
+        setAppealError(null);
     };
-    const addKeyword = () => {
-        setKeywords(ks => [...ks, '']);
-        setKeywordError(null);
+    const addAppeal = () => {
+        setAppeals((ks) => [...ks, '']);
+        setAppealError(null);
     };
+
+    if (isLoading) {
+        return (
+            <div className="flex min-h-svh items-center justify-center">
+                <SpinnerIcon className="text-pink-point size-44" />
+            </div>
+        );
+    }
 
     return (
         <form onSubmit={onSubmit} className="flex flex-1 flex-col">
@@ -72,7 +99,8 @@ export function MyEditPage() {
 
             <div className="mt-30 flex justify-center">
                 <img
-                    src={sampleImg}
+                    src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
+                    onError={(e) => { e.currentTarget.src = defaultProfileImg; }}
                     alt="내 프로필"
                     className="rounded-8 drop-shadow-card h-285 w-228 object-cover"
                 />
@@ -99,23 +127,23 @@ export function MyEditPage() {
                     label="키워드"
                     labelClass="text-22"
                     helper="* 1칸 당 최대 8자 제한이 있어요."
-                    error={keywordError}
+                    error={appealError}
                 >
                     <div className="flex flex-col gap-10">
-                        {keywords.map((kw, idx) => (
+                        {appeals.map((kw, idx) => (
                             <KeywordInput
                                 key={idx}
                                 value={kw}
-                                onChange={v => updateKeyword(idx, v)}
-                                onRemove={() => removeKeyword(idx)}
+                                onChange={(v) => updateAppeal(idx, v)}
+                                onRemove={() => removeAppeal(idx)}
                                 placeholder="최대 8자"
-                                allowRemove={keywords.length > 1}
+                                allowRemove={appeals.length > 1}
                             />
                         ))}
-                        {keywords.length < MAX_KEYWORDS && (
+                        {appeals.length < MAX_KEYWORDS && (
                             <button
                                 type="button"
-                                onClick={addKeyword}
+                                onClick={addAppeal}
                                 aria-label="키워드 추가"
                                 className="border-pink-default rounded-10 bg-white-default flex h-60 w-full items-center justify-center border"
                             >
@@ -134,8 +162,15 @@ export function MyEditPage() {
             </div>
 
             <div className="mt-auto pt-30 pb-22">
-                <CtaButton type="submit" loading={submitting} className="w-full">
-                    {submitting ? '저장 중...' : '저장하기'}
+                <CtaButton type="submit" disabled={isPending} className="w-full">
+                    {isPending ? (
+                        <span className="flex items-center justify-center gap-8">
+                            <SpinnerIcon className="size-18" />
+                            저장 중...
+                        </span>
+                    ) : (
+                        '저장하기'
+                    )}
                 </CtaButton>
             </div>
         </form>
@@ -174,12 +209,12 @@ function EditableInput({ field, onClear, placeholder }: EditableInputProps) {
             <input
                 {...field}
                 placeholder={placeholder}
-                onChange={e => {
+                onChange={(e) => {
                     e.target.value = sanitizeInput(e.target.value);
                     field.onChange(e);
                 }}
                 onFocus={() => setFocused(true)}
-                onBlur={e => {
+                onBlur={(e) => {
                     setFocused(false);
                     field.onBlur(e);
                 }}
@@ -190,7 +225,7 @@ function EditableInput({ field, onClear, placeholder }: EditableInputProps) {
                 <button
                     type="button"
                     aria-label="입력 지우기"
-                    onMouseDown={e => e.preventDefault()}
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={onClear}
                     className="text-black-400 ml-6 shrink-0"
                 >
@@ -209,19 +244,13 @@ type KeywordInputProps = {
     allowRemove: boolean;
 };
 
-function KeywordInput({
-    value,
-    onChange,
-    onRemove,
-    placeholder,
-    allowRemove,
-}: KeywordInputProps) {
+function KeywordInput({ value, onChange, onRemove, placeholder, allowRemove }: KeywordInputProps) {
     const [focused, setFocused] = useState(false);
     return (
         <div className="bg-black-100 rounded-10 flex h-60 items-center px-14">
             <input
                 value={value}
-                onChange={e => onChange(sanitizeInput(e.target.value))}
+                onChange={(e) => onChange(sanitizeInput(e.target.value))}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 placeholder={placeholder}
@@ -233,7 +262,7 @@ function KeywordInput({
                 <button
                     type="button"
                     aria-label="키워드 삭제"
-                    onMouseDown={e => e.preventDefault()}
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={onRemove}
                     className="text-black-400 ml-6 shrink-0"
                 >
@@ -255,7 +284,7 @@ function PlainInput({ field, placeholder }: PlainInputProps) {
             <input
                 {...field}
                 placeholder={placeholder}
-                onChange={e => {
+                onChange={(e) => {
                     e.target.value = sanitizeInput(e.target.value);
                     field.onChange(e);
                 }}

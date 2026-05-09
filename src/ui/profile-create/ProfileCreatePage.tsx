@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useMutation } from '@tanstack/react-query';
+
+import { generateAiImage } from '@/features/ai-image/api';
+import type { AiImageResponseDto } from '@/features/ai-image/types';
+import { registerUserOnboarding } from '@/features/user/api';
 import { ROUTES } from '@/constants/routes';
+import { toast } from '@/store/toastStore';
+import { compressImage } from '@/utils/compressImage';
 
 import { CardFormStep } from './_parts/CardFormStep';
 import type { CardFormValues } from './_parts/CardFormStep';
@@ -17,51 +24,102 @@ const MAX_ATTEMPTS = 3;
 export function ProfileCreatePage() {
     const navigate = useNavigate();
     const [step, setStep] = useState<Step>('upload');
-    const [photoUrl, setPhotoUrl] = useState<string>('');
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
+    const [aiImage, setAiImage] = useState<AiImageResponseDto | null>(null);
     const [attempts, setAttempts] = useState(0);
 
-    const handlePicked = (url: string) => {
-        setPhotoUrl(url);
+    const { mutate: startGeneration, data: generateResult } = useMutation({
+        mutationFn: generateAiImage,
+        onSuccess: (data) => {
+            if (data.status === 'DONE') {
+                setAiImage(data);
+                setStep('result');
+            }
+        },
+        onError: () => {
+            toast.error('이미지 생성에 실패했어요.');
+            setStep('upload');
+        },
+    });
+
+    const { mutateAsync: submitOnboarding } = useMutation({
+        mutationFn: registerUserOnboarding,
+        onSuccess: () => {
+            navigate(ROUTES.EXPLORE, {
+                replace: true,
+                state: { toast: '프로필 등록에 성공했어요!' },
+            });
+        },
+    });
+
+    const handlePicked = (file: File) => {
+        setPhotoFile(file);
         setStep('preview');
     };
 
-    const handleConfirmPhoto = () => {
-        setAttempts(n => n + 1);
-        setStep('generating');
+    const handleConfirmPhoto = async () => {
+        if (!photoFile) return;
+        try {
+            const compressed = await compressImage(photoFile);
+            setAttempts((n) => n + 1);
+            startGeneration(compressed);
+            setStep('generating');
+        } catch {
+            toast.error('사진을 처리하는 데 실패했어요.');
+        }
     };
 
-    const handleGeneratingDone = () => setStep('result');
+    const handleGeneratingDone = (result: AiImageResponseDto) => {
+        setAiImage(result);
+        setStep('result');
+    };
 
-    const handleRetry = () => {
-        if (attempts >= MAX_ATTEMPTS) return;
-        setPhotoUrl('');
+    const handleGeneratingError = () => {
+        toast.error('이미지 생성에 실패했어요.');
         setStep('upload');
     };
 
-    const handleConfirmResult = () => setStep('form');
+    const handleRetry = () => {
+        if (attempts >= MAX_ATTEMPTS) return;
+        setPhotoFile(null);
+        setAiImage(null);
+        setStep('upload');
+    };
 
     const handleSubmitForm = async (values: CardFormValues) => {
-        // TODO: API 연동 — 프로필 생성
-        void values;
-        await new Promise(r => window.setTimeout(r, 700));
-        navigate(ROUTES.FEED, {
-            replace: true,
-            state: { toast: '프로필 등록에 성공했어요!' },
-        });
+        try {
+            await submitOnboarding({
+                nickname: values.nickname,
+                mbti: values.mbti,
+                appeals: values.appeals,
+                contact: values.contact,
+                gender: values.gender,
+            });
+        } catch {
+            toast.error('프로필 등록에 실패했어요.');
+        }
     };
 
     if (step === 'upload') return <PhotoUploadStep onPicked={handlePicked} />;
-    if (step === 'preview')
-        return <PhotoPreviewStep photoUrl={photoUrl} onConfirm={handleConfirmPhoto} />;
-    if (step === 'generating') return <GeneratingStep onDone={handleGeneratingDone} />;
-    if (step === 'result')
+    if (step === 'preview' && photoFile)
+        return <PhotoPreviewStep file={photoFile} onConfirm={handleConfirmPhoto} />;
+    if (step === 'generating')
+        return (
+            <GeneratingStep
+                aiImageId={generateResult?.aiImageId ?? null}
+                onDone={handleGeneratingDone}
+                onError={handleGeneratingError}
+            />
+        );
+    if (step === 'result' && aiImage)
         return (
             <ResultStep
-                photoUrl={photoUrl}
+                generatedImageUrl={aiImage.generatedImageUrl}
+                aiImageId={aiImage.aiImageId}
                 attempts={attempts}
                 maxAttempts={MAX_ATTEMPTS}
                 onRetry={handleRetry}
-                onConfirm={handleConfirmResult}
+                onConfirm={() => setStep('form')}
             />
         );
     return <CardFormStep onSubmit={handleSubmitForm} />;
