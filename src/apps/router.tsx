@@ -20,6 +20,7 @@ import { NotFoundPage } from '@/ui/error/NotFoundPage';
 import { SplashPage } from '@/ui/splash/SplashPage';
 
 import { Layout } from './layout/Layout';
+import { ProtectedRoute } from './ProtectedRoute';
 
 export const router = createBrowserRouter([
     {
@@ -28,20 +29,25 @@ export const router = createBrowserRouter([
             { path: ROUTES.ROOT, element: <SplashPage /> },
             { path: ROUTES.LOGIN, element: <LoginPage /> },
             { path: ROUTES.KAKAO_CALLBACK, element: <KakaoCallbackPage /> },
-            { path: ROUTES.ONBOARDING, element: <OnboardingPage /> },
-            { path: ROUTES.TERMS, element: <TermsPage /> },
-            { path: ROUTES.PROFILE_CREATE, element: <ProfileCreatePage /> },
-            { path: ROUTES.FEED, element: <FeedPage /> },
-            { path: ROUTES.CARD_DETAIL, element: <CardDetailPage /> },
-            { path: ROUTES.EXPLORE, element: <ExplorePage /> },
-            { path: ROUTES.COUPON, element: <CouponPage /> },
-            { path: ROUTES.PAYMENT, element: <PaymentPage /> },
-            { path: ROUTES.PAYMENT_PG, element: <PaymentPgPage /> },
-            { path: ROUTES.ME, element: <MyPage /> },
-            { path: ROUTES.ME_EDIT, element: <MyEditPage /> },
-            { path: ROUTES.SETTINGS, element: <SettingsPage /> },
             { path: ROUTES.SERVER_ERROR, element: <ServerErrorPage /> },
             { path: '*', element: <NotFoundPage /> },
+            {
+                element: <ProtectedRoute />,
+                children: [
+                    { path: ROUTES.ONBOARDING, element: <OnboardingPage /> },
+                    { path: ROUTES.TERMS, element: <TermsPage /> },
+                    { path: ROUTES.PROFILE_CREATE, element: <ProfileCreatePage /> },
+                    { path: ROUTES.FEED, element: <FeedPage /> },
+                    { path: ROUTES.CARD_DETAIL, element: <CardDetailPage /> },
+                    { path: ROUTES.EXPLORE, element: <ExplorePage /> },
+                    { path: ROUTES.COUPON, element: <CouponPage /> },
+                    { path: ROUTES.PAYMENT, element: <PaymentPage /> },
+                    { path: ROUTES.PAYMENT_PG, element: <PaymentPgPage /> },
+                    { path: ROUTES.ME, element: <MyPage /> },
+                    { path: ROUTES.ME_EDIT, element: <MyEditPage /> },
+                    { path: ROUTES.SETTINGS, element: <SettingsPage /> },
+                ],
+            },
         ],
     },
 ]);

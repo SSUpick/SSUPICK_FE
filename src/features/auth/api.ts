@@ -7,3 +7,5 @@ export const kakaoLogin = (body: AuthKakaoLoginRequestDto) =>
     http
         .post<CommonResponse<AuthKakaoLoginResponseDto>>('/api/oauth/kakao/login', body)
         .then(r => r.data.data);
+
+export const logout = () => http.post<CommonResponse<null>>('/api/auth/logout');
