@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
+import ssunuImg from '@/assets/ssuny.webp';
 import { OutlineChipButton } from '@/components/button/OutlineChipButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
@@ -24,6 +25,7 @@ export function MyPage() {
     const { data: viewList, isLoading: viewLoading } = useProfileViewList();
 
     const users = tab === 'opened' ? (viewList?.viewedUsers ?? []) : (viewList?.viewerUsers ?? []);
+    const isIncomplete = profile?.onboardingStatus === 'INCOMPLETE';
 
     if (profileLoading) {
         return (
@@ -50,22 +52,37 @@ export function MyPage() {
             />
 
             <section className="mt-30 flex flex-col items-center">
-                <img
-                    src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
-                    onError={e => {
-                        e.currentTarget.src = defaultProfileImg;
-                    }}
-                    alt={profile?.nickname ?? '프로필'}
-                    className="rounded-10 h-171 w-137 object-cover"
-                />
+                <div className="relative">
+                    <img
+                        src={isIncomplete ? ssunuImg : getImageUrl(profile?.profileUrl, defaultProfileImg)}
+                        onError={e => {
+                            e.currentTarget.src = defaultProfileImg;
+                        }}
+                        alt={profile?.nickname ?? '프로필'}
+                        className={`rounded-10 h-171 w-137 object-cover ${isIncomplete ? 'blur-sm' : ''}`}
+                    />
+                    {isIncomplete && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <button
+                                type="button"
+                                onClick={() => navigate(ROUTES.PROFILE_CREATE)}
+                                className="bg-pink-default text-white-default rounded-full px-20 py-10 text-sm font-semibold shadow-sm"
+                            >
+                                프로필 등록하기
+                            </button>
+                        </div>
+                    )}
+                </div>
                 <p className="text-black-900 mt-17 text-2xl font-semibold">
                     {profile?.nickname ?? ''}
                 </p>
-                <div className="mt-19">
-                    <OutlineChipButton onClick={() => navigate(ROUTES.ME_EDIT)}>
-                        내 정보 수정
-                    </OutlineChipButton>
-                </div>
+                {!isIncomplete && (
+                    <div className="mt-19">
+                        <OutlineChipButton onClick={() => navigate(ROUTES.ME_EDIT)}>
+                            내 정보 수정
+                        </OutlineChipButton>
+                    </div>
+                )}
             </section>
 
             <button
@@ -102,7 +119,9 @@ export function MyPage() {
                     <p className="text-black-700 text-lg font-semibold">
                         {tab === 'opened'
                             ? '아직 열람한 사람이 없어요!'
-                            : '아직 나를 열람한 사람이 없어요!'}
+                            : isIncomplete
+                              ? '프로필이 등록되어야 누군가 열람할 수 있어요!'
+                              : '아직 나를 열람한 사람이 없어요!'}
                     </p>
                     <AvatarIcon className="text-black-400 size-46" />
                 </div>
