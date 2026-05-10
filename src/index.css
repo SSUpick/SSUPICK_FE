@@ -28,7 +28,7 @@
 
     /* Drop shadow: 말풍선/카드 등 가벼운 그림자 (Figma 기준) */
     --drop-shadow-bubble: 0 0 5px rgba(0, 0, 0, 0.1);
-    --drop-shadow-coupon: 0 0 7px rgba(255, 80, 170, 0.1);
+    --drop-shadow-coupon: 0 0 10px rgba(255, 0, 128, 0.05);
     --drop-shadow-card: 4px 4px 20px rgba(0, 0, 0, 0.1);
 
     /* Backdrop blur: 반투명 다이얼로그/대화창 (Figma 6px) */
@@ -47,6 +47,7 @@
     --animate-bubble-float: bubble-float 2.4s ease-in-out infinite;
 
     /* Pink */
+    --color-pink-50: #ffe9ee;
     --color-pink-100: #ffe5e9;
     --color-pink-light: #fff5fa;
     --color-pink-default: #ff50aa;

@@ -219,6 +219,7 @@ export function FeedPage() {
 | --------------------------------------------------------------- | ---------------------------- | ------------------ |
 | `pink/point` `#ff339c`                                          | `--color-pink-point`         | `text-pink-point`  |
 | `pink/default` `#ff50aa`                                        | `--color-pink-default`       | `bg-pink-default`  |
+| `pink/50` `#ffe9ee` (쿠폰 결제 페이지 배경 그라데이션 끝 색)   | `--color-pink-50`            | `to-pink-50`       |
 | `pink/100` `#ffe5e9` (마이쿠폰)                                 | `--color-pink-100`           | `border-pink-100`  |
 | `kakao/yellow` `#fee500`                                        | `--color-kakao-yellow`       | `bg-kakao-yellow`  |
 | `black/900` `#000000`                                           | `--color-black-900`          | `text-black-900`   |
@@ -261,7 +262,7 @@ export function FeedPage() {
 | Figma 표기                                                                   | 토큰                   | 클래스               |
 | ---------------------------------------------------------------------------- | ---------------------- | -------------------- |
 | `0 0 5px rgba(0,0,0,0.1)` (말풍선 등 가벼운 글로우)                          | `--drop-shadow-bubble` | `drop-shadow-bubble` |
-| `0 0 7px rgba(255,80,170,0.1)` (마이쿠폰 카드 핑크 글로우)                   | `--drop-shadow-coupon` | `drop-shadow-coupon` |
+| `0 0 10px rgba(255,0,128,0.05)` (쿠폰 결제 카드 / 마이쿠폰 핑크 글로우)      | `--drop-shadow-coupon` | `drop-shadow-coupon` |
 | `4px 4px 20px rgba(0,0,0,0.1)` (프로필 수정 사진 카드)                       | `--drop-shadow-card`   | `drop-shadow-card`   |
 | `0 0 2px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.04)` (토스트, multi-layer) | `--shadow-toast`       | `shadow-toast`       |
 

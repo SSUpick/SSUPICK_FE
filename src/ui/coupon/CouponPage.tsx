@@ -25,7 +25,7 @@ export function CouponPage() {
         <div className="relative flex min-h-dvh w-full flex-col">
             <div
                 aria-hidden
-                className="bg-pink-light pointer-events-none absolute top-0 -right-20 bottom-0 -left-20"
+                className="bg-linear-to-b from-white-default to-pink-50 pointer-events-none absolute top-0 -right-20 bottom-0 -left-20"
             />
 
             <div className="relative flex flex-1 flex-col">
@@ -36,33 +36,33 @@ export function CouponPage() {
                         <SpinnerIcon className="text-pink-point size-44" />
                     </div>
                 ) : (
-                    <ul className="flex flex-col gap-12 pt-22">
+                    <ul className="flex flex-col gap-24 pt-22">
                         {(products ?? []).map(plan => (
                             <li key={plan.productCode}>
                                 <button
                                     type="button"
                                     onClick={() => handleSelect(plan)}
-                                    className="rounded-14 bg-white-default flex h-90 w-full items-center justify-between px-18"
+                                    className="rounded-14 bg-white-default border-pink-100 drop-shadow-coupon flex h-111 w-full items-center gap-28 border pt-24 pb-24 pl-24 pr-27"
                                 >
-                                    <div className="flex items-center gap-14">
-                                        <img
-                                            src={couponImg}
-                                            alt=""
-                                            aria-hidden
-                                            className="size-58 object-contain"
-                                        />
-                                        <div className="flex flex-col items-start">
-                                            <span className="text-black-800 text-lg font-bold">
+                                    <img
+                                        src={couponImg}
+                                        alt=""
+                                        aria-hidden
+                                        className="h-63 w-89 shrink-0 object-contain"
+                                    />
+                                    <div className="flex flex-1 items-center justify-between">
+                                        <div className="flex flex-col items-start gap-2">
+                                            <span className="text-black-800 text-lg font-medium">
                                                 {plan.couponCount}개
                                             </span>
-                                            <span className="text-black-400 text-xs font-medium">
+                                            <span className="text-black-700 text-xs font-normal">
                                                 {plan.couponCount}회 열람
                                             </span>
                                         </div>
+                                        <span className="text-pink-point text-22 font-medium whitespace-nowrap">
+                                            {formatPrice(plan.price)}
+                                        </span>
                                     </div>
-                                    <span className="text-pink-point text-xl font-bold">
-                                        {formatPrice(plan.price)}
-                                    </span>
                                 </button>
                             </li>
                         ))}
@@ -71,7 +71,7 @@ export function CouponPage() {
 
                 <button
                     type="button"
-                    className="text-black-400 mt-auto self-end pb-22 text-sm font-medium"
+                    className="text-black-700 mt-auto self-end pb-22 text-lg font-medium"
                 >
                     문의하기
                 </button>
