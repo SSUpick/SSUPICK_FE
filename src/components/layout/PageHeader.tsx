@@ -32,7 +32,7 @@ export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHe
                 )}
             </div>
             {title && (
-                <h1 className="text-black-800 absolute left-1/2 -translate-x-1/2 text-xl font-semibold tracking-tight">
+                <h1 className="text-black-800 absolute left-1/2 -translate-x-1/2 text-xl font-medium tracking-tight">
                     {title}
                 </h1>
             )}
