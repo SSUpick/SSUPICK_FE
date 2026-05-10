@@ -1,11 +1,16 @@
+import { useState } from 'react';
+
 import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 import { getCheckoutPage } from '@/features/payment/api';
 import type { CouponProduct } from '@/features/payment/types';
 import { toast } from '@/store/toastStore';
 
 export function useCheckout(product: CouponProduct) {
-    const { mutate: checkout, isPending } = useMutation({
+    const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
+
+    const { mutate, isPending } = useMutation({
         mutationFn: () => {
             sessionStorage.setItem('pendingCouponProduct', product);
             return getCheckoutPage(product);
@@ -29,10 +34,27 @@ export function useCheckout(product: CouponProduct) {
             document.close();
         },
         onError: err => {
+            if (axios.isAxiosError(err) && err.response?.status === 409) {
+                setIsPhoneModalOpen(true);
+                return;
+            }
             console.error('[Payment] checkout 실패', err);
             toast.error('결제 페이지를 불러오는 데 실패했어요.');
         },
     });
 
-    return { checkout, isPending };
+    const checkout = () => mutate();
+
+    const handlePhoneRegistered = () => {
+        setIsPhoneModalOpen(false);
+        mutate();
+    };
+
+    return {
+        checkout,
+        isPending,
+        isPhoneModalOpen,
+        closePhoneModal: () => setIsPhoneModalOpen(false),
+        onPhoneRegistered: handlePhoneRegistered,
+    };
 }
