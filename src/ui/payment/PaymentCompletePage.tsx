@@ -17,7 +17,10 @@ export function PaymentCompletePage() {
     const calledRef = useRef(false);
 
     const paymentId = params.get('paymentId');
-    const couponProduct = params.get('couponProduct') as CouponProduct | null;
+    // 모바일: PortOne이 redirectUrl로 직접 보내기 때문에 couponProduct가 URL에 없음
+    // sessionStorage에 저장해둔 값을 fallback으로 사용
+    const couponProduct = (params.get('couponProduct') ??
+        sessionStorage.getItem('pendingCouponProduct')) as CouponProduct | null;
 
     useEffect(() => {
         if (!paymentId || !couponProduct || calledRef.current) return;
@@ -25,6 +28,7 @@ export function PaymentCompletePage() {
 
         verifyPayment(paymentId, { couponProduct })
             .then(() => {
+                sessionStorage.removeItem('pendingCouponProduct');
                 queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
                 navigate(ROUTES.COUPON, {
                     replace: true,
@@ -32,6 +36,7 @@ export function PaymentCompletePage() {
                 });
             })
             .catch(err => {
+                sessionStorage.removeItem('pendingCouponProduct');
                 if (axios.isAxiosError(err) && err.response?.status === 409) {
                     queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
                     navigate(ROUTES.COUPON, {
