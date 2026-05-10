@@ -5,6 +5,7 @@ export const ROUTES = {
     ONBOARDING: '/onboarding',
     TERMS: '/terms',
     PRIVACY: '/privacy',
+    REFUND: '/refund',
     PROFILE_CREATE: '/profile/create',
     FEED: '/feed',
     CARD_DETAIL: '/feed/:profileId',
