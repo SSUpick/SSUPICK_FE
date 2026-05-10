@@ -130,9 +130,9 @@ export function MyPage() {
                 <div className="rounded-20 bg-black-100 mt-26 flex h-146 w-full flex-col items-center gap-31 pt-15 mb-14">
                     <p className="text-black-700 text-lg font-semibold">
                         {tab === 'opened'
-                            ? '아직 조회한 프로필이 없어요!'
+                            ? '아직 조회한 사람이 없어요!'
                             : isIncomplete
-                              ? '프로필이 등록되어야 나를 조회할 수 있어요!'
+                              ? '프로필이 등록되어야 누군가를 조회할 수 있어요!'
                               : '아직 나를 조회한 사람이 없어요!'}
                     </p>
                     <AvatarIcon className="text-black-400 size-46" />
