@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { useMutation } from '@tanstack/react-query';
+
 import couponImg from '@/assets/coupon.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { usePayment } from '@/features/payment/hooks/usePayment';
+import { getCheckoutPage } from '@/features/payment/api';
 import type { CouponProduct } from '@/features/payment/types';
+import { toast } from '@/store/toastStore';
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
@@ -14,14 +17,32 @@ export function PaymentPage() {
     const count = Number(params.get('count') ?? '1');
     const price = Number(params.get('price') ?? '1000');
     const product = (params.get('product') ?? 'COUPON_1') as CouponProduct;
-    const orderName = params.get('orderName') ?? `쿠폰 ${count}개`;
 
     const [method, setMethod] = useState<'card' | null>('card');
-    const { pay, isPending } = usePayment();
 
-    const handlePay = () => {
-        pay(product, price, orderName);
-    };
+    const { mutate: checkout, isPending } = useMutation({
+        mutationFn: () => getCheckoutPage(product),
+        onSuccess: (html) => {
+            const redirectUrl = `${window.location.origin}/payment/pg?couponProduct=${product}`;
+
+            // checkout HTML이 response 수신 후 redirect를 하지 않으므로 직접 주입
+            const modifiedHtml = html.replace(
+                'console.log("response:", response);',
+                `console.log("response:", response);
+      if (response && response.paymentId && !response.code) {
+        window.location.href = '${redirectUrl}&paymentId=' + response.paymentId;
+      }`,
+            );
+
+            document.open();
+            document.write(modifiedHtml);
+            document.close();
+        },
+        onError: (err) => {
+            console.error('[Payment] checkout 실패', err);
+            toast.error('결제 페이지를 불러오는 데 실패했어요.');
+        },
+    });
 
     return (
         <div className="bg-white-default flex min-h-svh flex-col">
@@ -58,9 +79,9 @@ export function PaymentPage() {
             <div className="mt-auto pb-22">
                 <CtaButton
                     className="w-full"
-                    onClick={handlePay}
+                    onClick={() => checkout()}
+                    disabled={method === null || isPending}
                     loading={isPending}
-                    disabled={method === null}
                 >
                     {formatPrice(price)} 결제하기
                 </CtaButton>

@@ -13,7 +13,7 @@ export type PaymentVerifyResponseDto = {
 };
 
 export type CouponProductResponseDto = {
-    productCode: string;
+    productCode: CouponProduct;
     orderName: string;
     couponCount: number;
     price: number;

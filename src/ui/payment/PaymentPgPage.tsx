@@ -1,16 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+
 import { PageHeader } from '@/components/layout/PageHeader';
 import { verifyPayment } from '@/features/payment/api';
 import type { CouponProduct } from '@/features/payment/types';
 import { ROUTES } from '@/constants/routes';
 import { toast } from '@/store/toastStore';
 
-// 모바일에서 PortOne 리다이렉트 후 paymentId / couponProduct 쿼리로 돌아옴
 export function PaymentPgPage() {
     const [params] = useSearchParams();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const calledRef = useRef(false);
 
     const paymentId = params.get('paymentId');
@@ -22,16 +25,25 @@ export function PaymentPgPage() {
 
         verifyPayment(paymentId, { couponProduct })
             .then(() => {
+                queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
                 navigate(ROUTES.COUPON, {
                     replace: true,
                     state: { toast: '쿠폰 충전이 완료됐어요!' },
                 });
             })
-            .catch(() => {
+            .catch((err) => {
+                if (axios.isAxiosError(err) && err.response?.status === 409) {
+                    queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
+                    navigate(ROUTES.COUPON, {
+                        replace: true,
+                        state: { toast: '쿠폰 충전이 완료됐어요!' },
+                    });
+                    return;
+                }
                 toast.error('결제 검증에 실패했어요. 고객센터에 문의해주세요.');
                 navigate(ROUTES.COUPON, { replace: true });
             });
-    }, [paymentId, couponProduct, navigate]);
+    }, [paymentId, couponProduct, navigate, queryClient]);
 
     return (
         <div className="bg-white-default flex min-h-svh flex-col">
