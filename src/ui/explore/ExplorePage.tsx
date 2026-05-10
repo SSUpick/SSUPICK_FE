@@ -29,7 +29,7 @@ export function ExplorePage() {
         <div className="bg-white-default flex min-h-svh w-full flex-col">
             <FeedHeader title="이상형을 찾아보세요!" />
 
-            <div className="flex gap-10 px-22 pb-16">
+            <div className="flex gap-10 pb-16">
                 {FILTER_OPTIONS.map(({ label, value }) => (
                     <button
                         key={value}

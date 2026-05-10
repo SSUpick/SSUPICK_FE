@@ -29,7 +29,7 @@ export function ProfileCard({
         <button
             type="button"
             onClick={onClick}
-            className="flex h-301 w-160 flex-col items-start gap-7"
+            className="flex w-full flex-col items-start gap-7"
         >
             <img
                 src={getImageUrl(profileUrl, defaultProfileImg)}
@@ -37,7 +37,7 @@ export function ProfileCard({
                     e.currentTarget.src = defaultProfileImg;
                 }}
                 alt={nickname}
-                className="rounded-8 h-200 w-160 object-cover"
+                className="rounded-8 aspect-3/4 w-full object-cover"
             />
             <div className="flex flex-col items-start gap-2">
                 <div className="flex items-center gap-4">

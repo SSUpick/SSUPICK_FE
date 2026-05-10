@@ -188,7 +188,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 </FormSection>
             </div>
 
-            <div className="bg-white-default sticky bottom-0 pt-14 pb-22">
+            <div className="px-8 pt-14 pb-22">
                 <CtaButton type="submit" disabled={!formValid || submitting} className="w-full">
                     {submitting ? (
                         <span className="flex items-center justify-center gap-8">

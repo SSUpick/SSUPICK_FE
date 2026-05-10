@@ -18,14 +18,14 @@ export function PageHeader({ title, showBack = true, onBack, rightSlot }: PageHe
     };
 
     return (
-        <header className="relative flex h-44 items-center justify-between">
+        <header className="relative flex min-h-52 items-center justify-between py-14">
             <div className="flex items-center">
                 {showBack && (
                     <button
                         type="button"
                         aria-label="뒤로 가기"
                         onClick={handleBack}
-                        className="text-black-800"
+                        className="text-black-800 z-1"
                     >
                         <ChevronLeftIcon className="size-24" />
                     </button>

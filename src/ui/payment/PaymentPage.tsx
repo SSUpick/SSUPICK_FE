@@ -22,7 +22,7 @@ export function PaymentPage() {
 
     const { mutate: checkout, isPending } = useMutation({
         mutationFn: () => getCheckoutPage(product),
-        onSuccess: (html) => {
+        onSuccess: html => {
             const redirectUrl = `${window.location.origin}/payment/pg?couponProduct=${product}`;
 
             // checkout HTML이 response 수신 후 redirect를 하지 않으므로 직접 주입
@@ -38,7 +38,7 @@ export function PaymentPage() {
             document.write(modifiedHtml);
             document.close();
         },
-        onError: (err) => {
+        onError: err => {
             console.error('[Payment] checkout 실패', err);
             toast.error('결제 페이지를 불러오는 데 실패했어요.');
         },
