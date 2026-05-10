@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import bg from '@/assets/bg_onBoarding_wide.webp';
+import helloVideo from '@/assets/hello.mov';
 import { CtaButton } from '@/components/button/CtaButton';
 import { DialogBubble } from '@/components/feedback/DialogBubble';
 import { PageBackground } from '@/components/layout/PageBackground';
@@ -77,11 +77,13 @@ export function OnboardingPage() {
             <PageBackground />
             <div onClick={handleTap} className="relative min-h-dvh w-full">
                 <div className="absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
-                    <img
-                        src={bg}
-                        alt=""
-                        aria-hidden
-                        className="absolute bottom-0 left-1/2 h-[120dvh] max-w-none -translate-x-1/2"
+                    <video
+                        src={helloVideo}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 size-full object-cover"
                     />
                 </div>
 
@@ -90,7 +92,7 @@ export function OnboardingPage() {
                 </div>
 
                 {current.showHint && (
-                    <p className="text-white-default/80 absolute bottom-70 left-1/2 -translate-x-1/2 animate-pulse text-lg font-semibold tracking-tight whitespace-nowrap">
+                    <p className="text-white-default/80 absolute bottom-70 left-1/2 -translate-x-1/2 animate-pulse text-lg font-medium tracking-tight whitespace-nowrap">
                         터치해서 계속하기
                     </p>
                 )}
