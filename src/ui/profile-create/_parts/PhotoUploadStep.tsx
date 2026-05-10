@@ -29,7 +29,7 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
                 <button
                     type="button"
                     onClick={handlePick}
-                    className="bg-white-default/20 backdrop-blur-bubble border-white-default rounded-14 flex h-421 w-329 items-center justify-center border-2"
+                    className="dialog-bubble-gradient-border backdrop-blur-bubble rounded-14 flex h-421 w-329 items-center justify-center"
                 >
                     <img
                         src={imgPlaceholder}
