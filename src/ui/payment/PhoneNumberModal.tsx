@@ -28,7 +28,7 @@ export function PhoneNumberModal({ open, onClose, onSuccess }: PhoneNumberModalP
     const isError = phone.length > 0 && !isValid;
 
     const { mutate: registerContact, isPending } = useMutation({
-        mutationFn: () => updateUserProfile({ contact: phone }),
+        mutationFn: () => updateUserProfile({ phoneNumber: phone }),
         onSuccess: () => {
             setPhone('');
             onSuccess();
