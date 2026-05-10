@@ -23,10 +23,11 @@ export function CardDetailPage() {
     const { data: profile, isLoading } = useTargetUserProfile(targetUserId);
     const { data: myProfile } = useUserProfile();
 
-    const [unlocked, setUnlocked] = useState(false);
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
 
     const couponCount = myProfile?.remainingCouponCount ?? 0;
+    // API가 contact를 반환하면 이미 열람한 프로필
+    const [unlocked, setUnlocked] = useState(() => !!profile?.contact);
 
     if (isLoading) {
         return (
