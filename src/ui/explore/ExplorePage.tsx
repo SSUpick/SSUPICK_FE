@@ -1,26 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { CtaButton } from '@/components/button/CtaButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
-import { cardDetailPath } from '@/constants/routes';
-import { MOCK_PROFILES } from '@/features/feed/mock';
-import { scrollToTop } from '@/utils/scroll';
+import { AvatarIcon } from '@/components/icon/AvatarIcon';
+import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
+import { ROUTES, cardDetailPath } from '@/constants/routes';
+import type { Gender } from '@/features/user/types';
+import { useUserCardList } from '@/features/user/hooks/useUserCardList';
+import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 
 import { FeedHeader } from '../feed/_parts/FeedHeader';
 
-type GenderFilter = 'all' | 'man' | 'woman';
+type GenderFilter = 'all' | Gender;
 
 const FILTER_OPTIONS: { label: string; value: GenderFilter }[] = [
     { label: '전체 보기', value: 'all' },
-    { label: '남자만 보기', value: 'man' },
-    { label: '여자만 보기', value: 'woman' },
+    { label: '남자만 보기', value: 'MALE' },
+    { label: '여자만 보기', value: 'FEMALE' },
 ];
+
+const SCROLL_THRESHOLD = 300;
 
 export function ExplorePage() {
     const navigate = useNavigate();
     const [filter, setFilter] = useState<GenderFilter>('all');
+    const { data: cards, isLoading } = useUserCardList();
+    const { data: profile } = useUserProfile();
 
-    const filtered = MOCK_PROFILES.filter(p => filter === 'all' || p.gender === filter);
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => setShowScrollTop(window.scrollY > SCROLL_THRESHOLD);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const filtered = (cards ?? []).filter(p => filter === 'all' || p.gender === filter);
+    const showProfileCta = profile?.onboardingStatus === 'INCOMPLETE';
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
@@ -43,18 +60,60 @@ export function ExplorePage() {
                 ))}
             </div>
 
-            <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 pb-30">
-                {filtered.map(p => (
-                    <ProfileCard
-                        key={p.id}
-                        {...p}
-                        onClick={() => {
-                            scrollToTop();
-                            navigate(cardDetailPath(p.id));
-                        }}
-                    />
-                ))}
-            </main>
+            {isLoading ? (
+                <div className="flex flex-1 items-center justify-center">
+                    <SpinnerIcon className="text-pink-point size-44" />
+                </div>
+            ) : filtered.length === 0 ? (
+                <div className="flex flex-1 flex-col items-center justify-center gap-16">
+                    <AvatarIcon className="text-black-300 size-60" />
+                    <p className="text-black-400 text-base font-medium">아직 주민이 없어요!</p>
+                </div>
+            ) : (
+                <main
+                    className={`grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 ${showProfileCta ? 'pb-110' : 'pb-30'}`}
+                >
+                    {filtered.map(p => (
+                        <ProfileCard
+                            key={p.userId}
+                            {...p}
+                            onClick={() => navigate(cardDetailPath(String(p.userId)))}
+                        />
+                    ))}
+                </main>
+            )}
+
+            {/* 프로필 미등록 유저 CTA */}
+            {showProfileCta && (
+                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-gradient-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
+                    <CtaButton onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
+                        내 프로필 등록하기
+                    </CtaButton>
+                </div>
+            )}
+
+            {/* 맨 위로 가기 버튼 — 프로필 CTA가 있으면 위로 올림 */}
+            <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                aria-label="맨 위로 가기"
+                className={`bg-pink-default text-white-default fixed right-20 z-40 flex size-44 items-center justify-center rounded-full shadow-lg transition-all duration-200 ${
+                    showProfileCta ? 'bottom-100' : 'bottom-32'
+                } ${showScrollTop ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="size-20"
+                    aria-hidden
+                >
+                    <path d="M18 15l-6-6-6 6" />
+                </svg>
+            </button>
         </div>
     );
 }

@@ -5,7 +5,7 @@ import imgPlaceholder from '@/assets/img.webp';
 import { BackdropScene } from './BackdropScene';
 
 type PhotoUploadStepProps = {
-    onPicked: (dataUrl: string) => void;
+    onPicked: (file: File) => void;
 };
 
 export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
@@ -16,9 +16,7 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => onPicked(String(reader.result));
-        reader.readAsDataURL(file);
+        onPicked(file);
     };
 
     return (
@@ -43,7 +41,13 @@ export function PhotoUploadStep({ onPicked }: PhotoUploadStepProps) {
 
                 <div className="h-42 bg-transparent" />
 
-                <input ref={inputRef} type="file" accept="image/*" hidden onChange={handleChange} />
+                <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/jpeg,image/png"
+                    hidden
+                    onChange={handleChange}
+                />
             </section>
         </BackdropScene>
     );

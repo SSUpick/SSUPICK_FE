@@ -5,9 +5,7 @@ declare global {
     }
 }
 
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as
-    | string
-    | undefined;
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
 
 /** GA4 초기화. Vite mode가 production이고 ID가 주입된 경우에만 동작. */
 export function initAnalytics() {

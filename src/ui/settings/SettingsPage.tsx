@@ -1,12 +1,13 @@
 import { Fragment, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Modal } from '@/components/feedback/Modal';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
-import { toast } from '@/store/toastStore';
+import { useLogout } from '@/features/auth/hooks/useLogout';
+import { useWithdraw } from '@/features/auth/hooks/useWithdraw';
 
 const KAKAO_CHANNEL = 'http://pf.kakao.com/_xjJrxbX/chat';
 
@@ -17,6 +18,7 @@ type SettingsItem = {
     to?: string;
     onClick?: () => void;
     showArrow?: boolean;
+    disabled?: boolean;
 };
 
 type SettingsSection = {
@@ -25,23 +27,20 @@ type SettingsSection = {
 };
 
 export function SettingsPage() {
-    const navigate = useNavigate();
     const [modal, setModal] = useState<ModalKind>(null);
+    const { mutate: logoutMutate, isPending: isLoggingOut } = useLogout();
+    const { mutate: withdrawMutate, isPending: isWithdrawing } = useWithdraw();
 
     const closeModal = () => setModal(null);
 
     const handleLogout = () => {
-        // TODO: API 연동 — 로그아웃 (토큰 클리어, 캐시 초기화)
         closeModal();
-        navigate(ROUTES.LOGIN, { replace: true });
-        toast.success('로그아웃됐어요.');
+        logoutMutate();
     };
 
     const handleWithdraw = () => {
-        // TODO: API 연동 — 회원 탈퇴
         closeModal();
-        navigate(ROUTES.LOGIN, { replace: true });
-        toast.success('탈퇴 처리됐어요.');
+        withdrawMutate();
     };
 
     const sections: SettingsSection[] = [
@@ -56,8 +55,8 @@ export function SettingsPage() {
             label: '계정 설정',
             items: [
                 { label: '문의하기', onClick: () => setModal('inquiry'), showArrow: true },
-                { label: '로그아웃', onClick: () => setModal('logout') },
-                { label: '회원탈퇴', onClick: () => setModal('withdraw') },
+                { label: '로그아웃', onClick: () => setModal('logout'), disabled: isLoggingOut },
+                { label: '회원탈퇴', onClick: () => setModal('withdraw'), disabled: isWithdrawing },
             ],
         },
     ];
@@ -121,7 +120,7 @@ function SectionDivider() {
     );
 }
 
-function SettingsRow({ label, to, onClick, showArrow }: SettingsItem) {
+function SettingsRow({ label, to, onClick, showArrow, disabled }: SettingsItem) {
     const inner = (
         <span className="text-black-800 flex h-42 w-full items-center justify-between px-24 text-base font-semibold tracking-tight">
             {label}
@@ -138,7 +137,12 @@ function SettingsRow({ label, to, onClick, showArrow }: SettingsItem) {
     }
 
     return (
-        <button type="button" onClick={onClick} className="block w-full text-left">
+        <button
+            type="button"
+            onClick={onClick}
+            disabled={disabled}
+            className="block w-full text-left disabled:opacity-50"
+        >
             {inner}
         </button>
     );
@@ -151,9 +155,7 @@ type InquiryDialogProps = {
 function InquiryDialog({ onClose }: InquiryDialogProps) {
     return (
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
-            <p className="text-black-800 text-base font-semibold tracking-tight">
-                문의 채널
-            </p>
+            <p className="text-black-800 text-base font-semibold tracking-tight">문의 채널</p>
             <p className="text-black-500 text-center text-sm leading-22 font-medium tracking-tight">
                 서비스 이용 중 궁금한 점이 있다면
                 <br />
@@ -221,7 +223,7 @@ function ConfirmDialog({
                 <button
                     type="button"
                     onClick={onConfirm}
-                    className="bg-red-100 text-red-default rounded-14 flex h-58 w-full items-center justify-center text-lg font-semibold"
+                    className="text-red-default rounded-14 flex h-58 w-full items-center justify-center bg-red-100 text-lg font-semibold"
                 >
                     {confirmLabel}
                 </button>

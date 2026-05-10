@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
+import { SessionExpiredModal } from '@/components/feedback/SessionExpiredModal';
 import { ToastContainer } from '@/components/feedback/ToastContainer';
 
 export function Layout() {
@@ -9,6 +10,7 @@ export function Layout() {
                 <Outlet />
             </div>
             <ToastContainer />
+            <SessionExpiredModal />
         </div>
     );
 }

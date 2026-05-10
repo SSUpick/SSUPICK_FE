@@ -1,73 +1,73 @@
 import sampleImg from '@/assets/bg_onBoarding.webp';
 
-import type { FeedProfile } from './types';
+import type { UserCardResponseDto } from '@/features/user/types';
 
-export const MOCK_PROFILES: FeedProfile[] = [
+export const MOCK_PROFILES: UserCardResponseDto[] = [
     {
-        id: '1',
-        imageUrl: sampleImg,
+        userId: 1,
+        profileUrl: sampleImg,
         nickname: '숭실대 카리나',
         mbti: 'INTJ',
-        keywords: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
-        gender: 'woman',
+        appeals: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
+        gender: 'FEMALE',
     },
     {
-        id: '2',
-        imageUrl: sampleImg,
+        userId: 2,
+        profileUrl: sampleImg,
         nickname: '숭실대 차은우',
         mbti: 'ESFP',
-        keywords: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
-        gender: 'man',
+        appeals: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
+        gender: 'MALE',
     },
     {
-        id: '3',
-        imageUrl: sampleImg,
+        userId: 3,
+        profileUrl: sampleImg,
         nickname: '숭실대 카리나',
         mbti: 'INTJ',
-        keywords: ['고양이상', '청순'],
-        gender: 'woman',
+        appeals: ['고양이상', '청순'],
+        gender: 'FEMALE',
     },
     {
-        id: '4',
-        imageUrl: sampleImg,
+        userId: 4,
+        profileUrl: sampleImg,
         nickname: '숭실대 차은우',
         mbti: 'ESFP',
-        keywords: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
-        gender: 'man',
+        appeals: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
+        gender: 'MALE',
     },
     {
-        id: '5',
-        imageUrl: sampleImg,
+        userId: 5,
+        profileUrl: sampleImg,
         nickname: '숭실대 카리나',
         mbti: 'INTJ',
-        keywords: ['고양이상', '청순'],
-        gender: 'woman',
+        appeals: ['고양이상', '청순'],
+        gender: 'FEMALE',
     },
     {
-        id: '6',
-        imageUrl: sampleImg,
+        userId: 6,
+        profileUrl: sampleImg,
         nickname: '숭실대 차은우',
         mbti: 'ESFP',
-        keywords: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
-        gender: 'man',
+        appeals: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
+        gender: 'MALE',
     },
     {
-        id: '7',
-        imageUrl: sampleImg,
+        userId: 7,
+        profileUrl: sampleImg,
         nickname: '숭실대 카리나',
         mbti: 'INTJ',
-        keywords: ['고양이상', '청순'],
-        gender: 'woman',
+        appeals: ['고양이상', '청순'],
+        gender: 'FEMALE',
     },
     {
-        id: '8',
-        imageUrl: sampleImg,
+        userId: 8,
+        profileUrl: sampleImg,
         nickname: '숭실대 차은우',
         mbti: 'ESFP',
-        keywords: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
-        gender: 'man',
+        appeals: ['최대8글자입니다', '최대8글자입니다', '최대8글자입니다'],
+        gender: 'MALE',
     },
 ];
 
-export const findProfileById = (id: string): FeedProfile | undefined =>
-    MOCK_PROFILES.find(p => p.id === id);
+export const findProfileById = (id: string): UserCardResponseDto | undefined =>
+    MOCK_PROFILES.find(p => String(p.userId) === id);

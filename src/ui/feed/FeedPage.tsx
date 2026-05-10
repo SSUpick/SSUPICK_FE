@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { cardDetailPath } from '@/constants/routes';
 import { MOCK_PROFILES } from '@/features/feed/mock';
+import type { Gender } from '@/features/user/types';
 import { useNavigateToast } from '@/hooks/useNavigateToast';
 
 import { FeedHeader } from './_parts/FeedHeader';
 
-type FeedFilter = 'all' | 'man' | 'woman';
+type FeedFilter = 'all' | Gender;
 
 const FILTERS: { key: FeedFilter; label: string }[] = [
     { key: 'all', label: '전체 보기' },
-    { key: 'man', label: '남자만 보기' },
-    { key: 'woman', label: '여자만 보기' },
+    { key: 'MALE', label: '남자만 보기' },
+    { key: 'FEMALE', label: '여자만 보기' },
 ];
 
 export function FeedPage() {
@@ -50,7 +51,11 @@ export function FeedPage() {
 
             <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 pb-30">
                 {profiles.map(p => (
-                    <ProfileCard key={p.id} {...p} onClick={() => navigate(cardDetailPath(p.id))} />
+                    <ProfileCard
+                        key={p.userId}
+                        {...p}
+                        onClick={() => navigate(cardDetailPath(String(p.userId)))}
+                    />
                 ))}
             </main>
         </div>

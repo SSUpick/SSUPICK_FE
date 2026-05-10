@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
 
 import chatBubble_white from '@/assets/chatBubble_white.svg';
 import waitingVideo from '@/assets/loop_video.mp4';
+import { getAiImageStatus } from '@/features/ai-image/api';
+import type { AiImageResponseDto } from '@/features/ai-image/types';
 
 type Bubble = { id: number; text: string };
 
@@ -12,19 +16,21 @@ const TIMELINE: { time: number; text: string }[] = [
     { time: 8000, text: '곧 만나자, 너만의 캐릭터로!' },
 ];
 
-// reverseIndex 0 = 가장 아래(최신 등장), 2 = 가장 위(가장 오래된)
 const TOP_CLASSES = ['top-240', 'top-160', 'top-80'];
-
-const TOTAL_DURATION = 10000;
 const MAX_BUBBLES = 3;
+const POLL_INTERVAL = 2000;
 
 type GeneratingStepProps = {
-    onDone: () => void;
+    aiImageId: number | null;
+    onDone: (result: AiImageResponseDto) => void;
+    onError: () => void;
 };
 
-export function GeneratingStep({ onDone }: GeneratingStepProps) {
+export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepProps) {
     const [bubbles, setBubbles] = useState<Bubble[]>([]);
+    const handledRef = useRef(false);
 
+    // 말풍선 애니메이션 타임라인
     useEffect(() => {
         let nextId = 0;
         const timers = TIMELINE.map(({ time, text }) =>
@@ -32,13 +38,31 @@ export function GeneratingStep({ onDone }: GeneratingStepProps) {
                 setBubbles(prev => [...prev, { id: nextId++, text }].slice(-MAX_BUBBLES));
             }, time),
         );
-        const doneTimer = window.setTimeout(onDone, TOTAL_DURATION);
+        return () => timers.forEach(window.clearTimeout);
+    }, []);
 
-        return () => {
-            timers.forEach(window.clearTimeout);
-            window.clearTimeout(doneTimer);
-        };
-    }, [onDone]);
+    // 상태 폴링
+    const { data: statusData } = useQuery({
+        queryKey: ['ai-image', aiImageId, 'status'],
+        queryFn: () => getAiImageStatus(aiImageId!),
+        enabled: aiImageId !== null,
+        refetchInterval: query => {
+            const status = query.state.data?.status;
+            if (status === 'DONE' || status === 'FAILED') return false;
+            return POLL_INTERVAL;
+        },
+    });
+
+    useEffect(() => {
+        if (!statusData || handledRef.current) return;
+        if (statusData.status === 'DONE') {
+            handledRef.current = true;
+            onDone(statusData);
+        } else if (statusData.status === 'FAILED') {
+            handledRef.current = true;
+            onError();
+        }
+    }, [statusData, onDone, onError]);
 
     return (
         <div className="relative min-h-dvh w-full">

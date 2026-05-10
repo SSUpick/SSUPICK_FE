@@ -1,15 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-
 import bg from '@/assets/bg_onBoarding_wide.webp';
 import chatBubble_gray from '@/assets/chatBubble_gray.svg';
 import { KakaoButton } from '@/components/button/KakaoButton';
 import { PageBackground } from '@/components/layout/PageBackground';
-import { ROUTES } from '@/constants/routes';
+import { useNavigateToast } from '@/hooks/useNavigateToast';
+
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&response_type=code`;
+
+function handleKakaoLogin() {
+    window.location.href = KAKAO_AUTH_URL;
+}
 
 export function LoginPage() {
-    const navigate = useNavigate();
-
-    //TODO: 카카오 로그인 연동
+    useNavigateToast();
 
     return (
         <>
@@ -44,10 +46,10 @@ export function LoginPage() {
                             </p>
                         </div>
                     </div>
+                </div>
 
-                    <div className="absolute inset-x-0 bottom-48">
-                        <KakaoButton onClick={() => navigate(ROUTES.ONBOARDING)} />
-                    </div>
+                <div className="absolute inset-x-0 bottom-48">
+                    <KakaoButton onClick={handleKakaoLogin} />
                 </div>
             </div>
         </>

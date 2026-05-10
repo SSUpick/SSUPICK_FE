@@ -1,26 +1,63 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { ROUTES } from '@/constants/routes';
+import { useMutation } from '@tanstack/react-query';
+
 import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
+import { ROUTES } from '@/constants/routes';
+import { kakaoLogin } from '@/features/auth/api';
+import type { DeviceType } from '@/features/auth/types';
+import { useAuthStore } from '@/store/authStore';
+import { toast } from '@/store/toastStore';
+
+function getDeviceType(): DeviceType {
+    if (/android/i.test(navigator.userAgent)) return 'ANDROID';
+    return 'IOS';
+}
 
 export function KakaoCallbackPage() {
     const navigate = useNavigate();
     const [params] = useSearchParams();
+    const setTokens = useAuthStore(s => s.setTokens);
+    const hasFired = useRef(false);
+
+    const { mutate } = useMutation({
+        mutationFn: kakaoLogin,
+        onSuccess: data => {
+            setTokens(data.accessToken, data.refreshToken);
+
+            if (data.onboardingCompleted) {
+                navigate(ROUTES.EXPLORE, { replace: true });
+            } else {
+                navigate(ROUTES.ONBOARDING, { replace: true });
+            }
+        },
+        onError: () => {
+            toast.error('로그인에 실패했어요.');
+            navigate(ROUTES.LOGIN, { replace: true });
+        },
+    });
 
     useEffect(() => {
+        if (hasFired.current) return;
+        hasFired.current = true;
+
         const code = params.get('code');
-        // TODO: API 연동 — 카카오 인가 코드로 로그인
         if (!code) {
             navigate(ROUTES.LOGIN, { replace: true });
             return;
         }
-        navigate(ROUTES.ONBOARDING, { replace: true });
-    }, [navigate, params]);
+
+        mutate({
+            code,
+            deviceType: getDeviceType(),
+            redirectType: import.meta.env.PROD ? 'PROD' : 'LOCAL',
+        });
+    }, [mutate, navigate, params]);
 
     return (
-        <div className="bg-pink-light text-pink-point flex min-h-svh items-center justify-center">
-            <SpinnerIcon className="size-44" />
+        <div className="flex min-h-dvh items-center justify-center">
+            <SpinnerIcon className="text-pink-point size-44" />
         </div>
     );
 }

@@ -1,35 +1,37 @@
-import womanIcon from '@/assets/woman_icon.svg';
+import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import manIcon from '@/assets/man_icon.svg';
+import womanIcon from '@/assets/woman_icon.svg';
+import type { Gender } from '@/features/user/types';
+import { getImageUrl } from '@/utils/getImageUrl';
 
 type ProfileCardProps = {
-    imageUrl: string;
+    profileUrl: string;
     nickname: string;
     mbti: string;
-    keywords: string[];
-    gender: 'woman' | 'man';
+    appeals: string[];
+    gender: Gender;
     onClick?: () => void;
 };
 
 export function ProfileCard({
-    imageUrl,
+    profileUrl,
     nickname,
     mbti,
-    keywords,
+    appeals,
     gender,
     onClick,
 }: ProfileCardProps) {
-    const isWoman = gender === 'woman';
+    const isWoman = gender === 'FEMALE';
     const genderIcon = isWoman ? womanIcon : manIcon;
     const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
 
     return (
-        <button
-            type="button"
-            onClick={onClick}
-            className="flex w-full flex-col items-start gap-7"
-        >
+        <button type="button" onClick={onClick} className="flex w-full flex-col items-start gap-7">
             <img
-                src={imageUrl}
+                src={getImageUrl(profileUrl, defaultProfileImg)}
+                onError={e => {
+                    e.currentTarget.src = defaultProfileImg;
+                }}
                 alt={nickname}
                 className="rounded-8 aspect-3/4 w-full object-cover"
             />
@@ -46,8 +48,8 @@ export function ProfileCard({
                     </span>
                 </div>
                 <ul className="text-black-700 flex flex-col items-start gap-2 text-xs leading-22 font-medium">
-                    {keywords.slice(0, 3).map((kw, idx) => (
-                        <li key={`${idx}-${kw}`}>#{kw}</li>
+                    {appeals.slice(0, 3).map((appeal, idx) => (
+                        <li key={`${idx}-${appeal}`}>#{appeal}</li>
                     ))}
                 </ul>
             </div>
