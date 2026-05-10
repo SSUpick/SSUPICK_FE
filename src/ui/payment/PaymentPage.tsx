@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useMutation } from '@tanstack/react-query';
-
 import couponImg from '@/assets/coupon.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { getCheckoutPage } from '@/features/payment/api';
+import { useCheckout } from '@/features/payment/hooks/useCheckout';
 import type { CouponProduct } from '@/features/payment/types';
-import { toast } from '@/store/toastStore';
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
@@ -47,29 +44,7 @@ export function PaymentPage() {
     const [method, setMethod] = useState<'card' | null>('card');
     const [agreed, setAgreed] = useState(false);
 
-    const { mutate: checkout, isPending } = useMutation({
-        mutationFn: () => getCheckoutPage(product),
-        onSuccess: html => {
-            const redirectUrl = `${window.location.origin}/payment/complete?couponProduct=${product}`;
-
-            // checkout HTML이 response 수신 후 redirect를 하지 않으므로 직접 주입
-            const modifiedHtml = html.replace(
-                'console.log("response:", response);',
-                `console.log("response:", response);
-      if (response && response.paymentId && !response.code) {
-        window.location.href = '${redirectUrl}&paymentId=' + response.paymentId;
-      }`,
-            );
-
-            document.open();
-            document.write(modifiedHtml);
-            document.close();
-        },
-        onError: err => {
-            console.error('[Payment] checkout 실패', err);
-            toast.error('결제 페이지를 불러오는 데 실패했어요.');
-        },
-    });
+    const { checkout, isPending } = useCheckout(product);
 
     return (
         <div className="bg-white-default flex min-h-svh flex-col">
