@@ -62,8 +62,8 @@ export function FeedPage() {
             <footer className="text-black-300 mt-auto flex flex-col gap-3 border-t border-black-100 pt-16 pb-30 text-xs leading-18 tracking-tight">
                 <p>상호: 슈픽 · 대표자: 백승현</p>
                 <p>사업자등록번호: 282-45-01301</p>
-                <p>통신판매신고번호: 추후 기재 예정</p>
-                <p>사업장 주소: 추후 기재 예정</p>
+                <p>통신판매신고번호: 신고 진행 중</p>
+                <p>사업장 주소: 서울특별시 동작구 상도로 395-7</p>
                 <p>고객센터: seunghyun020907@naver.com</p>
             </footer>
         </div>
