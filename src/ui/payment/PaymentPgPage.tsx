@@ -31,7 +31,7 @@ export function PaymentPgPage() {
                     state: { toast: '쿠폰 충전이 완료됐어요!' },
                 });
             })
-            .catch((err) => {
+            .catch(err => {
                 if (axios.isAxiosError(err) && err.response?.status === 409) {
                     queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
                     navigate(ROUTES.COUPON, {

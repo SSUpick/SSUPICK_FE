@@ -16,11 +16,9 @@ export const logout = () => http.post<CommonResponse<null>>('/api/auth/logout');
 
 export const reissueToken = (refreshToken: string) =>
     http
-        .post<CommonResponse<AuthReissueResponseDto>>(
-            '/api/auth/token/reissue',
-            null,
-            { headers: { 'Refresh-Token': refreshToken } },
-        )
+        .post<
+            CommonResponse<AuthReissueResponseDto>
+        >('/api/auth/token/reissue', null, { headers: { 'Refresh-Token': refreshToken } })
         .then(r => r.data.data);
 
 export const withdraw = () => http.delete<CommonResponse<null>>('/api/auth/withdraw');

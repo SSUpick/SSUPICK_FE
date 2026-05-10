@@ -137,7 +137,7 @@ Figma는 종종 **배경 + 캐릭터 + 장식을 단일 합성 이미지**로 ex
 | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | 버튼     | [src/components/button/](./src/components/button/) — `KakaoButton`, `CtaButton`, `ChipButton`, `OutlineChipButton`, `MbtiButton` |
 | 입력     | [src/components/input/](./src/components/input/) — `TextInput`                                                                   |
-| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`, `ToastContainer`, `Modal`     |
+| 피드백   | [src/components/feedback/](./src/components/feedback/) — `SpeechBubble`, `DialogBubble`, `Toast`, `ToastContainer`, `Modal`      |
 | 카드     | [src/components/card/](./src/components/card/) — `ProfileCard`                                                                   |
 | 레이아웃 | [src/components/layout/](./src/components/layout/) — `PageHeader`, `PageBackground`                                              |
 
@@ -215,18 +215,18 @@ export function FeedPage() {
 
 ### 색상
 
-| Figma 변수                                    | 프로젝트 토큰                | 클래스            |
-| --------------------------------------------- | ---------------------------- | ----------------- |
-| `pink/point` `#ff339c`                        | `--color-pink-point`         | `text-pink-point` |
-| `pink/default` `#ff50aa`                      | `--color-pink-default`       | `bg-pink-default` |
-| `pink/100` `#ffe5e9` (마이쿠폰)               | `--color-pink-100`           | `border-pink-100` |
-| `kakao/yellow` `#fee500`                      | `--color-kakao-yellow`       | `bg-kakao-yellow` |
-| `black/900` `#000000`                         | `--color-black-900`          | `text-black-900`  |
-| `black/800` `#292b32`                         | `--color-black-800`          | `text-black-800`  |
-| `black/600` `#373942` (보조 헤드라인)         | `--color-black-600`          | `text-black-600`  |
-| `toast/bg` `rgba(69,72,82,0.9)` (토스트 배경) | `--color-toast-bg` (#454852) | `bg-toast-bg/90`  |
-| `red/100` `#ffeaea` (탈퇴/로그아웃 다이얼로그 destructive 배경) | `--color-red-100`      | `bg-red-100`      |
-| `red/default` `#ff1846` (destructive 텍스트)   | `--color-red-default`  | `text-red-default` |
+| Figma 변수                                                      | 프로젝트 토큰                | 클래스             |
+| --------------------------------------------------------------- | ---------------------------- | ------------------ |
+| `pink/point` `#ff339c`                                          | `--color-pink-point`         | `text-pink-point`  |
+| `pink/default` `#ff50aa`                                        | `--color-pink-default`       | `bg-pink-default`  |
+| `pink/100` `#ffe5e9` (마이쿠폰)                                 | `--color-pink-100`           | `border-pink-100`  |
+| `kakao/yellow` `#fee500`                                        | `--color-kakao-yellow`       | `bg-kakao-yellow`  |
+| `black/900` `#000000`                                           | `--color-black-900`          | `text-black-900`   |
+| `black/800` `#292b32`                                           | `--color-black-800`          | `text-black-800`   |
+| `black/600` `#373942` (보조 헤드라인)                           | `--color-black-600`          | `text-black-600`   |
+| `toast/bg` `rgba(69,72,82,0.9)` (토스트 배경)                   | `--color-toast-bg` (#454852) | `bg-toast-bg/90`   |
+| `red/100` `#ffeaea` (탈퇴/로그아웃 다이얼로그 destructive 배경) | `--color-red-100`            | `bg-red-100`       |
+| `red/default` `#ff1846` (destructive 텍스트)                    | `--color-red-default`        | `text-red-default` |
 
 ### 텍스트 사이즈
 
@@ -270,7 +270,7 @@ export function FeedPage() {
 ### Backdrop blur / Filter blur
 
 <<<<<<< HEAD
-| Figma 표기                                      | 토큰                     | 클래스                 |
+| Figma 표기 | 토큰 | 클래스 |
 | ----------------------------------------------- | ------------------------ | ---------------------- |
 | `backdrop-blur: 6px` (반투명 다이얼로그/대화창) | `--backdrop-blur-bubble` | `backdrop-blur-bubble` |
 
@@ -281,22 +281,23 @@ export function FeedPage() {
 | `animate-pulse`     | opacity 1↔0.5, 2s ease-in-out infinite         | 힌트 깜빡임 (예: "터치해서 계속하기")       |
 | `animate-bubble-in` | translateY 40px→0 + opacity 0→1, 0.4s ease-out | 말풍선/카드가 아래에서 위로 슬라이드 등장   |
 | `animate-toast-in`  | opacity 0→1, 0.2s ease-out                     | 토스트 등장 (전역 ToastContainer 자동 적용) |
+
 =======
-| Figma 표기                                            | 토큰                       | 클래스                 |
+| Figma 표기 | 토큰 | 클래스 |
 | ----------------------------------------------------- | -------------------------- | ---------------------- |
-| `backdrop-blur: 6px` (반투명 다이얼로그/대화창)       | `--backdrop-blur-bubble`   | `backdrop-blur-bubble` |
-| `filter: blur(15px)` (페이지 외곽 배경, PageBackground) | `--blur-page-bg`           | `blur-page-bg`         |
+| `backdrop-blur: 6px` (반투명 다이얼로그/대화창) | `--backdrop-blur-bubble` | `backdrop-blur-bubble` |
+| `filter: blur(15px)` (페이지 외곽 배경, PageBackground) | `--blur-page-bg` | `blur-page-bg` |
 
 ### 애니메이션
 
-| 클래스                  | 효과                                            | 용도                                        |
-| ----------------------- | ----------------------------------------------- | ------------------------------------------- |
-| `animate-pulse`         | opacity 1↔0.5, 2s ease-in-out infinite          | 힌트 깜빡임 (예: "터치해서 계속하기")       |
-| `animate-bubble-in`     | translateY 40px→0 + opacity 0→1, 0.4s ease-out  | 말풍선/카드가 아래에서 위로 슬라이드 등장   |
-| `animate-toast-in`      | opacity 0→1, 0.2s ease-out                      | 토스트 등장 (전역 ToastContainer 자동 적용) |
-| `animate-bubble-float`  | translateY 0↔-8px, 2.4s ease-in-out infinite    | 말풍선이 위아래로 부드럽게 떠다니는 효과    |
+| 클래스                 | 효과                                           | 용도                                        |
+| ---------------------- | ---------------------------------------------- | ------------------------------------------- |
+| `animate-pulse`        | opacity 1↔0.5, 2s ease-in-out infinite         | 힌트 깜빡임 (예: "터치해서 계속하기")       |
+| `animate-bubble-in`    | translateY 40px→0 + opacity 0→1, 0.4s ease-out | 말풍선/카드가 아래에서 위로 슬라이드 등장   |
+| `animate-toast-in`     | opacity 0→1, 0.2s ease-out                     | 토스트 등장 (전역 ToastContainer 자동 적용) |
+| `animate-bubble-float` | translateY 0↔-8px, 2.4s ease-in-out infinite   | 말풍선이 위아래로 부드럽게 떠다니는 효과    |
 
->>>>>>> 1baf87b37517e9e4e41e64567385c30d35767030
+> > > > > > > 1baf87b37517e9e4e41e64567385c30d35767030
 
 #### 사용 패턴
 
@@ -538,6 +539,7 @@ export function LoginPage() {
 **동작 원리** — `fixed -inset-20 -z-10`으로 viewport 전체에 깔리고(blur 엣지 bleed 방지용으로 20px 확장), `-z-10`이라 Layout의 `bg-white-default`가 paint 순서상 위에 칠해져 중앙 480px만 흰색으로 덮인다. 좌우 padded 바깥 영역에서만 blur된 `bg_clean.webp`가 노출된다.
 
 **룰**:
+
 - 단일 자산 (`bg_clean.webp`) + `blur-page-bg` (15px) 고정 — variant 도입 X (인트로 페이지 일관성)
 - `pointer-events-none` 필수 — 클릭 차단 금지
 - 페이지 컴포넌트의 첫 번째 자식으로 마운트 (Fragment + PageBackground + 페이지 본문 패턴)

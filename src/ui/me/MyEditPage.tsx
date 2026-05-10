@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
 import { updateUserProfile } from '@/features/user/api';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import type { UserProfileResponseDto } from '@/features/user/types';
 import { KEYWORD_MAX_LENGTH, MAX_KEYWORDS, keywordsSchema } from '@/schemas/keyword';
 import { toast } from '@/store/toastStore';
 import { sanitizeInput } from '@/utils/sanitize';
@@ -26,24 +27,23 @@ type EditFormValues = {
     contact: string;
 };
 
-export function MyEditPage() {
+// 로딩 완료 후 profile을 prop으로 받아 상태를 직접 초기화 (effect 내 setState 방지)
+function EditForm({ profile }: { profile: UserProfileResponseDto }) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const { data: profile, isLoading } = useUserProfile();
 
-    const { register, handleSubmit, setValue, reset } = useForm<EditFormValues>();
-    const [appeals, setAppeals] = useState<string[]>(['']);
-    const [appealError, setAppealError] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (!profile) return;
-        reset({
+    const { register, handleSubmit, setValue } = useForm<EditFormValues>({
+        defaultValues: {
             nickname: profile.nickname,
             mbti: profile.mbti,
             contact: profile.contact,
-        });
-        setAppeals(profile.appeals.length > 0 ? profile.appeals : ['']);
-    }, [profile, reset]);
+        },
+    });
+
+    const [appeals, setAppeals] = useState<string[]>(
+        profile.appeals.length > 0 ? profile.appeals : [''],
+    );
+    const [appealError, setAppealError] = useState<string | null>(null);
 
     const { mutate: submitUpdate, isPending } = useMutation({
         mutationFn: updateUserProfile,
@@ -85,21 +85,13 @@ export function MyEditPage() {
         setAppealError(null);
     };
 
-    if (isLoading) {
-        return (
-            <div className="flex min-h-svh items-center justify-center">
-                <SpinnerIcon className="text-pink-point size-44" />
-            </div>
-        );
-    }
-
     return (
         <form onSubmit={onSubmit} className="flex flex-1 flex-col">
             <PageHeader title="프로필 수정하기" />
 
             <div className="mt-30 flex justify-center">
                 <img
-                    src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
+                    src={getImageUrl(profile.profileUrl, defaultProfileImg)}
                     onError={e => {
                         e.currentTarget.src = defaultProfileImg;
                     }}
@@ -177,6 +169,20 @@ export function MyEditPage() {
             </div>
         </form>
     );
+}
+
+export function MyEditPage() {
+    const { data: profile, isLoading } = useUserProfile();
+
+    if (isLoading || !profile) {
+        return (
+            <div className="flex min-h-svh items-center justify-center">
+                <SpinnerIcon className="text-pink-point size-44" />
+            </div>
+        );
+    }
+
+    return <EditForm profile={profile} />;
 }
 
 type FieldProps = {

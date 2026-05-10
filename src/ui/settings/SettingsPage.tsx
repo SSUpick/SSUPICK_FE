@@ -223,7 +223,7 @@ function ConfirmDialog({
                 <button
                     type="button"
                     onClick={onConfirm}
-                    className="bg-red-100 text-red-default rounded-14 flex h-58 w-full items-center justify-center text-lg font-semibold"
+                    className="text-red-default rounded-14 flex h-58 w-full items-center justify-center bg-red-100 text-lg font-semibold"
                 >
                     {confirmLabel}
                 </button>

@@ -85,7 +85,7 @@ export function ExplorePage() {
 
             {/* 프로필 미등록 유저 CTA */}
             {showProfileCta && (
-                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl px-20 pb-24 pt-12 bg-gradient-to-t from-white via-white/90 to-transparent">
+                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-gradient-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
                     <CtaButton onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
                         내 프로필 등록하기
                     </CtaButton>

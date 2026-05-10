@@ -37,7 +37,7 @@ export function CouponPage() {
                     </div>
                 ) : (
                     <ul className="flex flex-col gap-12 pt-22">
-                        {(products ?? []).map((plan) => (
+                        {(products ?? []).map(plan => (
                             <li key={plan.productCode}>
                                 <button
                                     type="button"

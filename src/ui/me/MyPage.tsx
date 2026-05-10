@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
@@ -19,7 +21,13 @@ type Tab = 'opened' | 'openedMe';
 
 export function MyPage() {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const [tab, setTab] = useState<Tab>('opened');
+
+    useEffect(() => {
+        queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
+        queryClient.invalidateQueries({ queryKey: ['user', 'me', 'profile-views'] });
+    }, [queryClient]);
 
     const { data: profile, isLoading: profileLoading } = useUserProfile();
     const { data: viewList, isLoading: viewLoading } = useProfileViewList();
@@ -54,7 +62,11 @@ export function MyPage() {
             <section className="mt-30 flex flex-col items-center">
                 <div className="relative">
                     <img
-                        src={isIncomplete ? ssunuImg : getImageUrl(profile?.profileUrl, defaultProfileImg)}
+                        src={
+                            isIncomplete
+                                ? ssunuImg
+                                : getImageUrl(profile?.profileUrl, defaultProfileImg)
+                        }
                         onError={e => {
                             e.currentTarget.src = defaultProfileImg;
                         }}

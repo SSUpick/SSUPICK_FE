@@ -26,11 +26,7 @@ export function ProfileCard({
     const mbtiClass = isWoman ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800';
 
     return (
-        <button
-            type="button"
-            onClick={onClick}
-            className="flex w-full flex-col items-start gap-7"
-        >
+        <button type="button" onClick={onClick} className="flex w-full flex-col items-start gap-7">
             <img
                 src={getImageUrl(profileUrl, defaultProfileImg)}
                 onError={e => {

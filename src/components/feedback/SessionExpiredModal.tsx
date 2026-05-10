@@ -20,8 +20,8 @@ export function SessionExpiredModal() {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black-900/50 px-20">
-            <div className="bg-white-default flex w-full flex-col items-center gap-24 rounded-20 px-24 py-32">
+        <div className="bg-black-900/50 fixed inset-0 z-50 flex items-center justify-center px-20">
+            <div className="bg-white-default rounded-20 flex w-full flex-col items-center gap-24 px-24 py-32">
                 <div className="flex flex-col items-center gap-8">
                     <p className="text-black-800 text-lg font-bold">세션이 만료되었어요</p>
                     <p className="text-black-400 text-center text-sm font-medium">

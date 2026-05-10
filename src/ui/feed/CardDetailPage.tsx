@@ -39,8 +39,7 @@ export function CardDetailPage() {
         null;
 
     // 내가 쿠폰을 써서 열람한 프로필인지 확인
-    const isAlreadyViewed =
-        viewList?.viewedUsers.some(u => u.userId === targetUserId) ?? false;
+    const isAlreadyViewed = viewList?.viewedUsers.some(u => u.userId === targetUserId) ?? false;
 
     const { data: myProfile } = useUserProfile();
     const couponCount = myProfile?.remainingCouponCount ?? 0;
@@ -97,6 +96,16 @@ export function CardDetailPage() {
         );
     }
 
+    const handleCopy = async () => {
+        if (!contact) return;
+        try {
+            await navigator.clipboard.writeText(contact);
+            toast.success('연락처가 복사됐어요!');
+        } catch {
+            toast.error('복사에 실패했어요.');
+        }
+    };
+
     const handleOpenAttempt = () => {
         if (unlocked) return;
         if (couponCount > 0) setModal('coupon');
@@ -140,8 +149,28 @@ export function CardDetailPage() {
                     </div>
 
                     {unlocked ? (
-                        <div className="bg-pink-light text-pink-point rounded-20 flex h-82 w-full items-center justify-center text-xl font-semibold">
+                        <div className="bg-pink-light text-pink-point rounded-20 relative flex h-82 w-full items-center justify-center text-xl font-semibold">
                             {contact}
+                            <button
+                                type="button"
+                                onClick={handleCopy}
+                                aria-label="연락처 복사"
+                                className="absolute right-20"
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={1.8}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="text-pink-point size-22"
+                                    aria-hidden
+                                >
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
                         </div>
                     ) : (
                         <button

@@ -14,7 +14,7 @@ export const getCheckoutPage = (couponProduct: CouponProduct) =>
             params: { couponProduct },
             responseType: 'text',
         })
-        .then((r) => r.data as string);
+        .then(r => r.data as string);
 
 export const getCouponProducts = () =>
     http
@@ -23,8 +23,5 @@ export const getCouponProducts = () =>
 
 export const verifyPayment = (paymentId: string, body: PaymentVerifyRequestDto) =>
     http
-        .post<CommonResponse<PaymentVerifyResponseDto>>(
-            `/api/payments/${paymentId}/verify`,
-            body,
-        )
-        .then((r) => r.data.data);
+        .post<CommonResponse<PaymentVerifyResponseDto>>(`/api/payments/${paymentId}/verify`, body)
+        .then(r => r.data.data);

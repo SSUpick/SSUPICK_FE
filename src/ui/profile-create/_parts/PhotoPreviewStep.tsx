@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { CtaButton } from '@/components/button/CtaButton';
 
@@ -10,13 +10,11 @@ type PhotoPreviewStepProps = {
 };
 
 export function PhotoPreviewStep({ file, onConfirm }: PhotoPreviewStepProps) {
-    const [previewUrl, setPreviewUrl] = useState(() => URL.createObjectURL(file));
+    const previewUrl = useMemo(() => URL.createObjectURL(file), [file]);
 
     useEffect(() => {
-        const url = URL.createObjectURL(file);
-        setPreviewUrl(url);
-        return () => URL.revokeObjectURL(url);
-    }, [file]);
+        return () => URL.revokeObjectURL(previewUrl);
+    }, [previewUrl]);
 
     return (
         <BackdropScene>
