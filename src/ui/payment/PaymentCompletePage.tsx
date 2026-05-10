@@ -4,13 +4,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
-import { PageHeader } from '@/components/layout/PageHeader';
+import { ROUTES } from '@/constants/routes';
 import { verifyPayment } from '@/features/payment/api';
 import type { CouponProduct } from '@/features/payment/types';
-import { ROUTES } from '@/constants/routes';
+import { PageHeader } from '@/components/layout/PageHeader';
 import { toast } from '@/store/toastStore';
 
-export function PaymentPgPage() {
+export function PaymentCompletePage() {
     const [params] = useSearchParams();
     const navigate = useNavigate();
     const queryClient = useQueryClient();

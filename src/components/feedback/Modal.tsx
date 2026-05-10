@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 
 type ModalProps = {
     open: boolean;
@@ -7,6 +7,15 @@ type ModalProps = {
 };
 
 export function Modal({ open, onClose, children }: ModalProps) {
+    useEffect(() => {
+        if (open) {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [open]);
+
     if (!open) return null;
     return (
         <div

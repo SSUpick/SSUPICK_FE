@@ -49,6 +49,7 @@ export function SettingsPage() {
             items: [
                 { label: '서비스 이용약관', to: ROUTES.TERMS, showArrow: true },
                 { label: '개인정보 처리방침', to: ROUTES.PRIVACY, showArrow: true },
+                { label: '환불 정책', to: ROUTES.REFUND, showArrow: true },
             ],
         },
         {

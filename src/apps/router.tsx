@@ -6,13 +6,14 @@ import { KakaoCallbackPage } from '@/ui/auth/KakaoCallbackPage';
 import { OnboardingPage } from '@/ui/onboarding/OnboardingPage';
 import { TermsPage } from '@/ui/legal/TermsPage';
 import { PrivacyPage } from '@/ui/legal/PrivacyPage';
+import { RefundPage } from '@/ui/legal/RefundPage';
 import { ProfileCreatePage } from '@/ui/profile-create/ProfileCreatePage';
 import { FeedPage } from '@/ui/feed/FeedPage';
 import { CardDetailPage } from '@/ui/feed/CardDetailPage';
 import { ExplorePage } from '@/ui/explore/ExplorePage';
 import { CouponPage } from '@/ui/coupon/CouponPage';
 import { PaymentPage } from '@/ui/payment/PaymentPage';
-import { PaymentPgPage } from '@/ui/payment/PaymentPgPage';
+import { PaymentCompletePage } from '@/ui/payment/PaymentCompletePage';
 import { MyPage } from '@/ui/me/MyPage';
 import { MyEditPage } from '@/ui/me/MyEditPage';
 import { SettingsPage } from '@/ui/settings/SettingsPage';
@@ -38,13 +39,14 @@ export const router = createBrowserRouter([
                     { path: ROUTES.ONBOARDING, element: <OnboardingPage /> },
                     { path: ROUTES.TERMS, element: <TermsPage /> },
                     { path: ROUTES.PRIVACY, element: <PrivacyPage /> },
+                    { path: ROUTES.REFUND, element: <RefundPage /> },
                     { path: ROUTES.PROFILE_CREATE, element: <ProfileCreatePage /> },
                     { path: ROUTES.FEED, element: <FeedPage /> },
                     { path: ROUTES.CARD_DETAIL, element: <CardDetailPage /> },
                     { path: ROUTES.EXPLORE, element: <ExplorePage /> },
                     { path: ROUTES.COUPON, element: <CouponPage /> },
                     { path: ROUTES.PAYMENT, element: <PaymentPage /> },
-                    { path: ROUTES.PAYMENT_PG, element: <PaymentPgPage /> },
+                    { path: ROUTES.PAYMENT_COMPLETE, element: <PaymentCompletePage /> },
                     { path: ROUTES.ME, element: <MyPage /> },
                     { path: ROUTES.ME_EDIT, element: <MyEditPage /> },
                     { path: ROUTES.SETTINGS, element: <SettingsPage /> },
