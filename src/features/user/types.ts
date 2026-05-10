@@ -14,7 +14,6 @@ export type UserUpdateProfileRequestDto = {
     mbti?: string;
     appeals?: string[];
     contact?: string;
-    phoneNumber?: string;
 };
 
 export type UserProfileResponseDto = {
