@@ -59,7 +59,7 @@ export function PaymentPage() {
                 <span className="text-black-800 text-xl font-bold">{formatPrice(price)}</span>
             </section>
 
-            <div className="bg-black-100 h-12" />
+            <div className="bg-black-100 -mx-20 h-12" />
 
             <section className="flex flex-col gap-12 pt-20 pb-20">
                 <h2 className="text-black-800 text-base font-semibold">결제 방법</h2>
