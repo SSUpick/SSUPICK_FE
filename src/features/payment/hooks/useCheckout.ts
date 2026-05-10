@@ -34,7 +34,7 @@ export function useCheckout(product: CouponProduct) {
             document.close();
         },
         onError: err => {
-            if (axios.isAxiosError(err) && err.response?.status === 409) {
+            if (axios.isAxiosError(err) && err.response?.status === 400) {
                 setIsPhoneModalOpen(true);
                 return;
             }
