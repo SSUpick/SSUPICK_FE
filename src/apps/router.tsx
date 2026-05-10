@@ -8,7 +8,6 @@ import { TermsPage } from '@/ui/legal/TermsPage';
 import { PrivacyPage } from '@/ui/legal/PrivacyPage';
 import { RefundPage } from '@/ui/legal/RefundPage';
 import { ProfileCreatePage } from '@/ui/profile-create/ProfileCreatePage';
-import { FeedPage } from '@/ui/feed/FeedPage';
 import { CardDetailPage } from '@/ui/feed/CardDetailPage';
 import { ExplorePage } from '@/ui/explore/ExplorePage';
 import { CouponPage } from '@/ui/coupon/CouponPage';
@@ -41,7 +40,6 @@ export const router = createBrowserRouter([
                     { path: ROUTES.PRIVACY, element: <PrivacyPage /> },
                     { path: ROUTES.REFUND, element: <RefundPage /> },
                     { path: ROUTES.PROFILE_CREATE, element: <ProfileCreatePage /> },
-                    { path: ROUTES.FEED, element: <FeedPage /> },
                     { path: ROUTES.CARD_DETAIL, element: <CardDetailPage /> },
                     { path: ROUTES.EXPLORE, element: <ExplorePage /> },
                     { path: ROUTES.COUPON, element: <CouponPage /> },
