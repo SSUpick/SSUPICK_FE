@@ -52,7 +52,7 @@ export function MyPage() {
                         type="button"
                         aria-label="설정"
                         onClick={() => navigate(ROUTES.SETTINGS)}
-                        className="text-black-800"
+                        className="text-black-300"
                     >
                         <GearIcon className="size-24" />
                     </button>
@@ -127,7 +127,7 @@ export function MyPage() {
                     <SpinnerIcon className="text-pink-point size-44" />
                 </div>
             ) : users.length === 0 ? (
-                <div className="rounded-20 bg-black-100 mt-26 flex h-146 w-full flex-col items-center gap-31 pt-15">
+                <div className="rounded-20 bg-black-100 mt-26 flex h-146 w-full flex-col items-center gap-31 pt-15 mb-14">
                     <p className="text-black-700 text-lg font-semibold">
                         {tab === 'opened'
                             ? '아직 열람한 사람이 없어요!'
