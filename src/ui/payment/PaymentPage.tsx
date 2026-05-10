@@ -23,7 +23,7 @@ export function PaymentPage() {
     const { mutate: checkout, isPending } = useMutation({
         mutationFn: () => getCheckoutPage(product),
         onSuccess: html => {
-            const redirectUrl = `${window.location.origin}/payment/pg?couponProduct=${product}`;
+            const redirectUrl = `${window.location.origin}/payment/complete?couponProduct=${product}`;
 
             // checkout HTML이 response 수신 후 redirect를 하지 않으므로 직접 주입
             const modifiedHtml = html.replace(

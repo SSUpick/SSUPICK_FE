@@ -12,7 +12,7 @@ export const ROUTES = {
     EXPLORE: '/explore',
     COUPON: '/coupon',
     PAYMENT: '/payment',
-    PAYMENT_PG: '/payment/pg',
+    PAYMENT_COMPLETE: '/payment/complete',
     ME: '/me',
     ME_EDIT: '/me/edit',
     SETTINGS: '/settings',
