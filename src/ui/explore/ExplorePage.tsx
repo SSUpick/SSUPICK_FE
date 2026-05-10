@@ -41,7 +41,7 @@ export function ExplorePage() {
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
-            <FeedHeader title="이상형을 찾아보세요!" />
+            <FeedHeader title="프로필 카드를 둘러보세요!" />
 
             <div className="flex gap-10 pb-16">
                 {FILTER_OPTIONS.map(({ label, value }) => (

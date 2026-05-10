@@ -70,11 +70,11 @@ export function CardDetailPage() {
             queryClient.setQueryData(['user', targetUserId], data);
             setManualContact(data.contact);
             setModal(null);
-            toast.success('프로필 열람에 성공했어요!');
+            toast.success('프로필 조회에 성공했어요!');
         },
         onError: () => {
             setModal(null);
-            toast.error('열람에 실패했어요. 쿠폰을 확인해주세요.');
+            toast.error('프로필 조회에 실패했어요. 쿠폰을 확인해주세요.');
         },
     });
 
@@ -145,7 +145,7 @@ export function CardDetailPage() {
                 <section className="mt-auto flex w-full flex-col gap-16">
                     <div className="flex items-center gap-6">
                         <img src={airplaneImg} alt="" aria-hidden className="size-24" />
-                        <h2 className="text-black-700 text-xl font-semibold">연락처</h2>
+                        <h2 className="text-black-700 text-xl font-semibold">공개 정보</h2>
                     </div>
 
                     {unlocked ? (
@@ -154,7 +154,7 @@ export function CardDetailPage() {
                             <button
                                 type="button"
                                 onClick={handleCopy}
-                                aria-label="연락처 복사"
+                                aria-label="공개 정보 복사"
                                 className="absolute right-20"
                             >
                                 <svg
@@ -185,7 +185,7 @@ export function CardDetailPage() {
                                 className="size-32 object-contain"
                             />
                             <span className="text-pink-point text-xl font-semibold">
-                                쿠폰으로 열람하기
+                                쿠폰으로 확인하기
                             </span>
                         </button>
                     )}
@@ -223,15 +223,15 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={couponImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                상대방 프로필을 열람하려면
+                이 프로필의 공개 정보를 확인하려면
                 <br />
-                쿠폰이 1개 차감돼요.
+                쿠폰 1개가 차감됩니다.
             </p>
             <p className="text-black-400 text-sm font-medium">
                 현재 쿠폰: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
             <CtaButton className="w-full" onClick={onConfirm} loading={isPending}>
-                열람하기
+                프로필 확인하기
             </CtaButton>
         </div>
     );
@@ -246,12 +246,12 @@ function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={lockImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                상대방 프로필을 열람하려면
+                프로필 상세 정보를 확인하려면
                 <br />
                 쿠폰이 필요해요!
             </p>
             <CtaButton className="w-full" onClick={onGoToCoupon}>
-                쿠폰 사러가기
+                쿠폰 구매하기
             </CtaButton>
         </div>
     );
