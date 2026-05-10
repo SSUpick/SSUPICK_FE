@@ -31,3 +31,6 @@ export const getProfileViewList = () =>
     http
         .get<CommonResponse<ProfileViewListResponseDto>>('/api/users/me/profile-views')
         .then(r => r.data.data);
+
+export const registerPhoneNumber = (phoneNumber: string) =>
+    http.patch('/api/users/me/phone-number', { phoneNumber }).then(() => undefined);

@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { CtaButton } from '@/components/button/CtaButton';
 import { Modal } from '@/components/feedback/Modal';
 import { TextInput } from '@/components/input/TextInput';
-import { updateUserProfile } from '@/features/user/api';
+import { registerPhoneNumber } from '@/features/user/api';
 import { toast } from '@/store/toastStore';
 
 type PhoneNumberModalProps = {
@@ -28,7 +28,7 @@ export function PhoneNumberModal({ open, onClose, onSuccess }: PhoneNumberModalP
     const isError = phone.length > 0 && !isValid;
 
     const { mutate: registerContact, isPending } = useMutation({
-        mutationFn: () => updateUserProfile({ phoneNumber: phone }),
+        mutationFn: () => registerPhoneNumber(phone.replace(/-/g, '')),
         onSuccess: () => {
             setPhone('');
             onSuccess();
