@@ -1,13 +1,13 @@
 import { Fragment, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Modal } from '@/components/feedback/Modal';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
-import { toast } from '@/store/toastStore';
+import { useWithdraw } from '@/features/auth/hooks/useWithdraw';
 
 const KAKAO_CHANNEL = 'http://pf.kakao.com/_xjJrxbX/chat';
 
@@ -27,9 +27,9 @@ type SettingsSection = {
 };
 
 export function SettingsPage() {
-    const navigate = useNavigate();
     const [modal, setModal] = useState<ModalKind>(null);
     const { mutate: logoutMutate, isPending: isLoggingOut } = useLogout();
+    const { mutate: withdrawMutate, isPending: isWithdrawing } = useWithdraw();
 
     const closeModal = () => setModal(null);
 
@@ -39,10 +39,8 @@ export function SettingsPage() {
     };
 
     const handleWithdraw = () => {
-        // TODO: API 연동 — 회원 탈퇴
         closeModal();
-        navigate(ROUTES.LOGIN, { replace: true });
-        toast.success('탈퇴 처리됐어요.');
+        withdrawMutate();
     };
 
     const sections: SettingsSection[] = [
@@ -58,7 +56,7 @@ export function SettingsPage() {
             items: [
                 { label: '문의하기', onClick: () => setModal('inquiry'), showArrow: true },
                 { label: '로그아웃', onClick: () => setModal('logout'), disabled: isLoggingOut },
-                { label: '회원탈퇴', onClick: () => setModal('withdraw') },
+                { label: '회원탈퇴', onClick: () => setModal('withdraw'), disabled: isWithdrawing },
             ],
         },
     ];

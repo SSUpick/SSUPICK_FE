@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import airplaneImg from '@/assets/airplane.webp';
 import couponImg from '@/assets/coupon.webp';
@@ -9,11 +9,13 @@ import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { Modal } from '@/components/feedback/Modal';
+import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
+import type { ProfileViewListResponseDto } from '@/features/profile-view/types';
 import { getTargetUserProfile } from '@/features/user/api';
-import type { UserCardResponseDto, UserTargetProfileResponseDto } from '@/features/user/types';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import type { UserCardResponseDto, UserTargetProfileResponseDto } from '@/features/user/types';
 import { toast } from '@/store/toastStore';
 import { getImageUrl } from '@/utils/getImageUrl';
 
@@ -23,23 +25,43 @@ export function CardDetailPage() {
     const queryClient = useQueryClient();
     const targetUserId = Number(profileId);
 
-    // 마운트 시 API 호출 없음 — explore/feed 리스트 캐시에서 기본 정보 읽기
+    // 카드 기본 정보: explore 캐시 → 열람 목록 캐시 순으로 fallback
     const cards = queryClient.getQueryData<UserCardResponseDto[]>(['user', 'cards']);
-    const card = cards?.find(c => c.userId === targetUserId);
+    const viewList = queryClient.getQueryData<ProfileViewListResponseDto>([
+        'user',
+        'me',
+        'profile-views',
+    ]);
+    const card =
+        cards?.find(c => c.userId === targetUserId) ??
+        viewList?.viewedUsers.find(u => u.userId === targetUserId) ??
+        viewList?.viewerUsers.find(u => u.userId === targetUserId) ??
+        null;
+
+    // 내가 쿠폰을 써서 열람한 프로필인지 확인
+    const isAlreadyViewed =
+        viewList?.viewedUsers.some(u => u.userId === targetUserId) ?? false;
 
     const { data: myProfile } = useUserProfile();
     const couponCount = myProfile?.remainingCouponCount ?? 0;
 
-    const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
-
-    // 이전 세션에서 열람한 경우 캐시에 contact가 있으면 즉시 표시
-    const [contact, setContact] = useState<string | null>(() => {
-        const cached = queryClient.getQueryData<UserTargetProfileResponseDto>([
-            'user',
-            targetUserId,
-        ]);
-        return cached?.contact ?? null;
+    // 이미 열람한 프로필이면 자동으로 연락처 fetch (쿠폰 재차감 없음)
+    const { data: autoProfile, isLoading: isAutoLoading } = useQuery({
+        queryKey: ['user', targetUserId],
+        queryFn: () => getTargetUserProfile(targetUserId),
+        enabled: isAlreadyViewed,
+        staleTime: Infinity,
     });
+
+    // 이번 세션에서 방금 열람한 경우 (낙관적 표시)
+    const [manualContact, setManualContact] = useState<string | null>(null);
+
+    const contact =
+        manualContact ??
+        autoProfile?.contact ??
+        // 이전 세션에서 열람 후 캐시에 남아있는 경우
+        queryClient.getQueryData<UserTargetProfileResponseDto>(['user', targetUserId])?.contact ??
+        null;
 
     const unlocked = !!contact;
 
@@ -47,7 +69,7 @@ export function CardDetailPage() {
         mutationFn: () => getTargetUserProfile(targetUserId),
         onSuccess: data => {
             queryClient.setQueryData(['user', targetUserId], data);
-            setContact(data.contact);
+            setManualContact(data.contact);
             setModal(null);
             toast.success('프로필 열람에 성공했어요!');
         },
@@ -57,10 +79,20 @@ export function CardDetailPage() {
         },
     });
 
+    const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
+
     if (!card) {
         return (
             <div className="flex min-h-svh items-center justify-center">
                 <p className="text-black-700 text-base">프로필 정보를 찾을 수 없어요.</p>
+            </div>
+        );
+    }
+
+    if (isAlreadyViewed && isAutoLoading) {
+        return (
+            <div className="flex min-h-svh items-center justify-center">
+                <SpinnerIcon className="text-pink-point size-44" />
             </div>
         );
     }
