@@ -8,6 +8,8 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { useCheckout } from '@/features/payment/hooks/useCheckout';
 import type { CouponProduct } from '@/features/payment/types';
 
+import { PhoneNumberModal } from './PhoneNumberModal';
+
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
 type AccordionItemProps = {
@@ -44,9 +46,16 @@ export function PaymentPage() {
     const [method, setMethod] = useState<'card' | null>('card');
     const [agreed, setAgreed] = useState(false);
 
-    const { checkout, isPending } = useCheckout(product);
+    const { checkout, isPending, isPhoneModalOpen, closePhoneModal, onPhoneRegistered } =
+        useCheckout(product);
 
     return (
+        <>
+        <PhoneNumberModal
+            open={isPhoneModalOpen}
+            onClose={closePhoneModal}
+            onSuccess={onPhoneRegistered}
+        />
         <div className="bg-white-default flex min-h-svh flex-col">
             <PageHeader title="결제하기" />
 
@@ -202,5 +211,6 @@ export function PaymentPage() {
                 </CtaButton>
             </div>
         </div>
+        </>
     );
 }
