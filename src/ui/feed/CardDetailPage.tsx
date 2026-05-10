@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import airplaneImg from '@/assets/airplane.webp';
 import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
 import { CtaButton } from '@/components/button/CtaButton';
 import { Modal } from '@/components/feedback/Modal';
-import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
-import { useTargetUserProfile } from '@/features/user/hooks/useTargetUserProfile';
+import { getTargetUserProfile } from '@/features/user/api';
+import type { UserCardResponseDto, UserTargetProfileResponseDto } from '@/features/user/types';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 import { toast } from '@/store/toastStore';
 import { getImageUrl } from '@/utils/getImageUrl';
@@ -18,70 +20,82 @@ import { getImageUrl } from '@/utils/getImageUrl';
 export function CardDetailPage() {
     const { profileId } = useParams<{ profileId: string }>();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const targetUserId = Number(profileId);
 
-    const { data: profile, isLoading } = useTargetUserProfile(targetUserId);
+    // 마운트 시 API 호출 없음 — explore/feed 리스트 캐시에서 기본 정보 읽기
+    const cards = queryClient.getQueryData<UserCardResponseDto[]>(['user', 'cards']);
+    const card = cards?.find(c => c.userId === targetUserId);
+
     const { data: myProfile } = useUserProfile();
+    const couponCount = myProfile?.remainingCouponCount ?? 0;
 
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
 
-    const couponCount = myProfile?.remainingCouponCount ?? 0;
-    // API가 contact를 반환하면 이미 열람한 프로필
-    const [unlocked, setUnlocked] = useState(() => !!profile?.contact);
+    // 이전 세션에서 열람한 경우 캐시에 contact가 있으면 즉시 표시
+    const [contact, setContact] = useState<string | null>(() => {
+        const cached = queryClient.getQueryData<UserTargetProfileResponseDto>([
+            'user',
+            targetUserId,
+        ]);
+        return cached?.contact ?? null;
+    });
 
-    if (isLoading) {
+    const unlocked = !!contact;
+
+    const { mutate: unlockProfile, isPending: isUnlocking } = useMutation({
+        mutationFn: () => getTargetUserProfile(targetUserId),
+        onSuccess: data => {
+            queryClient.setQueryData(['user', targetUserId], data);
+            setContact(data.contact);
+            setModal(null);
+            toast.success('프로필 열람에 성공했어요!');
+        },
+        onError: () => {
+            setModal(null);
+            toast.error('열람에 실패했어요. 쿠폰을 확인해주세요.');
+        },
+    });
+
+    if (!card) {
         return (
             <div className="flex min-h-svh items-center justify-center">
-                <SpinnerIcon className="text-pink-point size-44" />
-            </div>
-        );
-    }
-
-    if (!profile) {
-        return (
-            <div className="flex min-h-svh items-center justify-center">
-                <p className="text-black-700 text-base">존재하지 않는 카드입니다.</p>
+                <p className="text-black-700 text-base">프로필 정보를 찾을 수 없어요.</p>
             </div>
         );
     }
 
     const handleOpenAttempt = () => {
+        if (unlocked) return;
         if (couponCount > 0) setModal('coupon');
         else setModal('lock');
     };
 
-    const handleConfirmOpen = () => {
-        // TODO: API 연동 — 쿠폰 차감
-        setModal(null);
-        setUnlocked(true);
-        toast.success('프로필 열람에 성공했어요!');
-    };
-
     return (
         <div className="bg-white-default relative flex min-h-dvh flex-col">
-            <PageHeader title={profile.nickname} />
+            <PageHeader title={card.nickname} />
 
             <main className="flex flex-1 flex-col items-center gap-13 pt-12 pb-22">
                 <img
-                    src={getImageUrl(profile.profileUrl, defaultProfileImg)}
+                    src={getImageUrl(card.profileUrl, defaultProfileImg)}
                     onError={e => {
                         e.currentTarget.src = defaultProfileImg;
                     }}
-                    alt={profile.nickname}
+                    alt={card.nickname}
                     className="rounded-14 aspect-308/385 w-full object-cover"
                 />
 
                 <div className="flex flex-col items-center gap-10">
                     <div className="flex items-center gap-7">
                         <span className="text-black-900 text-22 font-semibold">
-                            {profile.nickname}
+                            {card.nickname}
                         </span>
                         <span className="rounded-6 bg-pink-light text-pink-point flex h-28 items-center justify-center px-12 text-base font-semibold">
-                            {profile.mbti}
+                            {card.mbti}
                         </span>
                     </div>
                     <ul className="text-black-700 flex flex-col items-center gap-10 text-base font-medium">
-                        {profile.appeals.slice(0, 3).map((appeal, idx) => (
+                        {card.appeals.slice(0, 3).map((appeal, idx) => (
                             <li key={`${idx}-${appeal}`}>#{appeal}</li>
                         ))}
                     </ul>
@@ -95,7 +109,7 @@ export function CardDetailPage() {
 
                     {unlocked ? (
                         <div className="bg-pink-light text-pink-point rounded-20 flex h-82 w-full items-center justify-center text-xl font-semibold">
-                            {profile.contact}
+                            {contact}
                         </div>
                     ) : (
                         <button
@@ -121,7 +135,8 @@ export function CardDetailPage() {
                 {modal === 'coupon' ? (
                     <CouponConfirmDialog
                         currentCount={couponCount}
-                        onConfirm={handleConfirmOpen}
+                        isPending={isUnlocking}
+                        onConfirm={() => unlockProfile()}
                     />
                 ) : (
                     <NoCouponDialog
@@ -138,10 +153,11 @@ export function CardDetailPage() {
 
 type CouponConfirmDialogProps = {
     currentCount: number;
+    isPending: boolean;
     onConfirm: () => void;
 };
 
-function CouponConfirmDialog({ currentCount, onConfirm }: CouponConfirmDialogProps) {
+function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfirmDialogProps) {
     return (
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={couponImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
@@ -153,7 +169,7 @@ function CouponConfirmDialog({ currentCount, onConfirm }: CouponConfirmDialogPro
             <p className="text-black-400 text-sm font-medium">
                 현재 쿠폰: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
-            <CtaButton className="w-full" onClick={onConfirm}>
+            <CtaButton className="w-full" onClick={onConfirm} loading={isPending}>
                 열람하기
             </CtaButton>
         </div>
@@ -166,7 +182,7 @@ type NoCouponDialogProps = {
 
 function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
     return (
-        <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 py-24">
+        <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={lockImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
                 상대방 프로필을 열람하려면

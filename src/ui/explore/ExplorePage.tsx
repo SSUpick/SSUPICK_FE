@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ProfileCard } from '@/components/card/ProfileCard';
@@ -18,10 +18,20 @@ const FILTER_OPTIONS: { label: string; value: GenderFilter }[] = [
     { label: '여자만 보기', value: 'FEMALE' },
 ];
 
+const SCROLL_THRESHOLD = 300;
+
 export function ExplorePage() {
     const navigate = useNavigate();
     const [filter, setFilter] = useState<GenderFilter>('all');
     const { data: cards, isLoading } = useUserCardList();
+
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => setShowScrollTop(window.scrollY > SCROLL_THRESHOLD);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const filtered = (cards ?? []).filter(p => filter === 'all' || p.gender === filter);
 
@@ -66,6 +76,28 @@ export function ExplorePage() {
                     ))}
                 </main>
             )}
+
+            <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                aria-label="맨 위로 가기"
+                className={`bg-pink-default text-white-default fixed right-20 bottom-32 z-40 flex size-44 items-center justify-center rounded-full shadow-lg transition-opacity duration-200 ${
+                    showScrollTop ? 'opacity-100' : 'pointer-events-none opacity-0'
+                }`}
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="size-20"
+                    aria-hidden
+                >
+                    <path d="M18 15l-6-6-6 6" />
+                </svg>
+            </button>
         </div>
     );
 }
