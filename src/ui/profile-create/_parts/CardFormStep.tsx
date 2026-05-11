@@ -168,7 +168,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                     title="연락처"
                     helpers={[
                         '인스타그램, 전화번호 등을 적어주세요.',
-                        '쿠폰으로 프로필 조회 시 확인 가능한 공개 정보입니다.',
+                        '이용권으로 프로필 조회 시 확인 가능한 공개 정보입니다.',
                     ]}
                     helperTone="muted"
                 >

@@ -29,7 +29,7 @@ export function CouponPage() {
             />
 
             <div className="relative flex flex-1 flex-col">
-                <PageHeader title="쿠폰 구매하기" />
+                <PageHeader title="이용권 구매하기" />
 
                 {isLoading ? (
                     <div className="flex flex-1 items-center justify-center">
@@ -53,7 +53,7 @@ export function CouponPage() {
                                     <div className="flex flex-1 items-center justify-between">
                                         <div className="flex flex-col items-start gap-2">
                                             <span className="text-black-800 text-lg font-medium">
-                                                {plan.couponCount}개
+                                                프로필 조회 이용권 {plan.couponCount}개
                                             </span>
                                             <span className="text-black-700 text-xs font-normal">
                                                 {plan.couponCount}회 조회
