@@ -70,11 +70,11 @@ export function PaymentPage() {
                     />
                     <div className="flex flex-col gap-6">
                         <span className="text-black-800 text-base font-bold">
-                            프로필 조회 쿠폰 {count}개
+                            프로필 조회 이용권 {count}개
                         </span>
                         <p className="text-black-500 text-xs leading-18 tracking-tight">
                             슈픽 서비스 내에서 축제 참여자가 공개에 동의한 프로필 상세 정보를
-                            1회 확인할 수 있는 디지털 쿠폰입니다.
+                            1회 확인할 수 있는 디지털 이용권입니다.
                         </p>
                     </div>
                 </div>
@@ -87,8 +87,7 @@ export function PaymentPage() {
                     </div>
                     <ul className="text-black-400 flex flex-col gap-4 text-xs tracking-tight">
                         <li>결제 완료 후 즉시 지급</li>
-                        <li>쿠폰 1개당 프로필 상세 정보 1회 확인</li>
-                        <li>유효기간: 구매일로부터 1년</li>
+                        <li>이용권 1개당 프로필 상세 정보 1회 확인</li>
                     </ul>
                 </div>
             </section>
@@ -119,11 +118,10 @@ export function PaymentPage() {
                     <dl className="text-xs tracking-tight">
                         {(
                             [
-                                ['상품명', `프로필 조회 쿠폰 ${count}개`],
+                                ['상품명', `프로필 조회 이용권 ${count}개`],
                                 ['가격', formatPrice(price)],
                                 ['지급 방식', '결제 완료 후 즉시 지급'],
-                                ['사용 횟수', '쿠폰 1개당 프로필 상세 정보 1회 확인'],
-                                ['유효기간', '구매일로부터 1년'],
+                                ['사용 횟수', '이용권 1개당 프로필 상세 정보 1회 확인'],
                             ] as const
                         ).map(([label, value]) => (
                             <div key={label} className="mb-6 flex gap-12 last:mb-0">
@@ -137,11 +135,11 @@ export function PaymentPage() {
                 <AccordionItem title="환불 안내">
                     <ul className="flex flex-col gap-6 text-xs leading-18 tracking-tight">
                         {[
-                            '구매한 프로필 조회 쿠폰은 결제일로부터 7일 이내, 사용하지 않은 경우에 한해 환불을 요청할 수 있습니다.',
-                            '이미 프로필 상세 정보 조회에 사용된 쿠폰은 디지털 콘텐츠 제공이 완료된 것으로 보아 환불이 제한됩니다.',
-                            '중복 결제, 쿠폰 미지급, 시스템 오류 등 회사의 귀책 사유가 확인되는 경우 환불 또는 재지급 처리됩니다.',
+                            '구매한 프로필 조회 이용권은 결제일로부터 7일 이내, 사용하지 않은 경우에 한해 환불을 요청할 수 있습니다.',
+                            '이미 프로필 상세 정보 조회에 사용된 이용권은 디지털 콘텐츠 제공이 완료된 것으로 보아 환불이 제한됩니다.',
+                            '중복 결제, 이용권 미지급, 시스템 오류 등 회사의 귀책 사유가 확인되는 경우 환불 또는 재지급 처리됩니다.',
                             '환불은 결제 수단과 동일한 방식으로 처리됩니다.',
-                            '이벤트, 프로모션, 무료 지급 쿠폰은 현금 환불 대상에 해당하지 않습니다.',
+                            '이벤트, 프로모션, 무료 지급 이용권은 현금 환불 대상에 해당하지 않습니다.',
                         ].map(item => (
                             <li key={item} className="flex items-start gap-4">
                                 <span className="text-black-400 mt-1 shrink-0">·</span>
