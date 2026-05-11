@@ -6,25 +6,25 @@ import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
 import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { ROUTES, cardDetailPath } from '@/constants/routes';
-import type { Gender } from '@/features/user/types';
+// import type { Gender } from '@/features/user/types';
 import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 
 import { FeedHeader } from '../feed/_parts/FeedHeader';
 
-type GenderFilter = 'all' | Gender;
-
-const FILTER_OPTIONS: { label: string; value: GenderFilter }[] = [
-    { label: '전체 보기', value: 'all' },
-    { label: '남자만 보기', value: 'MALE' },
-    { label: '여자만 보기', value: 'FEMALE' },
-];
+// 성별 필터 — 임시 비노출
+// type GenderFilter = 'all' | Gender;
+// const FILTER_OPTIONS: { label: string; value: GenderFilter }[] = [
+//     { label: '전체 보기', value: 'all' },
+//     { label: '남자만 보기', value: 'MALE' },
+//     { label: '여자만 보기', value: 'FEMALE' },
+// ];
 
 const SCROLL_THRESHOLD = 300;
 
 export function ExplorePage() {
     const navigate = useNavigate();
-    const [filter, setFilter] = useState<GenderFilter>('all');
+    // const [filter, setFilter] = useState<GenderFilter>('all');
     const { data: cards, isLoading } = useUserCardList();
     const { data: profile } = useUserProfile();
 
@@ -36,13 +36,14 @@ export function ExplorePage() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const filtered = (cards ?? []).filter(p => filter === 'all' || p.gender === filter);
+    const filtered = cards ?? [];
     const showProfileCta = profile?.onboardingStatus === 'INCOMPLETE';
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
             <FeedHeader title="프로필 카드를 둘러보세요!" />
 
+            {/* 성별 필터 — 임시 비노출
             <div className="flex gap-10 pb-16">
                 {FILTER_OPTIONS.map(({ label, value }) => (
                     <button
@@ -59,6 +60,7 @@ export function ExplorePage() {
                     </button>
                 ))}
             </div>
+            */}
 
             {isLoading ? (
                 <div className="flex flex-1 items-center justify-center">
