@@ -32,7 +32,7 @@ export function PaymentCompletePage() {
                 queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
                 navigate(ROUTES.COUPON, {
                     replace: true,
-                    state: { toast: '쿠폰 충전이 완료됐어요!' },
+                    state: { toast: '이용권 충전이 완료됐어요!' },
                 });
             })
             .catch(err => {
@@ -41,7 +41,7 @@ export function PaymentCompletePage() {
                     queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
                     navigate(ROUTES.COUPON, {
                         replace: true,
-                        state: { toast: '쿠폰 충전이 완료됐어요!' },
+                        state: { toast: '이용권 충전이 완료됐어요!' },
                     });
                     return;
                 }

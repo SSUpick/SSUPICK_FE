@@ -98,7 +98,7 @@ export function SettingsPage() {
                         title="정말 탈퇴하시겠어요?"
                         description={
                             <>
-                                프로필 카드와 쿠폰을 포함한 계정 정보가 삭제되고,
+                                프로필 카드와 이용권을 포함한 계정 정보가 삭제되고,
                                 <br />
                                 복구할 수 없어요.
                             </>

@@ -104,7 +104,7 @@ export function MyPage() {
             >
                 <div className="flex items-center gap-15">
                     <img src={couponImg} alt="" aria-hidden className="h-40 w-57 object-contain" />
-                    <span className="text-pink-point/80 text-base font-semibold">내 쿠폰</span>
+                    <span className="text-pink-point/80 text-base font-semibold">내 이용권</span>
                 </div>
                 <span className="text-pink-point text-22 font-semibold">
                     {profile?.remainingCouponCount ?? 0}개

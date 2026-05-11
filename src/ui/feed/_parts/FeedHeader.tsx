@@ -17,7 +17,7 @@ export function FeedHeader({ title }: FeedHeaderProps) {
             <div className="flex items-center gap-10">
                 <button
                     type="button"
-                    aria-label="쿠폰"
+                    aria-label="이용권"
                     onClick={() => navigate(ROUTES.COUPON)}
                     className="bg-pink-point rounded-full p-4"
                 >

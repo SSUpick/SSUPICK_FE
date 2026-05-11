@@ -38,13 +38,13 @@ export function CardDetailPage() {
         viewList?.viewerUsers.find(u => u.userId === targetUserId) ??
         null;
 
-    // 내가 쿠폰을 써서 열람한 프로필인지 확인
+    // 내가 이용권을 써서 열람한 프로필인지 확인
     const isAlreadyViewed = viewList?.viewedUsers.some(u => u.userId === targetUserId) ?? false;
 
     const { data: myProfile } = useUserProfile();
     const couponCount = myProfile?.remainingCouponCount ?? 0;
 
-    // 이미 열람한 프로필이면 자동으로 연락처 fetch (쿠폰 재차감 없음)
+    // 이미 열람한 프로필이면 자동으로 연락처 fetch (이용권 재차감 없음)
     const { data: autoProfile, isLoading: isAutoLoading } = useQuery({
         queryKey: ['user', targetUserId],
         queryFn: () => getTargetUserProfile(targetUserId),
@@ -74,7 +74,7 @@ export function CardDetailPage() {
         },
         onError: () => {
             setModal(null);
-            toast.error('프로필 조회에 실패했어요. 쿠폰을 확인해주세요.');
+            toast.error('프로필 조회에 실패했어요. 이용권을 확인해주세요.');
         },
     });
 
@@ -185,7 +185,7 @@ export function CardDetailPage() {
                                 className="size-32 object-contain"
                             />
                             <span className="text-pink-point text-xl font-semibold">
-                                쿠폰으로 확인하기
+                                이용권으로 확인하기
                             </span>
                         </button>
                     )}
@@ -225,10 +225,10 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
             <p className="text-black-800 text-center text-base font-medium">
                 이 프로필의 공개 정보를 확인하려면
                 <br />
-                쿠폰 1개가 차감됩니다.
+                이용권 1개가 차감됩니다.
             </p>
             <p className="text-black-400 text-sm font-medium">
-                현재 쿠폰: <span className="text-pink-point font-bold">{currentCount}개</span>
+                현재 이용권: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
             <CtaButton className="w-full" onClick={onConfirm} loading={isPending}>
                 프로필 확인하기
@@ -248,10 +248,10 @@ function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
             <p className="text-black-800 text-center text-base font-medium">
                 프로필 상세 정보를 확인하려면
                 <br />
-                쿠폰이 필요해요!
+                이용권이 필요해요!
             </p>
             <CtaButton className="w-full" onClick={onGoToCoupon}>
-                쿠폰 구매하기
+                이용권 구매하기
             </CtaButton>
         </div>
     );
