@@ -11,7 +11,6 @@ export const ROUTES = {
     CARD_DETAIL: '/explore/:profileId',
     COUPON: '/coupon',
     PAYMENT: '/payment',
-    PAYMENT_COMPLETE: '/payment/complete',
     ME: '/me',
     ME_EDIT: '/me/edit',
     SETTINGS: '/settings',

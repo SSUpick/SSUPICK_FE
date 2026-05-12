@@ -2,19 +2,10 @@ import type { CommonResponse } from '@/types/api';
 import { http } from '@/utils/http';
 
 import type {
-    CouponProduct,
     CouponProductResponseDto,
     PaymentVerifyRequestDto,
     PaymentVerifyResponseDto,
 } from './types';
-
-export const getCheckoutPage = (couponProduct: CouponProduct) =>
-    http
-        .post('/api/payments/checkout', null, {
-            params: { couponProduct },
-            responseType: 'text',
-        })
-        .then(r => r.data as string);
 
 export const getCouponProducts = () =>
     http
