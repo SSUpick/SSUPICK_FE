@@ -122,7 +122,7 @@ function SectionDivider() {
 
 function SettingsRow({ label, to, onClick, showArrow, disabled }: SettingsItem) {
     const inner = (
-        <span className="text-black-800 flex h-42 w-full items-center justify-between px-24 text-base font-semibold tracking-tight">
+        <span className="text-black-800 flex h-42 w-full items-center justify-between px-24 text-base font-medium tracking-tight">
             {label}
             {showArrow && <ChevronRightIcon className="text-black-500 size-16" />}
         </span>
