@@ -102,7 +102,13 @@ export function ProfileCreatePage() {
 
     if (step === 'upload') return <PhotoUploadStep onPicked={handlePicked} />;
     if (step === 'preview' && photoFile)
-        return <PhotoPreviewStep file={photoFile} onConfirm={handleConfirmPhoto} />;
+        return (
+            <PhotoPreviewStep
+                file={photoFile}
+                onConfirm={handleConfirmPhoto}
+                onChangePhoto={setPhotoFile}
+            />
+        );
     if (step === 'generating')
         return (
             <GeneratingStep

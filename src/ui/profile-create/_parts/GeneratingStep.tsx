@@ -74,7 +74,6 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
         if (!statusData || handledRef.current) return;
         if (statusData.status === 'DONE') {
             handledRef.current = true;
-            setProgress(100);
             const timer = window.setTimeout(() => onDone(statusData), COMPLETE_DELAY);
             return () => window.clearTimeout(timer);
         } else if (statusData.status === 'FAILED') {
@@ -82,6 +81,9 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
             onError();
         }
     }, [statusData, onDone, onError]);
+
+    // DONE 도착 시 화면에 표시되는 progress는 100% — 실제 state는 점근선 그대로 둠
+    const displayProgress = statusData?.status === 'DONE' ? 100 : progress;
 
     return (
         <div className="relative min-h-dvh w-full">
@@ -121,12 +123,12 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
                 role="progressbar"
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-valuenow={Math.round(progress)}
-                className="bg-white-default/40 absolute inset-x-0 bottom-40 h-6 overflow-hidden rounded-full"
+                aria-valuenow={Math.round(displayProgress)}
+                className="bg-white-default/40 absolute inset-x-0 bottom-40 h-12 overflow-hidden rounded-full"
             >
                 <div
                     className="bg-pink-default h-full rounded-full transition-[width] duration-300 ease-out"
-                    style={{ width: `${progress}%` }}
+                    style={{ width: `${displayProgress}%` }}
                 />
             </div>
         </div>
