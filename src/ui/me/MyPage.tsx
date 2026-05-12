@@ -113,7 +113,7 @@ export function MyPage() {
 
             <div aria-hidden className="bg-black-100 -mx-20 mt-32 h-23" />
 
-            <div className="border-black-200 -mx-20 grid grid-cols-2 border-b">
+            <div className="border-black-200 mt-35 grid grid-cols-2 border-b">
                 <TabButton active={tab === 'opened'} onClick={() => setTab('opened')}>
                     내가 열람한 사람
                 </TabButton>
