@@ -4,7 +4,6 @@ import { ChipButton } from '@/components/button/ChipButton';
 import { CtaButton } from '@/components/button/CtaButton';
 import { MbtiButton } from '@/components/button/MbtiButton';
 import { PlusIcon } from '@/components/icon/PlusIcon';
-import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { TextInput } from '@/components/input/TextInput';
 import { PageHeader } from '@/components/layout/PageHeader';
 
@@ -100,7 +99,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                     <TextInput
                         value={nickname}
                         onChange={e => setNickname(e.target.value.slice(0, NICKNAME_MAX))}
-                        placeholder="숭실대 카리나"
+                        placeholder="ex. 숭실대 카리나"
                     />
                 </FormSection>
 
@@ -164,7 +163,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                                 className="rounded-10 border-pink-default bg-white-default text-pink-point flex h-55 w-full items-center justify-center border"
                                 aria-label="키워드 추가"
                             >
-                                <PlusIcon className="size-38" />
+                                <PlusIcon className="size-20" />
                             </button>
                         )}
                     </div>
@@ -195,15 +194,8 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
             </div>
 
             <div className="px-8 pt-14 pb-22">
-                <CtaButton type="submit" disabled={!formValid || submitting} className="w-full">
-                    {submitting ? (
-                        <span className="flex items-center justify-center gap-8">
-                            <SpinnerIcon className="size-18" />
-                            등록 중...
-                        </span>
-                    ) : (
-                        '등록하기'
-                    )}
+                <CtaButton type="submit" disabled={!formValid} loading={submitting} className="w-full">
+                    {submitting ? '등록 중...' : '등록하기'}
                 </CtaButton>
             </div>
         </form>
