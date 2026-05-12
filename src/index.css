@@ -3,6 +3,8 @@
 /* 짧은 세로 viewport (≤ 800px) 대응 — 인트로/스플래시 등 캔버스 화면에서 사용 */
 @custom-variant short (@media (max-height: 800px));
 @custom-variant supershort (@media (max-height: 700px));
+/* 긴 세로 viewport (> 1000px) 대응 — 큰 디바이스에서 캔버스 요소 축소 */
+@custom-variant tall (@media (min-height: 1001px));
 
 @theme {
     /* Spacing: 0.1rem = 1px @ 1rem=10px → 클래스 숫자 = px값 (mt-13 = 13px) */

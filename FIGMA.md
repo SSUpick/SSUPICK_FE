@@ -546,20 +546,29 @@ export function LoginPage() {
 - 페이지 컴포넌트의 첫 번째 자식으로 마운트 (Fragment + PageBackground + 페이지 본문 패턴)
 - Layout 자체에 박지 마라 — 라우트별 on/off가 필요해서 페이지 단위로 마운트
 
-### 짧은 세로 viewport 대응 — `short:` 변형
+### 세로 viewport 대응 — `short:` / `tall:` 변형
 
-캔버스 스타일(인트로/스플래시) 페이지는 viewport 높이가 디자인 기준(844px)보다 작으면 요소가 겹치거나 잘릴 수 있다. [src/index.css](./src/index.css)에 `@custom-variant short (@media (max-height: 800px))`로 정의된 **`short:` 반응형 변형**을 사용해 단일 임계점에서 살짝 축소한다.
+캔버스 스타일(인트로/스플래시) 페이지는 viewport 높이가 디자인 기준(844px)에서 벗어나면 요소가 겹치거나 너무 커보일 수 있다. [src/index.css](./src/index.css)에 정의된 변형으로 임계점에서 살짝 조정한다.
+
+| 변형          | 미디어 쿼리                | 용도                                                          |
+| ------------- | -------------------------- | ------------------------------------------------------------- |
+| `short:`      | `@media (max-height: 800px)` | 짧은 viewport(iPhone SE 667 등)에서 요소 축소                |
+| `supershort:` | `@media (max-height: 700px)` | 매우 짧은 viewport에서 추가 축소                              |
+| `tall:`       | `@media (min-height: 1001px)` | 큰 디바이스(데스크톱/태블릿 세로)에서 캔버스 비디오 등 축소 |
 
 ```tsx
 // 800px 이하 viewport에서 자동 적용
 <img className="min-h-dvh short:scale-90" />
 <div className="h-[30dvh] max-h-222 short:h-[26dvh] short:max-h-180" />
 <p className="text-3xl short:text-28">사진 한 장으로</p>
+
+// 1001px 이상 viewport에서 비디오 축소 (OnboardingPage)
+<video className="w-[120dvw] max-w-600 tall:scale-90" />
 ```
 
-**언제 쓰나**: 캔버스/풀-블리드 페이지에서 §7의 짧은 viewport 검증(667px iPhone SE 등) 시 충돌이 보일 때. 일반 스크롤 페이지에는 불필요.
+**언제 쓰나**: 캔버스/풀-블리드 페이지에서 §7의 viewport 검증 시 충돌/과대표시가 보일 때. 일반 스크롤 페이지에는 불필요.
 
-**룰**: 임계점은 800px 단일 (점진 스케일 X). 더 좁은 분기가 필요하면 `@custom-variant`를 추가하지 말고 의도부터 재검토 (대부분 캔버스 → flex 재설계가 답).
+**룰**: 단일 임계점만 사용 (점진 스케일 X). 더 세밀한 분기가 필요하면 `@custom-variant`를 추가하지 말고 의도부터 재검토 (대부분 캔버스 → flex 재설계가 답).
 
 ## 10. 디자인 변경 ↔ 문서 동기화
 
