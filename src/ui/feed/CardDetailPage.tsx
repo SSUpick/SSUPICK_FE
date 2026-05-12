@@ -8,14 +8,15 @@ import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
 import { CtaButton } from '@/components/button/CtaButton';
+import { CardDetailSkeleton } from '@/components/card/CardDetailSkeleton';
 import { Modal } from '@/components/feedback/Modal';
-import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
-import type { ProfileViewListResponseDto } from '@/features/profile-view/types';
 import { getTargetUserProfile } from '@/features/user/api';
+import { useProfileViewList } from '@/features/user/hooks/useProfileViewList';
+import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
-import type { UserCardResponseDto, UserTargetProfileResponseDto } from '@/features/user/types';
+import type { UserTargetProfileResponseDto } from '@/features/user/types';
 import { toast } from '@/store/toastStore';
 import { getImageUrl } from '@/utils/getImageUrl';
 
@@ -25,13 +26,10 @@ export function CardDetailPage() {
     const queryClient = useQueryClient();
     const targetUserId = Number(profileId);
 
-    // 카드 기본 정보: explore 캐시 → 열람 목록 캐시 순으로 fallback
-    const cards = queryClient.getQueryData<UserCardResponseDto[]>(['user', 'cards']);
-    const viewList = queryClient.getQueryData<ProfileViewListResponseDto>([
-        'user',
-        'me',
-        'profile-views',
-    ]);
+    // 카드 기본 정보: 캐시 없으면 API fetch (새로고침 대응)
+    const { data: cards, isLoading: isCardsLoading } = useUserCardList();
+    const { data: viewList, isLoading: isViewListLoading } = useProfileViewList();
+
     const card =
         cards?.find(c => c.userId === targetUserId) ??
         viewList?.viewedUsers.find(u => u.userId === targetUserId) ??
@@ -80,18 +78,14 @@ export function CardDetailPage() {
 
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
 
+    if (isCardsLoading || isViewListLoading || (isAlreadyViewed && isAutoLoading)) {
+        return <CardDetailSkeleton />;
+    }
+
     if (!card) {
         return (
             <div className="flex min-h-svh items-center justify-center">
                 <p className="text-black-700 text-base">프로필 정보를 찾을 수 없어요.</p>
-            </div>
-        );
-    }
-
-    if (isAlreadyViewed && isAutoLoading) {
-        return (
-            <div className="flex min-h-svh items-center justify-center">
-                <SpinnerIcon className="text-pink-point size-44" />
             </div>
         );
     }

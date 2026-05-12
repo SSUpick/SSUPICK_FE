@@ -176,7 +176,7 @@ function InquiryDialog({ onClose }: InquiryDialogProps) {
             <button
                 type="button"
                 onClick={onClose}
-                className="text-black-500 text-sm font-medium tracking-tight"
+                className="text-black-400 text-sm font-medium tracking-tight"
             >
                 닫기
             </button>
@@ -216,14 +216,14 @@ function ConfirmDialog({
                 <button
                     type="button"
                     onClick={onCancel}
-                    className="text-black-700 rounded-14 flex h-58 w-full items-center justify-center bg-transparent text-lg font-semibold"
+                    className="text-black-400 rounded-14 flex h-58 w-full items-center justify-center bg-transparent text-lg font-medium"
                 >
                     취소
                 </button>
                 <button
                     type="button"
                     onClick={onConfirm}
-                    className="text-red-default rounded-14 flex h-58 w-full items-center justify-center bg-red-100 text-lg font-semibold"
+                    className="text-red-default rounded-14 flex h-58 w-full items-center justify-center bg-red-100 text-lg font-medium"
                 >
                     {confirmLabel}
                 </button>

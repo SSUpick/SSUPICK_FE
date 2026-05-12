@@ -9,8 +9,8 @@ import lockImg from '@/assets/lock.webp';
 import lockFillIcon from '@/assets/lock_fill.svg';
 import sendFillIcon from '@/assets/send_fill.svg';
 import { CtaButton } from '@/components/button/CtaButton';
+import { CardDetailSkeleton } from '@/components/card/CardDetailSkeleton';
 import { Modal } from '@/components/feedback/Modal';
-import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
 import { getTargetUserProfile } from '@/features/user/api';
@@ -79,26 +79,14 @@ export function CardDetailPage() {
 
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
 
-    if (isCardsLoading || isViewListLoading) {
-        return (
-            <div className="flex min-h-svh items-center justify-center">
-                <SpinnerIcon className="text-pink-point size-44" />
-            </div>
-        );
+    if (isCardsLoading || isViewListLoading || (isAlreadyViewed && isAutoLoading)) {
+        return <CardDetailSkeleton />;
     }
 
     if (!card) {
         return (
             <div className="flex min-h-svh items-center justify-center">
                 <p className="text-black-700 text-base">프로필 정보를 찾을 수 없어요.</p>
-            </div>
-        );
-    }
-
-    if (isAlreadyViewed && isAutoLoading) {
-        return (
-            <div className="flex min-h-svh items-center justify-center">
-                <SpinnerIcon className="text-pink-point size-44" />
             </div>
         );
     }
