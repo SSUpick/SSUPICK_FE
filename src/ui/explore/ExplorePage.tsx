@@ -73,7 +73,7 @@ export function ExplorePage() {
                 </div>
             ) : (
                 <main
-                    className={`grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 ${showProfileCta ? 'pb-110' : 'pb-30'}`}
+                    className={`grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 ${showProfileCta ? 'pb-110' : 'pb-30'}`}
                 >
                     {filtered.map(p => (
                         <ProfileCard
@@ -85,7 +85,9 @@ export function ExplorePage() {
                 </main>
             )}
 
-            <div className={`text-black-400 mt-auto flex flex-col gap-3 border-t border-black-200 pt-16 text-xs leading-18 tracking-tight ${showProfileCta ? 'pb-110' : 'pb-30'}`}>
+            <div
+                className={`text-black-400 border-black-200 mt-auto flex flex-col gap-3 border-t pt-16 text-xs leading-18 tracking-tight ${showProfileCta ? 'pb-110' : 'pb-30'}`}
+            >
                 <p>상호: 슈픽 · 대표자: 백승현</p>
                 <p>사업자등록번호: 282-45-01301</p>
                 <p>통신판매신고번호: 신고 진행 중</p>
