@@ -1,14 +1,18 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import couponImg from '@/assets/coupon.webp';
 import { CtaButton } from '@/components/button/CtaButton';
+import { Modal } from '@/components/feedback/Modal';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { useCheckout } from '@/features/payment/hooks/useCheckout';
+import { ROUTES } from '@/constants/routes';
 import type { CouponProduct } from '@/features/payment/types';
+import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import { toast } from '@/store/toastStore';
 
-import { PhoneNumberModal } from './PhoneNumberModal';
+const ACCOUNT_NUMBER = '3333-22-5066794';
+const ACCOUNT_INFO = '카카오뱅크 (박수민)';
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
@@ -41,25 +45,77 @@ export function PaymentPage() {
     const [params] = useSearchParams();
     const count = Number(params.get('count') ?? '1');
     const price = Number(params.get('price') ?? '1000');
-    const product = (params.get('product') ?? 'COUPON_1') as CouponProduct;
+    void (params.get('product') as CouponProduct);
+
+    const { data: profile } = useUserProfile();
+    const nickname = profile?.nickname ?? '';
 
     const [method, setMethod] = useState<'card' | null>('card');
     const [agreed, setAgreed] = useState(false);
+    const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [isConfirming, setIsConfirming] = useState(false);
 
-    const { checkout, isPending, isPhoneModalOpen, closePhoneModal, onPhoneRegistered } =
-        useCheckout(product);
+    const handleConfirm = () => {
+        setIsConfirming(true);
+        setTimeout(() => {
+            setShowModal(false);
+            setIsConfirming(false);
+            navigate(ROUTES.ME, { replace: true });
+        }, 2000);
+    };
+
+    const handleCopyAccount = async () => {
+        try {
+            await navigator.clipboard.writeText(ACCOUNT_NUMBER);
+            toast.success('계좌번호가 복사됐어요!');
+        } catch {
+            toast.error('복사에 실패했어요.');
+        }
+    };
 
     return (
         <>
-            <PhoneNumberModal
-                open={isPhoneModalOpen}
-                onClose={closePhoneModal}
-                onSuccess={onPhoneRegistered}
-            />
+            <Modal open={showModal} onClose={() => setShowModal(false)}>
+                <div className="bg-white-default rounded-20 flex flex-col gap-20 px-24 py-28">
+                    <p className="text-black-800 text-center text-base leading-24 font-medium tracking-tight">
+                        아래 계좌를 통해 입금자명을
+                        <br />
+                        현재 닉네임 <span className="text-pink-point font-bold">
+                            '{nickname}'
+                        </span>{' '}
+                        으로 해주세요!
+                    </p>
+                    <button
+                        type="button"
+                        onClick={handleCopyAccount}
+                        className="bg-black-50 rounded-14 flex flex-col items-center gap-6 py-16"
+                    >
+                        <span className="text-black-800 text-lg font-bold tracking-widest">
+                            {ACCOUNT_NUMBER}
+                        </span>
+                        <span className="text-black-400 text-sm font-medium">{ACCOUNT_INFO}</span>
+                        <span className="text-pink-point mt-2 text-xs font-medium">
+                            탭하여 복사
+                        </span>
+                    </button>
+                    <p className="text-black-400 text-center text-xs font-medium tracking-tight">
+                        입금 후 자동으로 쿠폰이 충전됩니다.
+                    </p>
+                    <button
+                        type="button"
+                        onClick={handleConfirm}
+                        disabled={isConfirming}
+                        className="bg-pink-default text-white-default rounded-14 flex h-52 w-full items-center justify-center text-base font-semibold disabled:opacity-70"
+                    >
+                        {isConfirming ? '확인 중...' : '확인'}
+                    </button>
+                </div>
+            </Modal>
             <div className="bg-white-default flex min-h-svh flex-col">
                 <PageHeader title="결제하기" />
 
-                {/* 상품 정보 — 항상 노출 */}
+                {/* 상품 정보 */}
                 <section className="py-20">
                     <div className="flex items-start gap-14">
                         <img
@@ -106,13 +162,13 @@ export function PaymentPage() {
                                 : 'border-black-300 text-black-800'
                         }`}
                     >
-                        신용 · 체크카드
+                        계좌 이체
                     </button>
                 </section>
 
                 <div className="bg-black-100 -mx-20 h-8" />
 
-                {/* 아코디언 — 상품 정보 / 환불 안내 / 주의사항 */}
+                {/* 아코디언 */}
                 <section className="border-black-200 border-t">
                     <AccordionItem title="상품 정보">
                         <dl className="text-xs tracking-tight">
@@ -163,26 +219,6 @@ export function PaymentPage() {
                             ))}
                         </ul>
                     </AccordionItem>
-
-                    <AccordionItem title="사업자 정보">
-                        <dl className="text-xs tracking-tight">
-                            {(
-                                [
-                                    ['상호', '슈픽'],
-                                    ['서비스명', '슈픽(SSUpick)'],
-                                    ['대표자', '백승현'],
-                                    ['사업자등록번호', '2824501301'],
-                                    ['이메일', 'seunghyun020907@naver.com'],
-                                    ['문의 채널', 'pf.kakao.com/_xjJrxbX/chat'],
-                                ] as const
-                            ).map(([label, value]) => (
-                                <div key={label} className="mb-6 flex gap-12 last:mb-0">
-                                    <dt className="text-black-400 w-72 shrink-0">{label}</dt>
-                                    <dd className="text-black-600 break-all">{value}</dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </AccordionItem>
                 </section>
 
                 {/* 동의 체크박스 */}
@@ -201,9 +237,8 @@ export function PaymentPage() {
                 <div className="mt-auto pb-22">
                     <CtaButton
                         className="w-full"
-                        onClick={() => checkout()}
-                        disabled={method === null || !agreed || isPending}
-                        loading={isPending}
+                        disabled={method === null || !agreed}
+                        onClick={() => setShowModal(true)}
                     >
                         {formatPrice(price)} 결제하기
                     </CtaButton>

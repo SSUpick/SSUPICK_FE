@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 import { generateAiImage } from '@/features/ai-image/api';
 import type { AiImageResponseDto } from '@/features/ai-image/types';
@@ -95,8 +96,12 @@ export function ProfileCreatePage() {
                 contact: values.contact,
                 gender: values.gender,
             });
-        } catch {
-            toast.error('프로필 등록에 실패했어요.');
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data?.code === 'USER_400_4') {
+                toast.error('비속어가 포함된 키워드는 사용할 수 없습니다.');
+            } else {
+                toast.error('프로필 등록에 실패했어요.');
+            }
         }
     };
 
