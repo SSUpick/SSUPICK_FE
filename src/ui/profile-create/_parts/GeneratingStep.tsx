@@ -119,21 +119,27 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
                 );
             })}
 
-            <p className="text-white-default/60 absolute inset-x-0 bottom-62 text-center text-xs font-medium tracking-tight">
-                슈니가 열심히 사진을 변환하고 있어요, 조금만 기다려 주세요
-            </p>
-
-            <div
-                role="progressbar"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={Math.round(displayProgress)}
-                className="bg-white-default/40 absolute inset-x-0 bottom-40 h-12 overflow-hidden rounded-full"
-            >
+            <div className="absolute inset-x-0 bottom-14 flex flex-col items-center gap-8">
+                <p className="text-white-default/90 text-center text-xs font-semibold tracking-tight leading-snug">
+                    생성이 완료되기 전까지 새로고침, 페이지 이동, 화면 끄기를
+                    <br />
+                    하면 작업이 중단될 수 있어요.
+                </p>
+                <p className="text-white-default/40 text-center text-xs font-medium tracking-tight">
+                    조금만 기다려 주세요.
+                </p>
                 <div
-                    className="bg-pink-default h-full rounded-full transition-[width] duration-300 ease-out"
-                    style={{ width: `${displayProgress}%` }}
-                />
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.round(displayProgress)}
+                    className="bg-white-default/40 h-12 w-full overflow-hidden rounded-full"
+                >
+                    <div
+                        className="bg-pink-default h-full rounded-full transition-[width] duration-300 ease-out"
+                        style={{ width: `${displayProgress}%` }}
+                    />
+                </div>
             </div>
         </div>
     );
