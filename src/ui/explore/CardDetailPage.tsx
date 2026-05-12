@@ -131,7 +131,9 @@ export function CardDetailPage() {
                         <span className="text-black-900 text-22 font-semibold">
                             {card.nickname}
                         </span>
-                        <span className="rounded-6 bg-pink-light text-pink-point flex h-28 items-center justify-center px-12 text-base font-semibold">
+                        <span
+                            className={`rounded-6 flex h-28 items-center justify-center px-12 text-base font-semibold ${card.gender === 'FEMALE' ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800'}`}
+                        >
                             {card.mbti}
                         </span>
                     </div>
