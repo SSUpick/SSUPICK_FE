@@ -1,4 +1,4 @@
-import bg from '@/assets/bg_onBoarding_wide.webp';
+import bg from '@/assets/bg_login.png';
 import chatBubble_gray from '@/assets/chatBubble_gray.svg';
 import { KakaoButton } from '@/components/button/KakaoButton';
 import { PageBackground } from '@/components/layout/PageBackground';
