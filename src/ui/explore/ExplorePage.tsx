@@ -5,7 +5,6 @@ import { CtaButton } from '@/components/button/CtaButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
 import { ProfileCardSkeleton } from './_parts/ProfileCardSkeleton';
-import { CONTACT } from '@/constants/contact';
 import { ROUTES, cardDetailPath } from '@/constants/routes';
 import type { Gender } from '@/features/user/types';
 import { useUserCardList } from '@/features/user/hooks/useUserCardList';
@@ -84,17 +83,6 @@ export function ExplorePage() {
                     ))}
                 </main>
             )}
-
-            <div
-                className={`text-black-400 border-black-200 mt-auto flex flex-col gap-3 border-t pt-16 text-xs leading-18 tracking-tight ${showProfileCta ? 'pb-110' : 'pb-30'}`}
-            >
-                <p>상호: 슈픽 · 대표자: 백승현</p>
-                <p>사업자등록번호: 282-45-01301</p>
-                <p>통신판매신고번호: 신고 진행 중</p>
-                <p>사업장 주소: 서울특별시 동작구 상도로 395-7</p>
-                <p>전화: 010-4651-2952</p>
-                <p>고객센터: {CONTACT.EMAIL}</p>
-            </div>
 
             {/* 프로필 미등록 유저 CTA */}
             {showProfileCta && (

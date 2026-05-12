@@ -1,4 +1,3 @@
-import { CONTACT } from '@/constants/contact';
 import { PageHeader } from '@/components/layout/PageHeader';
 
 import { Article, OL } from './_parts/Article';
@@ -474,19 +473,7 @@ export function TermsPage() {
                     </OL>
                 </Article>
 
-                <Article number="제21조" title="사업자 정보 및 문의">
-                    <p>서비스 이용과 관련한 문의는 아래 연락처로 할 수 있습니다.</p>
-                    <ul className="text-black-700 flex flex-col gap-2">
-                        <li>상호: 슈픽</li>
-                        <li>서비스명: 슈픽(SSUpick)</li>
-                        <li>대표자: 백승현</li>
-                        <li>사업자등록번호: 2824501301</li>
-                        <li>이메일: {CONTACT.EMAIL}</li>
-                        <li>문의 채널: {CONTACT.KAKAO_CHANNEL}</li>
-                    </ul>
-                </Article>
-
-                <section className="border-black-200 text-black-500 flex flex-col gap-4 border-t pt-16 text-xs tracking-tight">
+<section className="border-black-200 text-black-500 flex flex-col gap-4 border-t pt-16 text-xs tracking-tight">
                     <p className="text-black-700 text-sm font-semibold">부칙</p>
                     <p>본 약관은 2026년 5월 6일부터 적용됩니다.</p>
                 </section>

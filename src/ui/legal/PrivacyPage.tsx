@@ -415,15 +415,6 @@ export function PrivacyPage() {
                         <p>시행일자: 2026년 5월 6일</p>
                     </div>
 
-                    <div className="flex flex-col gap-2">
-                        <p className="text-black-700 text-sm font-semibold">사업자 정보</p>
-                        <p>상호: 슈픽</p>
-                        <p>서비스명: 슈픽(SSUpick)</p>
-                        <p>대표자: 백승현</p>
-                        <p>사업자등록번호: 2824501301</p>
-                        <p>이메일: {CONTACT.EMAIL}</p>
-                        <p>문의 채널: {CONTACT.KAKAO_CHANNEL}</p>
-                    </div>
                 </section>
             </div>
         </div>
