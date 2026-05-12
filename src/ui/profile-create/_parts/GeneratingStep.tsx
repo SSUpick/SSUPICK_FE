@@ -119,6 +119,10 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
                 );
             })}
 
+            <p className="text-white-default/60 absolute inset-x-0 bottom-62 text-center text-xs font-medium tracking-tight">
+                슈니가 열심히 사진을 변환하고 있어요, 조금만 기다려 주세요
+            </p>
+
             <div
                 role="progressbar"
                 aria-valuemin={0}

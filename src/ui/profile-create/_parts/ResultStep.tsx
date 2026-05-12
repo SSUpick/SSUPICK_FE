@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 
@@ -15,6 +15,7 @@ type ResultStepProps = {
     maxAttempts: number;
     onRetry: () => void;
     onConfirm: () => void;
+    alreadySelected?: boolean;
 };
 
 export function ResultStep({
@@ -24,22 +25,45 @@ export function ResultStep({
     maxAttempts,
     onRetry,
     onConfirm,
+    alreadySelected = false,
 }: ResultStepProps) {
     const isMaxed = attempts >= maxAttempts;
+    // 명시적으로 완료(선택 or 재시도)한 경우 true — 이탈 시 자동 선택 스킵
+    // alreadySelected면 처음부터 true (이탈 시 재호출 방지)
+    const resolvedRef = useRef(alreadySelected);
+    // StrictMode 이중 마운트 대응: 재마운트 시 이전 cleanup auto-select 취소
+    const autoSelectTimerRef = useRef<number | null>(null);
 
     const { mutate: selectImage, isPending } = useMutation({
         mutationFn: () => selectAiImage(aiImageId),
-        onSuccess: onConfirm,
+        onSuccess: () => {
+            resolvedRef.current = true;
+            onConfirm();
+        },
         onError: () => toast.error('이미지 선택에 실패했어요.'),
     });
 
+    const handleRetry = () => {
+        resolvedRef.current = true;
+        onRetry();
+    };
+
+    // 이탈(뒤로 가기, 라우트 이동 등) 시 마지막 생성 이미지 자동 선택
+    // setTimeout 0으로 StrictMode 재마운트 시 예약 취소, 실제 이탈만 처리
     useEffect(() => {
-        const handler = () => {
-            toast.error('사진 저장 기능은 프로필 업로드 후 제공돼요!');
+        if (autoSelectTimerRef.current !== null) {
+            window.clearTimeout(autoSelectTimerRef.current);
+            autoSelectTimerRef.current = null;
+        }
+
+        return () => {
+            autoSelectTimerRef.current = window.setTimeout(() => {
+                if (!resolvedRef.current) {
+                    selectAiImage(aiImageId).catch(() => {});
+                }
+            }, 0);
         };
-        document.addEventListener('visibilitychange', handler);
-        return () => document.removeEventListener('visibilitychange', handler);
-    }, []);
+    }, [aiImageId]);
 
     return (
         <BackdropScene>
@@ -92,14 +116,14 @@ export function ResultStep({
                 {isMaxed ? (
                     <CtaButton
                         className="w-full"
-                        onClick={() => selectImage()}
-                        disabled={isPending}
+                        onClick={alreadySelected ? onConfirm : () => selectImage()}
+                        disabled={!alreadySelected && isPending}
                     >
-                        이대로 하기
+                        {alreadySelected ? '다음으로' : '이대로 하기'}
                     </CtaButton>
                 ) : (
                     <div className="grid w-full grid-cols-2 gap-20">
-                        <CtaButton variant="secondary" onClick={onRetry} disabled={isPending}>
+                        <CtaButton variant="secondary" onClick={handleRetry} disabled={isPending}>
                             다시 하기
                         </CtaButton>
                         <CtaButton onClick={() => selectImage()} disabled={isPending}>
