@@ -48,11 +48,17 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
 
     const mbti = useMemo(() => MBTI_PAIRS.map((_, i) => letters[i] ?? '').join(''), [letters]);
 
+    const contactValid =
+        contact.trim().length >= 2 &&
+        contact.trim().length <= 50 &&
+        /[a-zA-Z0-9가-힣]/.test(contact.trim());
+    const contactError = contact.length > 0 && !contactValid;
+
     const formValid =
         nickname.trim().length > 0 &&
         mbti.length === 4 &&
         appeals.some(k => k.trim().length > 0) &&
-        contact.trim().length > 0;
+        contactValid;
 
     const { mutate: submitUpdate, isPending } = useMutation({
         mutationFn: updateUserProfile,
@@ -178,7 +184,11 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
                     </div>
                 </Field>
 
-                <Field label="연락처" labelClass="text-22">
+                <Field
+                    label="연락처"
+                    labelClass="text-22"
+                    error={contactError ? '영문, 숫자, 한글 중 하나 이상을 포함해주세요.' : null}
+                >
                     <EditableInput
                         value={contact}
                         onChange={v => setContact(v.slice(0, 50))}

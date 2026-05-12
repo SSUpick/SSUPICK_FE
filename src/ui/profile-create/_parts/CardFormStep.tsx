@@ -44,8 +44,13 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
 
     const mbti = useMemo(() => MBTI_PAIRS.map((_, i) => letters[i] ?? '').join(''), [letters]);
 
-    const contactValid = contact.length >= CONTACT_MIN && contact.length <= CONTACT_MAX;
+    const contactLengthValid = contact.length >= CONTACT_MIN && contact.length <= CONTACT_MAX;
+    const contactAlphanumValid = /[a-zA-Z0-9가-힣]/.test(contact);
+    const contactValid = contactLengthValid && contactAlphanumValid;
     const contactError = contact.length > 0 && !contactValid;
+    const contactErrorMsg = !contactLengthValid
+        ? `연락처는 ${CONTACT_MIN}자 이상 ${CONTACT_MAX}자 이하로 입력해주세요.`
+        : '영문, 숫자, 한글 중 하나 이상을 포함해주세요.';
     const validKeywords = appeals.map(k => k.trim()).filter(k => k.length > 0);
 
     const formValid =
@@ -186,14 +191,18 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                         />
                         {contactError && (
                             <p className="text-red-default text-sm font-medium tracking-tighter">
-                                연락처는 {CONTACT_MIN}자 이상 {CONTACT_MAX}자 이하로 입력해주세요.
+                                {contactErrorMsg}
                             </p>
                         )}
                     </div>
                 </FormSection>
             </div>
 
-            <div className="px-8 pt-14 pb-22">
+            <div className="px-8 pt-14 pb-22 flex flex-col gap-12">
+                <p className="text-black-400 text-left text-xs font-medium tracking-tight leading-snug">
+                    <span className="font-semibold">주의사항:</span> 사실과 다른 정보나 부적절한 내용이 포함된 경우,{' '}
+                    관리자 확인 후 프로필이 삭제될 수 있습니다.
+                </p>
                 <CtaButton type="submit" disabled={!formValid} loading={submitting} className="w-full">
                     {submitting ? '등록 중...' : '등록하기'}
                 </CtaButton>
