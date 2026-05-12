@@ -59,7 +59,7 @@ export function MyPage() {
                 }
             />
 
-            <section className="mt-30 flex flex-col items-center">
+            <section className="mt-40 flex flex-col items-center">
                 <div className="relative">
                     <img
                         src={
@@ -85,11 +85,11 @@ export function MyPage() {
                         </div>
                     )}
                 </div>
-                <p className="text-black-900 mt-17 text-2xl font-semibold">
+                <p className="text-black-900 mt-22 text-2xl font-semibold">
                     {profile?.nickname ?? ''}
                 </p>
                 {!isIncomplete && (
-                    <div className="mt-19">
+                    <div className="mt-24">
                         <OutlineChipButton onClick={() => navigate(ROUTES.ME_EDIT)}>
                             내 정보 수정
                         </OutlineChipButton>
@@ -100,7 +100,7 @@ export function MyPage() {
             <button
                 type="button"
                 onClick={() => navigate(ROUTES.COUPON)}
-                className="rounded-20 bg-white-default drop-shadow-coupon mt-21 flex h-76 w-full items-center justify-between border border-pink-100 pr-31 pl-16"
+                className="rounded-20 bg-white-default drop-shadow-coupon mt-30 flex h-76 w-full items-center justify-between border border-pink-100 pr-31 pl-16"
             >
                 <div className="flex items-center gap-15">
                     <img src={couponImg} alt="" aria-hidden className="h-40 w-57 object-contain" />
@@ -111,7 +111,7 @@ export function MyPage() {
                 </span>
             </button>
 
-            <div aria-hidden className="bg-black-100 -mx-20 mt-24 h-23" />
+            <div aria-hidden className="bg-black-100 -mx-20 mt-32 h-23" />
 
             <div className="border-black-200 -mx-20 grid grid-cols-2 border-b">
                 <TabButton active={tab === 'opened'} onClick={() => setTab('opened')}>
@@ -123,18 +123,18 @@ export function MyPage() {
             </div>
 
             {viewLoading ? (
-                <div className="mt-26 flex justify-center">
+                <div className="mt-32 flex justify-center">
                     <SpinnerIcon className="text-pink-point size-44" />
                 </div>
             ) : users.length === 0 ? (
-                <div className="rounded-20 bg-black-100 mt-26 mb-14 flex h-146 w-full flex-col items-center gap-31 pt-15">
+                <div className="rounded-20 bg-black-100 mt-32 mb-20 flex h-146 w-full flex-col items-center gap-31 pt-15">
                     <p className="text-black-700 text-lg font-semibold">
                         {tab === 'opened' ? '아직 열람한 사람이 없어요!' : '아직 나를 열람한 사람이 없어요!'}
                     </p>
                     <AvatarIcon className="text-black-400 size-46" />
                 </div>
             ) : (
-                <div className="mt-22 grid grid-cols-2 gap-x-27 gap-y-26 pb-22">
+                <div className="mt-28 grid grid-cols-2 gap-x-27 gap-y-32 pb-28">
                     {users.map(p => (
                         <ProfileCard
                             key={p.userId}

@@ -7,6 +7,7 @@ import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
 import lockFillIcon from '@/assets/lock_fill.svg';
+import copyIcon from '@/assets/copy_icon.svg';
 import sendFillIcon from '@/assets/send_fill.svg';
 import { CtaButton } from '@/components/button/CtaButton';
 import { CardDetailSkeleton } from '@/components/card/CardDetailSkeleton';
@@ -142,7 +143,7 @@ export function CardDetailPage() {
                 <section className="mt-auto flex w-full flex-col gap-16">
                     <div className="flex items-center gap-6">
                         <img src={sendFillIcon} alt="" aria-hidden className="size-24" />
-                        <h2 className="text-black-700 text-xl font-semibold">공개 정보</h2>
+                        <h2 className="text-black-700 text-xl font-semibold">연락처</h2>
                     </div>
 
                     {unlocked ? (
@@ -154,7 +155,7 @@ export function CardDetailPage() {
                                 aria-label="연락처 복사"
                                 className="absolute right-20"
                             >
-                                <img src={sendFillIcon} alt="" aria-hidden className="size-22" />
+                                <img src={copyIcon} alt="" aria-hidden className="size-24" />
                             </button>
                         </div>
                     ) : (
@@ -208,7 +209,7 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={couponImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                이 프로필의 공개 정보를 확인하려면
+                이 프로필의 연락처를 확인하려면
                 <br />
                 이용권 1개가 차감됩니다.
             </p>
@@ -216,7 +217,7 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
                 현재 이용권: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
             <CtaButton className="w-full" onClick={onConfirm} loading={isPending}>
-                프로필 확인하기
+                연락처 열람하기
             </CtaButton>
         </div>
     );
@@ -231,7 +232,7 @@ function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={lockImg} alt="" aria-hidden className="h-180 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                프로필 상세 정보를 확인하려면
+                연락처를 확인하려면
                 <br />
                 쿠폰이 필요해요!
             </p>
