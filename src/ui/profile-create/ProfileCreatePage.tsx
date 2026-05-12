@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-import { generateAiImage } from '@/features/ai-image/api';
+import { generateAiImage, selectAiImage } from '@/features/ai-image/api';
 import type { AiImageResponseDto } from '@/features/ai-image/types';
 import { registerUserOnboarding } from '@/features/user/api';
 import { ROUTES } from '@/constants/routes';
@@ -24,10 +24,12 @@ const MAX_ATTEMPTS = 3;
 
 export function ProfileCreatePage() {
     const navigate = useNavigate();
-    const [step, setStep] = useState<Step>('upload');
+    const { state } = useLocation();
+    const [step, setStep] = useState<Step>(state?.skipToForm ? 'form' : 'upload');
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [aiImage, setAiImage] = useState<AiImageResponseDto | null>(null);
     const [attempts, setAttempts] = useState(0);
+    const [isAutoSelected, setIsAutoSelected] = useState(false);
 
     const { mutate: startGeneration, data: generateResult } = useMutation({
         mutationFn: generateAiImage,
@@ -72,6 +74,10 @@ export function ProfileCreatePage() {
 
     const handleGeneratingDone = (result: AiImageResponseDto) => {
         setAiImage(result);
+        if (attempts >= MAX_ATTEMPTS) {
+            selectAiImage(result.aiImageId).catch(() => {});
+            setIsAutoSelected(true);
+        }
         setStep('result');
     };
 
@@ -84,6 +90,7 @@ export function ProfileCreatePage() {
         if (attempts >= MAX_ATTEMPTS) return;
         setPhotoFile(null);
         setAiImage(null);
+        setIsAutoSelected(false);
         setStep('upload');
     };
 
@@ -131,6 +138,7 @@ export function ProfileCreatePage() {
                 maxAttempts={MAX_ATTEMPTS}
                 onRetry={handleRetry}
                 onConfirm={() => setStep('form')}
+                alreadySelected={isAutoSelected}
             />
         );
     return <CardFormStep onSubmit={handleSubmitForm} />;

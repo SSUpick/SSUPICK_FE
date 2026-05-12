@@ -33,7 +33,7 @@ function AccordionItem({ title, children }: AccordionItemProps) {
             >
                 <span className="text-black-700 text-sm font-medium">{title}</span>
                 <ChevronRightIcon
-                    className={`text-black-400 size-18 transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`}
+                    className={`text-black-400 size-18 transition-transform duration-200 ${isOpen ? '-rotate-90' : 'rotate-90'}`}
                 />
             </button>
             {isOpen && <div className="pb-16">{children}</div>}
@@ -125,8 +125,8 @@ export function PaymentPage() {
                             className="mt-2 size-58 shrink-0 object-contain"
                         />
                         <div className="flex flex-col gap-6">
-                            <span className="text-black-800 text-base font-bold">
-                                프로필 조회 이용권 {count}개
+                            <span className="text-black-800 text-base font-medium">
+                                쿠폰 {count}개
                             </span>
                             <p className="text-black-500 text-xs leading-18 tracking-tight">
                                 슈픽 서비스 내에서 축제 참여자가 공개에 동의한 프로필 상세 정보를
@@ -137,13 +137,13 @@ export function PaymentPage() {
                     <div className="border-black-200 mt-16 flex flex-col gap-10 border-t pt-16">
                         <div className="flex items-center justify-between">
                             <span className="text-black-500 text-xs font-medium">결제 금액</span>
-                            <span className="text-black-800 text-xl font-bold">
+                            <span className="text-black-800 text-xl font-medium">
                                 {formatPrice(price)}
                             </span>
                         </div>
                         <ul className="text-black-400 flex flex-col gap-4 text-xs tracking-tight">
                             <li>결제 완료 후 즉시 지급</li>
-                            <li>이용권 1개당 프로필 상세 정보 1회 확인</li>
+                            <li>이용권 1개당 프로필 연락처 1회 조회</li>
                         </ul>
                     </div>
                 </section>
@@ -166,7 +166,6 @@ export function PaymentPage() {
                     </button>
                 </section>
 
-                <div className="bg-black-100 -mx-20 h-8" />
 
                 {/* 아코디언 */}
                 <section className="border-black-200 border-t">

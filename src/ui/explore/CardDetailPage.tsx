@@ -3,19 +3,22 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import airplaneImg from '@/assets/airplane.webp';
 import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
+import lockFillIcon from '@/assets/lock_fill.svg';
+import copyIcon from '@/assets/copy_icon.svg';
+import sendFillIcon from '@/assets/send_fill.svg';
 import { CtaButton } from '@/components/button/CtaButton';
+import { CardDetailSkeleton } from '@/components/card/CardDetailSkeleton';
 import { Modal } from '@/components/feedback/Modal';
-import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ROUTES } from '@/constants/routes';
-import type { ProfileViewListResponseDto } from '@/features/profile-view/types';
 import { getTargetUserProfile } from '@/features/user/api';
+import { useProfileViewList } from '@/features/user/hooks/useProfileViewList';
+import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
-import type { UserCardResponseDto, UserTargetProfileResponseDto } from '@/features/user/types';
+import type { UserTargetProfileResponseDto } from '@/features/user/types';
 import { toast } from '@/store/toastStore';
 import { getImageUrl } from '@/utils/getImageUrl';
 
@@ -25,13 +28,10 @@ export function CardDetailPage() {
     const queryClient = useQueryClient();
     const targetUserId = Number(profileId);
 
-    // 카드 기본 정보: explore 캐시 → 열람 목록 캐시 순으로 fallback
-    const cards = queryClient.getQueryData<UserCardResponseDto[]>(['user', 'cards']);
-    const viewList = queryClient.getQueryData<ProfileViewListResponseDto>([
-        'user',
-        'me',
-        'profile-views',
-    ]);
+    // 카드 기본 정보: 캐시 없으면 API fetch (새로고침 대응)
+    const { data: cards, isLoading: isCardsLoading } = useUserCardList();
+    const { data: viewList, isLoading: isViewListLoading } = useProfileViewList();
+
     const card =
         cards?.find(c => c.userId === targetUserId) ??
         viewList?.viewedUsers.find(u => u.userId === targetUserId) ??
@@ -80,18 +80,14 @@ export function CardDetailPage() {
 
     const [modal, setModal] = useState<'coupon' | 'lock' | null>(null);
 
+    if (isCardsLoading || isViewListLoading || (isAlreadyViewed && isAutoLoading)) {
+        return <CardDetailSkeleton />;
+    }
+
     if (!card) {
         return (
             <div className="flex min-h-svh items-center justify-center">
                 <p className="text-black-700 text-base">프로필 정보를 찾을 수 없어요.</p>
-            </div>
-        );
-    }
-
-    if (isAlreadyViewed && isAutoLoading) {
-        return (
-            <div className="flex min-h-svh items-center justify-center">
-                <SpinnerIcon className="text-pink-point size-44" />
             </div>
         );
     }
@@ -131,7 +127,9 @@ export function CardDetailPage() {
                         <span className="text-black-900 text-22 font-semibold">
                             {card.nickname}
                         </span>
-                        <span className="rounded-6 bg-pink-light text-pink-point flex h-28 items-center justify-center px-12 text-base font-semibold">
+                        <span
+                            className={`rounded-6 flex h-28 items-center justify-center px-12 text-base font-semibold ${card.gender === 'FEMALE' ? 'bg-pink-light text-pink-point' : 'bg-blue-100 text-blue-800'}`}
+                        >
                             {card.mbti}
                         </span>
                     </div>
@@ -144,8 +142,8 @@ export function CardDetailPage() {
 
                 <section className="mt-auto flex w-full flex-col gap-16">
                     <div className="flex items-center gap-6">
-                        <img src={airplaneImg} alt="" aria-hidden className="size-24" />
-                        <h2 className="text-black-700 text-xl font-semibold">공개 정보</h2>
+                        <img src={sendFillIcon} alt="" aria-hidden className="size-24" />
+                        <h2 className="text-black-700 text-xl font-semibold">연락처</h2>
                     </div>
 
                     {unlocked ? (
@@ -154,22 +152,10 @@ export function CardDetailPage() {
                             <button
                                 type="button"
                                 onClick={handleCopy}
-                                aria-label="공개 정보 복사"
+                                aria-label="연락처 복사"
                                 className="absolute right-20"
                             >
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={1.8}
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-pink-point size-22"
-                                    aria-hidden
-                                >
-                                    <rect x="9" y="9" width="13" height="13" rx="2" />
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                                </svg>
+                                <img src={copyIcon} alt="" aria-hidden className="size-24" />
                             </button>
                         </div>
                     ) : (
@@ -179,13 +165,13 @@ export function CardDetailPage() {
                             className="bg-pink-light rounded-20 flex h-82 w-full items-center justify-center gap-8"
                         >
                             <img
-                                src={lockImg}
+                                src={lockFillIcon}
                                 alt=""
                                 aria-hidden
-                                className="size-32 object-contain"
+                                className="size-24 object-contain"
                             />
                             <span className="text-pink-point text-xl font-semibold">
-                                이용권으로 확인하기
+                                쿠폰으로 열람하기
                             </span>
                         </button>
                     )}
@@ -223,7 +209,7 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={couponImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                이 프로필의 공개 정보를 확인하려면
+                이 프로필의 연락처를 확인하려면
                 <br />
                 이용권 1개가 차감됩니다.
             </p>
@@ -231,7 +217,7 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
                 현재 이용권: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
             <CtaButton className="w-full" onClick={onConfirm} loading={isPending}>
-                프로필 확인하기
+                연락처 열람하기
             </CtaButton>
         </div>
     );
@@ -244,14 +230,14 @@ type NoCouponDialogProps = {
 function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
     return (
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
-            <img src={lockImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
+            <img src={lockImg} alt="" aria-hidden className="h-180 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                프로필 상세 정보를 확인하려면
+                연락처를 확인하려면
                 <br />
-                이용권이 필요해요!
+                쿠폰이 필요해요!
             </p>
             <CtaButton className="w-full" onClick={onGoToCoupon}>
-                이용권 구매하기
+                쿠폰 구매하기
             </CtaButton>
         </div>
     );

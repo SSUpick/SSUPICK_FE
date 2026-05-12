@@ -14,6 +14,7 @@ export function useWithdraw() {
         mutationFn: withdraw,
         onSuccess: () => {
             clearTokens();
+            localStorage.removeItem('onboarding_seen');
             navigate(ROUTES.LOGIN, { replace: true });
         },
     });

@@ -1,4 +1,4 @@
-import bg from '@/assets/bg_onBoarding_wide.webp';
+import bg from '@/assets/bg_login.png';
 import chatBubble_gray from '@/assets/chatBubble_gray.svg';
 import { KakaoButton } from '@/components/button/KakaoButton';
 import { PageBackground } from '@/components/layout/PageBackground';
@@ -29,7 +29,7 @@ export function LoginPage() {
                 <div className="flex min-h-dvh w-full flex-col items-center">
                     <div className="short:h-[26dvh] short:max-h-180 absolute bottom-2/3 flex h-[30dvh] max-h-222 flex-col items-center justify-between text-center whitespace-nowrap">
                         <p className="text-pink-point short:text-base text-lg font-medium tracking-tight">
-                            캠퍼스 축제 아바타 서비스, 슈픽
+                            AI 아바타 소개팅 서비스, 슈픽
                         </p>
                         <p className="text-black-800 supershort:text-2xl short:text-28 text-3xl font-semibold">
                             사진 한 장으로
