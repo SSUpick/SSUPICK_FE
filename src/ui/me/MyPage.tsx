@@ -5,7 +5,6 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
-import ssunuImg from '@/assets/ssuny.webp';
 import { OutlineChipButton } from '@/components/button/OutlineChipButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
@@ -34,6 +33,9 @@ export function MyPage() {
 
     const users = tab === 'opened' ? (viewList?.viewedUsers ?? []) : (viewList?.viewerUsers ?? []);
     const isIncomplete = profile?.onboardingStatus === 'INCOMPLETE';
+    const isKakaoDefault = profile?.profileUrl?.includes('kakaocdn.net') ?? false;
+    const needsPhoto = isIncomplete && (!profile?.profileUrl || isKakaoDefault);
+    const needsInfoOnly = isIncomplete && !!profile?.profileUrl && !isKakaoDefault;
 
     if (profileLoading) {
         return (
@@ -61,40 +63,39 @@ export function MyPage() {
 
             <section className="mt-40 flex flex-col items-center">
                 <div className="relative">
-                    <img
-                        src={
-                            isIncomplete
-                                ? ssunuImg
-                                : getImageUrl(profile?.profileUrl, defaultProfileImg)
-                        }
-                        onError={e => {
-                            e.currentTarget.src = defaultProfileImg;
-                        }}
-                        alt={profile?.nickname ?? '프로필'}
-                        className={`rounded-10 h-171 w-137 object-cover ${isIncomplete ? 'blur-sm' : ''}`}
-                    />
-                    {isIncomplete && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <button
-                                type="button"
-                                onClick={() => navigate(ROUTES.PROFILE_CREATE)}
-                                className="bg-pink-default text-white-default rounded-full px-20 py-10 text-sm font-semibold shadow-sm"
-                            >
-                                프로필 등록하기
-                            </button>
-                        </div>
+                    {needsPhoto ? (
+                        <button
+                            type="button"
+                            onClick={() => navigate(ROUTES.PROFILE_CREATE)}
+                            className="rounded-10 bg-black-100 flex h-171 w-137 items-center justify-center"
+                        >
+                            <AvatarIcon className="text-black-300 size-56" />
+                        </button>
+                    ) : (
+                        <img
+                            src={getImageUrl(profile?.profileUrl, defaultProfileImg)}
+                            onError={e => {
+                                e.currentTarget.src = defaultProfileImg;
+                            }}
+                            alt={profile?.nickname ?? '프로필'}
+                            className="rounded-10 h-171 w-137 object-cover"
+                        />
                     )}
                 </div>
                 <p className="text-black-900 mt-22 text-2xl font-semibold">
                     {profile?.nickname ?? ''}
                 </p>
-                {!isIncomplete && (
-                    <div className="mt-24">
-                        <OutlineChipButton onClick={() => navigate(ROUTES.ME_EDIT)}>
-                            내 정보 수정
-                        </OutlineChipButton>
-                    </div>
-                )}
+                <div className="mt-24">
+                    <OutlineChipButton
+                        onClick={() => {
+                            if (needsPhoto) navigate(ROUTES.PROFILE_CREATE);
+                            else if (needsInfoOnly) navigate(ROUTES.PROFILE_CREATE, { state: { skipToForm: true } });
+                            else navigate(ROUTES.ME_EDIT);
+                        }}
+                    >
+                        {isIncomplete ? '정보 등록하기' : '내 정보 수정'}
+                    </OutlineChipButton>
+                </div>
             </section>
 
             <button
@@ -129,7 +130,11 @@ export function MyPage() {
             ) : users.length === 0 ? (
                 <div className="rounded-20 bg-black-100 mt-32 mb-20 flex h-146 w-full flex-col items-center gap-31 pt-15">
                     <p className="text-black-700 text-lg font-semibold">
-                        {tab === 'opened' ? '아직 열람한 사람이 없어요!' : '아직 나를 열람한 사람이 없어요!'}
+                        {tab === 'opened'
+                            ? '아직 열람한 사람이 없어요!'
+                            : isIncomplete
+                              ? '프로필을 등록 해야 상대방이 열람 가능해요!'
+                              : '아직 나를 열람한 사람이 없어요!'}
                     </p>
                     <AvatarIcon className="text-black-400 size-46" />
                 </div>

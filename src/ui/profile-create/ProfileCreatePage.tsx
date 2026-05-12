@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -24,7 +24,8 @@ const MAX_ATTEMPTS = 3;
 
 export function ProfileCreatePage() {
     const navigate = useNavigate();
-    const [step, setStep] = useState<Step>('upload');
+    const { state } = useLocation();
+    const [step, setStep] = useState<Step>(state?.skipToForm ? 'form' : 'upload');
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [aiImage, setAiImage] = useState<AiImageResponseDto | null>(null);
     const [attempts, setAttempts] = useState(0);
