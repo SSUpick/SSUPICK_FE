@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import helloVideo from '@/assets/hello.mp4';
+import helloVideo from '@/assets/hello_loop.mp4';
 import { CtaButton } from '@/components/button/CtaButton';
 import { DialogBubble } from '@/components/feedback/DialogBubble';
 import { PageBackground } from '@/components/layout/PageBackground';
