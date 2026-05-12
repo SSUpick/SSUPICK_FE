@@ -133,7 +133,7 @@ export function MyPage() {
                         {tab === 'opened'
                             ? '아직 열람한 사람이 없어요!'
                             : isIncomplete
-                              ? '프로필을 등록 해야 상대방이 열람 가능해요!'
+                              ? '프로필을 등록해야 누군가 열람 가능해요!'
                               : '아직 나를 열람한 사람이 없어요!'}
                     </p>
                     <AvatarIcon className="text-black-400 size-46" />
