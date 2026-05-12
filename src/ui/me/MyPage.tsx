@@ -127,7 +127,7 @@ export function MyPage() {
                     <SpinnerIcon className="text-pink-point size-44" />
                 </div>
             ) : users.length === 0 ? (
-                <div className="rounded-20 bg-black-100 mt-26 flex h-146 w-full flex-col items-center gap-31 pt-15 mb-14">
+                <div className="rounded-20 bg-black-100 mt-26 mb-14 flex h-146 w-full flex-col items-center gap-31 pt-15">
                     <p className="text-black-700 text-lg font-semibold">
                         {tab === 'opened'
                             ? '아직 조회한 사람이 없어요!'

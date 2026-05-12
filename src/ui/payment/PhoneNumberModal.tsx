@@ -47,7 +47,7 @@ export function PhoneNumberModal({ open, onClose, onSuccess }: PhoneNumberModalP
         <Modal open={open} onClose={handleClose}>
             <div className="bg-white-default rounded-20 flex flex-col gap-24 px-24 py-28">
                 <div className="flex flex-col gap-8">
-                    <p className="text-black-800 text-base font-bold leading-24">
+                    <p className="text-black-800 text-base leading-24 font-bold">
                         결제 및 환불 안내를 위해 연락 가능한 휴대폰 번호를 입력해주세요.
                     </p>
                     <p className="text-black-400 text-sm leading-20 tracking-tight">

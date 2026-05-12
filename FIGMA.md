@@ -219,7 +219,7 @@ export function ExplorePage() {
 | --------------------------------------------------------------- | ---------------------------- | ------------------ |
 | `pink/point` `#ff339c`                                          | `--color-pink-point`         | `text-pink-point`  |
 | `pink/default` `#ff50aa`                                        | `--color-pink-default`       | `bg-pink-default`  |
-| `pink/50` `#ffe9ee` (쿠폰 결제 페이지 배경 그라데이션 끝 색)   | `--color-pink-50`            | `to-pink-50`       |
+| `pink/50` `#ffe9ee` (쿠폰 결제 페이지 배경 그라데이션 끝 색)    | `--color-pink-50`            | `to-pink-50`       |
 | `pink/100` `#ffe5e9` (마이쿠폰)                                 | `--color-pink-100`           | `border-pink-100`  |
 | `kakao/yellow` `#fee500`                                        | `--color-kakao-yellow`       | `bg-kakao-yellow`  |
 | `black/900` `#000000`                                           | `--color-black-900`          | `text-black-900`   |
@@ -550,14 +550,14 @@ export function LoginPage() {
 
 viewport 크기가 디자인 기준에서 벗어나면 요소가 겹치거나 너무 커보일 수 있다. [src/index.css](./src/index.css)에 정의된 변형으로 임계점에서 살짝 조정한다.
 
-| 변형          | 미디어 쿼리                   | 용도                                                          |
-| ------------- | ----------------------------- | ------------------------------------------------------------- |
-| `short:`      | `@media (max-height: 800px)`  | 짧은 viewport(iPhone SE 667 등)에서 요소 축소                |
-| `supershort:` | `@media (max-height: 700px)`  | 매우 짧은 viewport에서 추가 축소                              |
+| 변형          | 미디어 쿼리                   | 용도                                                        |
+| ------------- | ----------------------------- | ----------------------------------------------------------- |
+| `short:`      | `@media (max-height: 800px)`  | 짧은 viewport(iPhone SE 667 등)에서 요소 축소               |
+| `supershort:` | `@media (max-height: 700px)`  | 매우 짧은 viewport에서 추가 축소                            |
 | `tall:`       | `@media (min-height: 1001px)` | 큰 디바이스(데스크톱/태블릿 세로)에서 캔버스 비디오 등 축소 |
-| `narrow:`     | `@media (max-width: 480px)`   | Layout `max-w-3xl`(480px) 미만 — 실제 모바일에서 여백 단축    |
-| `narrower:`   | `@media (max-width: 440px)`   | 더 좁은 모바일 — 폰트/패딩 점진 축소                          |
-| `narrowest:`  | `@media (max-width: 350px)`   | 매우 좁은 모바일 — 텍스트 강제 줄바꿈 등 마지막 분기          |
+| `narrow:`     | `@media (max-width: 480px)`   | Layout `max-w-3xl`(480px) 미만 — 실제 모바일에서 여백 단축  |
+| `narrower:`   | `@media (max-width: 440px)`   | 더 좁은 모바일 — 폰트/패딩 점진 축소                        |
+| `narrowest:`  | `@media (max-width: 350px)`   | 매우 좁은 모바일 — 텍스트 강제 줄바꿈 등 마지막 분기        |
 
 ```tsx
 // 800px 이하 viewport에서 자동 적용
