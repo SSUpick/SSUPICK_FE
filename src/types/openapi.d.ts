@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/users/me": {
+    '/api/users/me': {
         parameters: {
             query?: never;
             header?: never;
@@ -15,12 +15,12 @@ export interface paths {
          * 내 프로필 조회
          * @description 현재 로그인한 유저의 프로필 정보를 조회합니다.
          */
-        get: operations["getUserProfile"];
+        get: operations['getUserProfile'];
         /**
          * 마이페이지 프로필 수정
          * @description 닉네임, MBTI, 어필 항목, 연락처를 수정합니다. 온보딩 완료 유저만 수정 가능합니다.
          */
-        put: operations["updateUserProfile"];
+        put: operations['updateUserProfile'];
         post?: never;
         delete?: never;
         options?: never;
@@ -28,7 +28,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/webhook/bank": {
+    '/api/webhook/bank': {
         parameters: {
             query?: never;
             header?: never;
@@ -37,14 +37,14 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["receive"];
+        post: operations['receive'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/onboarding": {
+    '/api/users/onboarding': {
         parameters: {
             query?: never;
             header?: never;
@@ -57,14 +57,14 @@ export interface paths {
          * 온보딩 프로필 등록
          * @description 닉네임, MBTI, 성별, 연락처, 어필 문구를 등록하고 온보딩을 완료합니다. 온보딩은 1회만 가능합니다.
          */
-        post: operations["registerUserOnboarding"];
+        post: operations['registerUserOnboarding'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/nickname/validate": {
+    '/api/users/nickname/validate': {
         parameters: {
             query?: never;
             header?: never;
@@ -77,14 +77,14 @@ export interface paths {
          * 닉네임 검증
          * @description 닉네임의 길이, 비속어 포함 여부, 중복 여부를 검증합니다. 최대 10자까지 사용할 수 있습니다.
          */
-        post: operations["validateNickname"];
+        post: operations['validateNickname'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/payments/{paymentId}/verify": {
+    '/api/payments/{paymentId}/verify': {
         parameters: {
             query?: never;
             header?: never;
@@ -100,14 +100,14 @@ export interface paths {
          *     - 이미 처리된 결제(paymentId 중복)이면 기존 결제 결과를 그대로 반환합니다.
          *     - 결제 상태가 PAID가 아니거나 금액이 상품 가격과 다르면 실패합니다.
          */
-        post: operations["verifyPayment"];
+        post: operations['verifyPayment'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/payments/checkout": {
+    '/api/payments/checkout': {
         parameters: {
             query?: never;
             header?: never;
@@ -120,14 +120,14 @@ export interface paths {
          * 결제 HTML 생성
          * @description READY 결제 기록을 생성하고 PortOne Browser SDK로 결제창을 여는 테스트용 HTML을 반환합니다.
          */
-        post: operations["getCheckoutPage"];
+        post: operations['getCheckoutPage'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/oauth/kakao/login": {
+    '/api/oauth/kakao/login': {
         parameters: {
             query?: never;
             header?: never;
@@ -140,14 +140,14 @@ export interface paths {
          * 카카오 소셜 로그인
          * @description 프론트엔드에서 전달받은 카카오 인가 코드(code)와 리다이렉트 타입(LOCAL/PROD)으로 로그인 또는 회원가입을 처리하고 서비스 JWT를 발급합니다.
          */
-        post: operations["kakaoLogin"];
+        post: operations['kakaoLogin'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/auth/token/reissue": {
+    '/api/auth/token/reissue': {
         parameters: {
             query?: never;
             header?: never;
@@ -160,14 +160,14 @@ export interface paths {
          * 토큰 재발급
          * @description Authorization 헤더에 'Bearer {refreshToken}' 형식으로 전달하면 액세스 토큰과 리프레시 토큰을 재발급합니다.
          */
-        post: operations["reissue"];
+        post: operations['reissue'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/auth/test/login": {
+    '/api/auth/test/login': {
         parameters: {
             query?: never;
             header?: never;
@@ -180,14 +180,14 @@ export interface paths {
          * 테스트 로그인
          * @description testUserId로 유저를 조회하거나 없으면 자동 생성 후 JWT를 발급합니다. secretKey로 접근을 제한합니다.
          */
-        post: operations["login"];
+        post: operations['login'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/auth/logout": {
+    '/api/auth/logout': {
         parameters: {
             query?: never;
             header?: never;
@@ -200,14 +200,14 @@ export interface paths {
          * 로그아웃
          * @description 리프레시 토큰을 무효화하여 로그아웃 처리합니다.
          */
-        post: operations["logout"];
+        post: operations['logout'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/ai-images": {
+    '/api/ai-images': {
         parameters: {
             query?: never;
             header?: never;
@@ -218,7 +218,7 @@ export interface paths {
          * AI 이미지 목록 조회
          * @description 현재 유저가 생성한 AI 이미지 전체 목록을 최신순으로 반환합니다. 각 이미지는 7일 만료 Presigned URL로 제공됩니다.
          */
-        get: operations["getImageList"];
+        get: operations['getImageList'];
         put?: never;
         /**
          * AI 이미지 생성
@@ -227,14 +227,14 @@ export interface paths {
          *     - 프론트에서 1024px로 리사이징 후 전송 권장
          *     - 지원 형식: JPEG, PNG (최대 10MB)
          */
-        post: operations["generateImage"];
+        post: operations['generateImage'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/admin/login": {
+    '/api/admin/login': {
         parameters: {
             query?: never;
             header?: never;
@@ -247,14 +247,14 @@ export interface paths {
          * 관리자 로그인
          * @description 관리자 전용 계정으로 로그인하고 관리자 API 접근용 access token을 발급합니다.
          */
-        post: operations["login_1"];
+        post: operations['login_1'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/admin/deposit-events/{eventId}/assign": {
+    '/api/admin/deposit-events/{eventId}/assign': {
         parameters: {
             query?: never;
             header?: never;
@@ -267,14 +267,14 @@ export interface paths {
          * 관리자 입금 이벤트 수동 매칭
          * @description 관리자가 입금 이벤트를 유저와 수동 매칭하고 쿠폰을 충전합니다.
          */
-        post: operations["assignDepositEvent"];
+        post: operations['assignDepositEvent'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/admin/coupons/add": {
+    '/api/admin/coupons/add': {
         parameters: {
             query?: never;
             header?: never;
@@ -287,14 +287,14 @@ export interface paths {
          * 관리자 쿠폰 수동 충전
          * @description 관리자가 선택한 유저 ID와 쿠폰 상품으로 쿠폰을 수동 충전하고 감사 로그를 남깁니다.
          */
-        post: operations["addCoupon"];
+        post: operations['addCoupon'];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/users/me/phone-number": {
+    '/api/users/me/phone-number': {
         parameters: {
             query?: never;
             header?: never;
@@ -311,10 +311,10 @@ export interface paths {
          * 결제용 전화번호 등록/수정
          * @description 쿠폰 결제에 사용할 전화번호를 하이픈 없이 등록하거나 수정합니다.
          */
-        patch: operations["updatePhoneNumber"];
+        patch: operations['updatePhoneNumber'];
         trace?: never;
     };
-    "/api/ai-images/{aiImageId}/select": {
+    '/api/ai-images/{aiImageId}/select': {
         parameters: {
             query?: never;
             header?: never;
@@ -333,10 +333,10 @@ export interface paths {
          *     - 기존에 선택된 이미지가 있으면 자동으로 해제됩니다.
          *     - 선택된 이미지는 프로필 카드의 대표 이미지로 반영됩니다.
          */
-        patch: operations["selectProfileImage"];
+        patch: operations['selectProfileImage'];
         trace?: never;
     };
-    "/api/users": {
+    '/api/users': {
         parameters: {
             query?: never;
             header?: never;
@@ -350,7 +350,7 @@ export interface paths {
          *     - 인증된 요청: 본인을 제외한 목록을 반환합니다.
          *     - 비인증 요청: 전체 목록을 반환합니다. (토큰 없이 호출 가능)
          */
-        get: operations["getUserCardList"];
+        get: operations['getUserCardList'];
         put?: never;
         post?: never;
         delete?: never;
@@ -359,7 +359,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/users/{targetUserId}": {
+    '/api/users/{targetUserId}': {
         parameters: {
             query?: never;
             header?: never;
@@ -375,7 +375,7 @@ export interface paths {
          *     - 탈퇴 유저 및 온보딩 미완료 유저는 조회 불가합니다.
          *     - 본인 프로필은 조회 불가합니다.
          */
-        get: operations["getTargetUserProfile"];
+        get: operations['getTargetUserProfile'];
         put?: never;
         post?: never;
         delete?: never;
@@ -384,7 +384,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/users/me/profile-views": {
+    '/api/users/me/profile-views': {
         parameters: {
             query?: never;
             header?: never;
@@ -395,7 +395,7 @@ export interface paths {
          * 열람 목록 통합 조회
          * @description 내가 열람한 유저 목록과 나를 열람한 유저 목록을 한 번에 조회합니다. 각각 최신순으로 반환됩니다.
          */
-        get: operations["getProfileViewList"];
+        get: operations['getProfileViewList'];
         put?: never;
         post?: never;
         delete?: never;
@@ -404,7 +404,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/payments/coupon-products": {
+    '/api/payments/coupon-products': {
         parameters: {
             query?: never;
             header?: never;
@@ -415,7 +415,7 @@ export interface paths {
          * 쿠폰 상품 목록 조회
          * @description 프론트 결제 화면에 표시할 쿠폰 상품 코드, 가격, 지급 수량을 조회합니다.
          */
-        get: operations["getCouponProducts"];
+        get: operations['getCouponProducts'];
         put?: never;
         post?: never;
         delete?: never;
@@ -424,7 +424,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/ai-images/{aiImageId}/status": {
+    '/api/ai-images/{aiImageId}/status': {
         parameters: {
             query?: never;
             header?: never;
@@ -438,7 +438,7 @@ export interface paths {
          *     - status: PENDING(생성 중) / DONE(완료) / FAILED(실패)
          *     - DONE 상태일 때 generatedImageUrl이 채워집니다.
          */
-        get: operations["getImageStatus"];
+        get: operations['getImageStatus'];
         put?: never;
         post?: never;
         delete?: never;
@@ -447,7 +447,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/users": {
+    '/api/admin/users': {
         parameters: {
             query?: never;
             header?: never;
@@ -458,7 +458,7 @@ export interface paths {
          * 관리자 유저 검색
          * @description userId, 이름, 닉네임, 이메일, 전화번호로 유저를 검색합니다.
          */
-        get: operations["searchUsers"];
+        get: operations['searchUsers'];
         put?: never;
         post?: never;
         delete?: never;
@@ -467,7 +467,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/deposit-events": {
+    '/api/admin/deposit-events': {
         parameters: {
             query?: never;
             header?: never;
@@ -478,7 +478,7 @@ export interface paths {
          * 관리자 입금 이벤트 목록 조회
          * @description 자동 처리되지 않았거나 검토가 필요한 입금 이벤트 목록을 조회합니다.
          */
-        get: operations["getDepositEvents"];
+        get: operations['getDepositEvents'];
         put?: never;
         post?: never;
         delete?: never;
@@ -487,7 +487,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/withdraw": {
+    '/api/auth/withdraw': {
         parameters: {
             query?: never;
             header?: never;
@@ -501,26 +501,26 @@ export interface paths {
          * 회원 탈퇴
          * @description 회원을 탈퇴 처리합니다. soft delete 방식으로 처리되며 동일 소셜 계정으로 재가입이 가능합니다.
          */
-        delete: operations["withdraw"];
+        delete: operations['withdraw'];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/checkpay.jsp": {
+    '/checkpay.jsp': {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["check"];
-        put: operations["check_2"];
-        post: operations["check_1"];
-        delete: operations["check_3"];
-        options: operations["check_6"];
-        head: operations["check_5"];
-        patch: operations["check_4"];
+        get: operations['check'];
+        put: operations['check_2'];
+        post: operations['check_1'];
+        delete: operations['check_3'];
+        options: operations['check_6'];
+        head: operations['check_5'];
+        patch: operations['check_4'];
         trace?: never;
     };
 }
@@ -579,7 +579,7 @@ export interface components {
             isSuccess?: boolean;
             code?: string;
             message?: string;
-            data?: components["schemas"]["BankDepositWebhookResponse"];
+            data?: components['schemas']['BankDepositWebhookResponse'];
         };
         BankDepositWebhookResponse: {
             /** Format: int64 */
@@ -618,7 +618,7 @@ export interface components {
              * @example MALE OR FEMALE
              * @enum {string}
              */
-            gender: "MALE" | "FEMALE";
+            gender: 'MALE' | 'FEMALE';
         };
         /** @description 닉네임 검증 요청 */
         ValidateNicknameRequest: {
@@ -638,7 +638,7 @@ export interface components {
         };
         PaymentVerifyRequest: {
             /** @enum {string} */
-            couponProduct: "COUPON_1" | "COUPON_4" | "COUPON_8";
+            couponProduct: 'COUPON_1' | 'COUPON_4' | 'COUPON_8';
         };
         PaymentVerifyResponse: {
             paymentId?: string;
@@ -653,9 +653,9 @@ export interface components {
         OAuthKakaoLoginRequest: {
             code?: string;
             /** @enum {string} */
-            deviceType: "IOS" | "ANDROID";
+            deviceType: 'IOS' | 'ANDROID';
             /** @enum {string} */
-            redirectType: "LOCAL" | "PROD";
+            redirectType: 'LOCAL' | 'PROD';
         };
         OAuthLoginResponse: {
             /** Format: int64 */
@@ -674,7 +674,7 @@ export interface components {
         LoginRequest: {
             testUserId?: string;
             /** @enum {string} */
-            deviceType: "IOS" | "ANDROID";
+            deviceType: 'IOS' | 'ANDROID';
         };
         LoginResponse: {
             /** Format: int64 */
@@ -692,7 +692,7 @@ export interface components {
             /** Format: int64 */
             aiImageId?: number;
             /** @enum {string} */
-            status?: "PENDING" | "DONE" | "FAILED";
+            status?: 'PENDING' | 'DONE' | 'FAILED';
             originalImageUrl?: string;
             generatedImageUrl?: string;
             selected?: boolean;
@@ -712,7 +712,7 @@ export interface components {
             /** Format: int64 */
             userId: number;
             /** @enum {string} */
-            couponProduct?: "COUPON_1" | "COUPON_4" | "COUPON_8";
+            couponProduct?: 'COUPON_1' | 'COUPON_4' | 'COUPON_8';
         };
         BankDepositEventResponse: {
             /** Format: int64 */
@@ -737,7 +737,7 @@ export interface components {
             /** Format: int64 */
             userId: number;
             /** @enum {string} */
-            couponProduct: "COUPON_1" | "COUPON_4" | "COUPON_8";
+            couponProduct: 'COUPON_1' | 'COUPON_4' | 'COUPON_8';
         };
         AdminCouponAddResponse: {
             /** Format: int64 */
@@ -775,7 +775,7 @@ export interface components {
              * @example MALE OR FEMALE
              * @enum {string}
              */
-            gender?: "MALE" | "FEMALE";
+            gender?: 'MALE' | 'FEMALE';
             /**
              * @description MBTI
              * @example INTJ
@@ -862,7 +862,7 @@ export interface components {
              * @example MALE
              * @enum {string}
              */
-            gender?: "MALE" | "FEMALE";
+            gender?: 'MALE' | 'FEMALE';
             /**
              * Format: int32
              * @description 나이
@@ -874,7 +874,7 @@ export interface components {
              * @example COMPLETED
              * @enum {string}
              */
-            onboardingStatus?: "INCOMPLETE" | "COMPLETED";
+            onboardingStatus?: 'INCOMPLETE' | 'COMPLETED';
             /**
              * @description 닉네임
              * @example 숭실대 카리나
@@ -914,9 +914,9 @@ export interface components {
         /** @description 열람 목록 통합 응답 */
         GetProfileViewListResponse: {
             /** @description 내가 열람한 유저 목록 */
-            viewedUsers?: components["schemas"]["GetUserViewResponse"][];
+            viewedUsers?: components['schemas']['GetUserViewResponse'][];
             /** @description 나를 열람한 유저 목록 */
-            viewerUsers?: components["schemas"]["GetUserViewResponse"][];
+            viewerUsers?: components['schemas']['GetUserViewResponse'][];
         };
         /** @description 열람 유저 응답 (내가 열람한 / 나를 열람한 리스트용) */
         GetUserViewResponse: {
@@ -936,7 +936,7 @@ export interface components {
              * @example MALE
              * @enum {string}
              */
-            gender?: "MALE" | "FEMALE";
+            gender?: 'MALE' | 'FEMALE';
             /**
              * @description MBTI
              * @example ESFP
@@ -1009,7 +1009,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["GetUserProfileResponse"];
+                    '*/*': components['schemas']['GetUserProfileResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1018,7 +1018,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1027,7 +1027,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1041,7 +1041,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateUserProfileRequest"];
+                'application/json': components['schemas']['UpdateUserProfileRequest'];
             };
         };
         responses: {
@@ -1051,7 +1051,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseVoid"];
+                    '*/*': components['schemas']['ApiResponseVoid'];
                 };
             };
             /** @description 잘못된 요청 (유효성 검사 실패) */
@@ -1060,7 +1060,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1069,7 +1069,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 온보딩 미완료 유저 */
@@ -1078,7 +1078,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1087,7 +1087,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1096,14 +1096,14 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Bank-Webhook-Secret": string;
+                'Bank-Webhook-Secret': string;
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["BankDepositWebhookRequest"];
+                'application/json': components['schemas']['BankDepositWebhookRequest'];
             };
         };
         responses: {
@@ -1113,7 +1113,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseBankDepositWebhookResponse"];
+                    '*/*': components['schemas']['ApiResponseBankDepositWebhookResponse'];
                 };
             };
         };
@@ -1127,7 +1127,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["RegisterUserOnboardingRequest"];
+                'application/json': components['schemas']['RegisterUserOnboardingRequest'];
             };
         };
         responses: {
@@ -1137,7 +1137,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseVoid"];
+                    '*/*': components['schemas']['ApiResponseVoid'];
                 };
             };
             /** @description 잘못된 요청 (유효성 검사 실패 또는 어필 항목 오류) */
@@ -1146,7 +1146,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1155,7 +1155,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1164,7 +1164,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 이미 온보딩 완료 */
@@ -1173,7 +1173,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1187,7 +1187,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["ValidateNicknameRequest"];
+                'application/json': components['schemas']['ValidateNicknameRequest'];
             };
         };
         responses: {
@@ -1197,7 +1197,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ValidateNicknameResponse"];
+                    '*/*': components['schemas']['ValidateNicknameResponse'];
                 };
             };
             /** @description 잘못된 요청 또는 비속어 포함 */
@@ -1206,7 +1206,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 이미 사용 중인 닉네임 */
@@ -1215,7 +1215,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1232,7 +1232,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["PaymentVerifyRequest"];
+                'application/json': components['schemas']['PaymentVerifyRequest'];
             };
         };
         responses: {
@@ -1242,7 +1242,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PaymentVerifyResponse"];
+                    '*/*': components['schemas']['PaymentVerifyResponse'];
                 };
             };
             /** @description 잘못된 요청, 결제 상태 불일치 또는 금액 불일치 */
@@ -1251,7 +1251,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1260,7 +1260,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1269,7 +1269,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 이미 처리된 결제 */
@@ -1278,7 +1278,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1287,7 +1287,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @description 쿠폰 상품 코드 (COUPON_1 / COUPON_4 / COUPON_8) */
-                couponProduct: "COUPON_1" | "COUPON_4" | "COUPON_8";
+                couponProduct: 'COUPON_1' | 'COUPON_4' | 'COUPON_8';
             };
             header?: never;
             path?: never;
@@ -1301,7 +1301,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "text/html": string;
+                    'text/html': string;
                 };
             };
             /** @description 잘못된 쿠폰 상품 */
@@ -1310,7 +1310,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "text/html": components["schemas"]["ApiResponse"];
+                    'text/html': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1319,7 +1319,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "text/html": components["schemas"]["ApiResponse"];
+                    'text/html': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1328,7 +1328,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "text/html": components["schemas"]["ApiResponse"];
+                    'text/html': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1342,7 +1342,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["OAuthKakaoLoginRequest"];
+                'application/json': components['schemas']['OAuthKakaoLoginRequest'];
             };
         };
         responses: {
@@ -1352,7 +1352,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["OAuthLoginResponse"];
+                    '*/*': components['schemas']['OAuthLoginResponse'];
                 };
             };
             /** @description 잘못된 요청 (인가 코드, 디바이스 타입 또는 리다이렉트 타입 누락) */
@@ -1361,7 +1361,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 카카오 API 호출 실패 */
@@ -1370,7 +1370,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1380,7 +1380,7 @@ export interface operations {
             query?: never;
             header: {
                 /** @description 리프레시 토큰 */
-                "Refresh-Token": string;
+                'Refresh-Token': string;
             };
             path?: never;
             cookie?: never;
@@ -1393,7 +1393,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ReissueResponse"];
+                    '*/*': components['schemas']['ReissueResponse'];
                 };
             };
             /** @description 리프레시 토큰 만료 또는 불일치 */
@@ -1402,7 +1402,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1412,14 +1412,14 @@ export interface operations {
             query?: never;
             header: {
                 /** @description 테스트 시크릿 키 */
-                "Test-Secret-Key": string;
+                'Test-Secret-Key': string;
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["LoginRequest"];
+                'application/json': components['schemas']['LoginRequest'];
             };
         };
         responses: {
@@ -1429,7 +1429,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["LoginResponse"];
+                    '*/*': components['schemas']['LoginResponse'];
                 };
             };
             /** @description 잘못된 요청 (testUserId, deviceType, secretKey 누락) */
@@ -1438,7 +1438,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 시크릿 키 불일치 */
@@ -1447,7 +1447,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1467,7 +1467,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseVoid"];
+                    '*/*': components['schemas']['ApiResponseVoid'];
                 };
             };
             /** @description 인증 필요 */
@@ -1476,7 +1476,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1496,7 +1496,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AiImageResponse"];
+                    '*/*': components['schemas']['AiImageResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1505,7 +1505,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1519,7 +1519,7 @@ export interface operations {
         };
         requestBody?: {
             content: {
-                "multipart/form-data": {
+                'multipart/form-data': {
                     /** Format: binary */
                     originalImage: string;
                 };
@@ -1532,7 +1532,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AiImageResponse"];
+                    '*/*': components['schemas']['AiImageResponse'];
                 };
             };
             /** @description 잘못된 파일 형식 또는 크기 초과 */
@@ -1541,7 +1541,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1550,7 +1550,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 이미지 생성 횟수 초과 */
@@ -1559,7 +1559,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description Gemini API 호출 실패 */
@@ -1568,7 +1568,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1582,7 +1582,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AdminLoginRequest"];
+                'application/json': components['schemas']['AdminLoginRequest'];
             };
         };
         responses: {
@@ -1592,7 +1592,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AdminLoginResponse"];
+                    '*/*': components['schemas']['AdminLoginResponse'];
                 };
             };
             /** @description 잘못된 요청 (username, password 누락) */
@@ -1601,7 +1601,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 관리자 인증 실패 */
@@ -1610,7 +1610,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1627,7 +1627,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["BankDepositAssignRequest"];
+                'application/json': components['schemas']['BankDepositAssignRequest'];
             };
         };
         responses: {
@@ -1637,7 +1637,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["BankDepositEventResponse"];
+                    '*/*': components['schemas']['BankDepositEventResponse'];
                 };
             };
             /** @description 입금 이벤트 또는 유저 없음 */
@@ -1646,7 +1646,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1660,7 +1660,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AdminCouponAddRequest"];
+                'application/json': components['schemas']['AdminCouponAddRequest'];
             };
         };
         responses: {
@@ -1670,7 +1670,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AdminCouponAddResponse"];
+                    '*/*': components['schemas']['AdminCouponAddResponse'];
                 };
             };
             /** @description 유저 없음 */
@@ -1679,7 +1679,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1693,7 +1693,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePhoneNumberRequest"];
+                'application/json': components['schemas']['UpdatePhoneNumberRequest'];
             };
         };
         responses: {
@@ -1703,7 +1703,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseVoid"];
+                    '*/*': components['schemas']['ApiResponseVoid'];
                 };
             };
             /** @description 잘못된 요청 (유효성 검사 실패) */
@@ -1712,7 +1712,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1721,7 +1721,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1730,7 +1730,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1752,7 +1752,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseVoid"];
+                    '*/*': components['schemas']['ApiResponseVoid'];
                 };
             };
             /** @description 인증 필요 */
@@ -1761,7 +1761,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 본인 이미지가 아님 */
@@ -1770,7 +1770,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 이미지를 찾을 수 없음 */
@@ -1779,7 +1779,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1799,7 +1799,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["GetUserCardResponse"];
+                    '*/*': components['schemas']['GetUserCardResponse'];
                 };
             };
         };
@@ -1822,7 +1822,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["GetTargetUserProfileResponse"];
+                    '*/*': components['schemas']['GetTargetUserProfileResponse'];
                 };
             };
             /** @description 본인 프로필 조회 불가 */
@@ -1831,7 +1831,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1840,7 +1840,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 쿠폰 부족 */
@@ -1849,7 +1849,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 온보딩 미완료 유저 */
@@ -1858,7 +1858,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1867,7 +1867,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1887,7 +1887,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["GetProfileViewListResponse"];
+                    '*/*': components['schemas']['GetProfileViewListResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1896,7 +1896,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 유저를 찾을 수 없음 */
@@ -1905,7 +1905,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1925,7 +1925,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CouponProductResponse"];
+                    '*/*': components['schemas']['CouponProductResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1934,7 +1934,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -1956,7 +1956,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AiImageResponse"];
+                    '*/*': components['schemas']['AiImageResponse'];
                 };
             };
             /** @description 인증 필요 */
@@ -1965,7 +1965,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 본인 이미지가 아님 */
@@ -1974,7 +1974,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
             /** @description 이미지를 찾을 수 없음 */
@@ -1983,7 +1983,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -2006,7 +2006,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["AdminUserSearchResponse"];
+                    '*/*': components['schemas']['AdminUserSearchResponse'];
                 };
             };
         };
@@ -2026,7 +2026,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["BankDepositEventResponse"];
+                    '*/*': components['schemas']['BankDepositEventResponse'];
                 };
             };
         };
@@ -2046,7 +2046,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseVoid"];
+                    '*/*': components['schemas']['ApiResponseVoid'];
                 };
             };
             /** @description 인증 필요 */
@@ -2055,7 +2055,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponse"];
+                    '*/*': components['schemas']['ApiResponse'];
                 };
             };
         };
@@ -2075,7 +2075,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };
@@ -2095,7 +2095,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };
@@ -2115,7 +2115,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };
@@ -2135,7 +2135,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };
@@ -2155,7 +2155,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };
@@ -2175,7 +2175,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };
@@ -2195,7 +2195,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["RtPayCheckResponse"];
+                    '*/*': components['schemas']['RtPayCheckResponse'];
                 };
             };
         };

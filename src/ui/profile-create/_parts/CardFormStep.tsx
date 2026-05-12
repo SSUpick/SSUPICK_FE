@@ -148,7 +148,13 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                                 onChange={e =>
                                     handleKeywordChange(idx, e.target.value.slice(0, KEYWORD_MAX))
                                 }
-                                placeholder="ex. 고양이상"
+                                placeholder={
+                                    idx === 0
+                                        ? 'ex. 고양이상'
+                                        : idx === 1
+                                          ? 'ex. 키 160cm'
+                                          : 'ex. 청순'
+                                }
                             />
                         ))}
                         {appeals.length < KEYWORDS_MAX_COUNT && (

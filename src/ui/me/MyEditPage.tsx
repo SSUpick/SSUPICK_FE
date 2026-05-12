@@ -4,6 +4,7 @@ import type { UseFormRegisterReturn } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import { CtaButton } from '@/components/button/CtaButton';
@@ -54,7 +55,13 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
                 state: { toast: '프로필 수정에 성공했습니다!' },
             });
         },
-        onError: () => toast.error('프로필 수정에 실패했어요.'),
+        onError: err => {
+            if (axios.isAxiosError(err) && err.response?.data?.code === 'USER_400_4') {
+                toast.error('비속어가 포함된 키워드는 사용할 수 없습니다.');
+            } else {
+                toast.error('프로필 수정에 실패했어요.');
+            }
+        },
     });
 
     const onSubmit = handleSubmit(values => {
@@ -130,7 +137,9 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
                                 value={kw}
                                 onChange={v => updateAppeal(idx, v)}
                                 onRemove={() => removeAppeal(idx)}
-                                placeholder="최대 8자"
+                                placeholder={
+                                    idx === 0 ? '고양이상' : idx === 1 ? '키 160cm' : '청순'
+                                }
                                 allowRemove={appeals.length > 1}
                             />
                         ))}
