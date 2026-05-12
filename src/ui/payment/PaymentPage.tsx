@@ -1,11 +1,18 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import couponImg from '@/assets/coupon.webp';
 import { CtaButton } from '@/components/button/CtaButton';
+import { Modal } from '@/components/feedback/Modal';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { ROUTES } from '@/constants/routes';
 import type { CouponProduct } from '@/features/payment/types';
+import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import { toast } from '@/store/toastStore';
+
+const ACCOUNT_NUMBER = '3333-22-5066794';
+const ACCOUNT_INFO = '카카오뱅크 (박수민)';
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
@@ -38,13 +45,72 @@ export function PaymentPage() {
     const [params] = useSearchParams();
     const count = Number(params.get('count') ?? '1');
     const price = Number(params.get('price') ?? '1000');
-    // TODO: 결제 수단 연동
     void (params.get('product') as CouponProduct);
+
+    const { data: profile } = useUserProfile();
+    const nickname = profile?.nickname ?? '';
 
     const [method, setMethod] = useState<'card' | null>('card');
     const [agreed, setAgreed] = useState(false);
+    const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [isConfirming, setIsConfirming] = useState(false);
+
+    const handleConfirm = () => {
+        setIsConfirming(true);
+        setTimeout(() => {
+            setShowModal(false);
+            setIsConfirming(false);
+            navigate(ROUTES.ME, { replace: true });
+        }, 2000);
+    };
+
+    const handleCopyAccount = async () => {
+        try {
+            await navigator.clipboard.writeText(ACCOUNT_NUMBER);
+            toast.success('계좌번호가 복사됐어요!');
+        } catch {
+            toast.error('복사에 실패했어요.');
+        }
+    };
 
     return (
+        <>
+        <Modal open={showModal} onClose={() => setShowModal(false)}>
+            <div className="bg-white-default rounded-20 flex flex-col gap-20 px-24 py-28">
+                <p className="text-black-800 text-center text-base font-medium leading-24 tracking-tight">
+                    아래 계좌를 통해 입금자명을
+                    <br />
+                    현재 닉네임{' '}
+                    <span className="text-pink-point font-bold">'{nickname}'</span>
+                    {' '}으로 해주세요!
+                </p>
+                <button
+                    type="button"
+                    onClick={handleCopyAccount}
+                    className="bg-black-50 rounded-14 flex flex-col items-center gap-6 py-16"
+                >
+                    <span className="text-black-800 text-lg font-bold tracking-widest">
+                        {ACCOUNT_NUMBER}
+                    </span>
+                    <span className="text-black-400 text-sm font-medium">{ACCOUNT_INFO}</span>
+                    <span className="text-pink-point mt-2 text-xs font-medium">
+                        탭하여 복사
+                    </span>
+                </button>
+                <p className="text-black-400 text-center text-xs font-medium tracking-tight">
+                    입금 후 자동으로 쿠폰이 충전됩니다.
+                </p>
+                <button
+                    type="button"
+                    onClick={handleConfirm}
+                    disabled={isConfirming}
+                    className="bg-pink-default text-white-default rounded-14 flex h-52 w-full items-center justify-center text-base font-semibold disabled:opacity-70"
+                >
+                    {isConfirming ? '확인 중...' : '확인'}
+                </button>
+            </div>
+        </Modal>
         <div className="bg-white-default flex min-h-svh flex-col">
             <PageHeader title="결제하기" />
 
@@ -168,14 +234,15 @@ export function PaymentPage() {
             </label>
 
             <div className="mt-auto pb-22">
-                {/* TODO: 결제 수단 연동 후 onClick 연결 */}
                 <CtaButton
                     className="w-full"
                     disabled={method === null || !agreed}
+                    onClick={() => setShowModal(true)}
                 >
                     {formatPrice(price)} 결제하기
                 </CtaButton>
             </div>
         </div>
+        </>
     );
 }
