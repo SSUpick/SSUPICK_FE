@@ -3,10 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import airplaneImg from '@/assets/airplane.webp';
 import couponImg from '@/assets/coupon.webp';
 import defaultProfileImg from '@/assets/bg_onBoarding.webp';
 import lockImg from '@/assets/lock.webp';
+import lockFillIcon from '@/assets/lock_fill.svg';
+import sendFillIcon from '@/assets/send_fill.svg';
 import { CtaButton } from '@/components/button/CtaButton';
 import { Modal } from '@/components/feedback/Modal';
 import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
@@ -146,7 +147,7 @@ export function CardDetailPage() {
 
                 <section className="mt-auto flex w-full flex-col gap-16">
                     <div className="flex items-center gap-6">
-                        <img src={airplaneImg} alt="" aria-hidden className="size-24" />
+                        <img src={sendFillIcon} alt="" aria-hidden className="size-24" />
                         <h2 className="text-black-700 text-xl font-semibold">공개 정보</h2>
                     </div>
 
@@ -156,22 +157,10 @@ export function CardDetailPage() {
                             <button
                                 type="button"
                                 onClick={handleCopy}
-                                aria-label="공개 정보 복사"
+                                aria-label="연락처 복사"
                                 className="absolute right-20"
                             >
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={1.8}
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-pink-point size-22"
-                                    aria-hidden
-                                >
-                                    <rect x="9" y="9" width="13" height="13" rx="2" />
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                                </svg>
+                                <img src={sendFillIcon} alt="" aria-hidden className="size-22" />
                             </button>
                         </div>
                     ) : (
@@ -181,13 +170,13 @@ export function CardDetailPage() {
                             className="bg-pink-light rounded-20 flex h-82 w-full items-center justify-center gap-8"
                         >
                             <img
-                                src={lockImg}
+                                src={lockFillIcon}
                                 alt=""
                                 aria-hidden
                                 className="size-32 object-contain"
                             />
                             <span className="text-pink-point text-xl font-semibold">
-                                이용권으로 확인하기
+                                쿠폰으로 열람하기
                             </span>
                         </button>
                     )}

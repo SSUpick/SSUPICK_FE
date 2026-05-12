@@ -223,7 +223,7 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={couponImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                이 프로필의 공개 정보를 확인하려면
+                이 프로필의 연락처를 확인하려면
                 <br />
                 이용권 1개가 차감됩니다.
             </p>
@@ -231,7 +231,7 @@ function CouponConfirmDialog({ currentCount, isPending, onConfirm }: CouponConfi
                 현재 이용권: <span className="text-pink-point font-bold">{currentCount}개</span>
             </p>
             <CtaButton className="w-full" onClick={onConfirm} loading={isPending}>
-                프로필 확인하기
+                연락처 확인하기
             </CtaButton>
         </div>
     );
@@ -246,12 +246,12 @@ function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
             <img src={lockImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
-                프로필 상세 정보를 확인하려면
+                연락처를 확인하려면
                 <br />
-                이용권이 필요해요!
+                쿠폰이 필요해요!
             </p>
             <CtaButton className="w-full" onClick={onGoToCoupon}>
-                이용권 구매하기
+                쿠폰 구매하기
             </CtaButton>
         </div>
     );
