@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -60,16 +60,30 @@ const STEPS: Step[] = [
     },
 ];
 
+const ONBOARDING_SEEN_KEY = 'onboarding_seen';
+
 export function OnboardingPage() {
     const [step, setStep] = useState(0);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem(ONBOARDING_SEEN_KEY)) {
+            navigate(ROUTES.EXPLORE, { replace: true });
+        }
+    }, [navigate]);
 
     const current = STEPS[step];
     const isLast = step === STEPS.length - 1;
 
     const handleTap = () => {
         if (current.showButtons) return;
-        if (!isLast) setStep(step + 1);
+        if (!isLast) {
+            const next = step + 1;
+            if (STEPS[next].showButtons) {
+                localStorage.setItem(ONBOARDING_SEEN_KEY, '1');
+            }
+            setStep(next);
+        }
     };
 
     return (
