@@ -10,7 +10,7 @@ import { ROUTES, cardDetailPath } from '@/constants/routes';
 import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 
-import { FeedHeader } from '../feed/_parts/FeedHeader';
+import { FeedHeader } from './_parts/FeedHeader';
 
 // 성별 필터 — 임시 비노출
 // type GenderFilter = 'all' | Gender;
@@ -98,7 +98,7 @@ export function ExplorePage() {
 
             {/* 프로필 미등록 유저 CTA */}
             {showProfileCta && (
-                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-gradient-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
+                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-linear-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
                     <CtaButton onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
                         내 프로필 등록하기
                     </CtaButton>

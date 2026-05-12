@@ -8,7 +8,7 @@ import { TermsPage } from '@/ui/legal/TermsPage';
 import { PrivacyPage } from '@/ui/legal/PrivacyPage';
 import { RefundPage } from '@/ui/legal/RefundPage';
 import { ProfileCreatePage } from '@/ui/profile-create/ProfileCreatePage';
-import { CardDetailPage } from '@/ui/feed/CardDetailPage';
+import { CardDetailPage } from '@/ui/explore/CardDetailPage';
 import { ExplorePage } from '@/ui/explore/ExplorePage';
 import { CouponPage } from '@/ui/coupon/CouponPage';
 import { PaymentPage } from '@/ui/payment/PaymentPage';

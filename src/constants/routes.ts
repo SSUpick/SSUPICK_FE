@@ -7,9 +7,8 @@ export const ROUTES = {
     PRIVACY: '/privacy',
     REFUND: '/refund',
     PROFILE_CREATE: '/profile/create',
-    FEED: '/feed',
-    CARD_DETAIL: '/feed/:profileId',
     EXPLORE: '/explore',
+    CARD_DETAIL: '/explore/:profileId',
     COUPON: '/coupon',
     PAYMENT: '/payment',
     PAYMENT_COMPLETE: '/payment/complete',
@@ -19,4 +18,4 @@ export const ROUTES = {
     SERVER_ERROR: '/500',
 } as const;
 
-export const cardDetailPath = (profileId: string) => `/feed/${profileId}`;
+export const cardDetailPath = (profileId: string) => `/explore/${profileId}`;
