@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { CtaButton } from '@/components/button/CtaButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
 import { AvatarIcon } from '@/components/icon/AvatarIcon';
-import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
+import { ProfileCardSkeleton } from './_parts/ProfileCardSkeleton';
 import { CONTACT } from '@/constants/contact';
 import { ROUTES, cardDetailPath } from '@/constants/routes';
 import type { Gender } from '@/features/user/types';
@@ -61,9 +61,11 @@ export function ExplorePage() {
             </div>
 
             {isLoading ? (
-                <div className="flex flex-1 items-center justify-center">
-                    <SpinnerIcon className="text-pink-point size-44" />
-                </div>
+                <main className="grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 pb-30">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <ProfileCardSkeleton key={i} />
+                    ))}
+                </main>
             ) : filtered.length === 0 ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-16">
                     <AvatarIcon className="text-black-300 size-60" />
