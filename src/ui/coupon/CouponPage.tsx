@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import couponImg from '@/assets/coupon.webp';
+import { Modal } from '@/components/feedback/Modal';
 import { SpinnerIcon } from '@/components/icon/SpinnerIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { CONTACT } from '@/constants/contact';
 import { ROUTES } from '@/constants/routes';
 import { useCouponProducts } from '@/features/payment/hooks/useCouponProducts';
 import type { CouponProductResponseDto } from '@/features/payment/types';
@@ -13,6 +16,7 @@ const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 export function CouponPage() {
     const navigate = useNavigate();
     const { data: products, isLoading } = useCouponProducts();
+    const [inquiryOpen, setInquiryOpen] = useState(false);
     useNavigateToast();
 
     const handleSelect = (plan: CouponProductResponseDto) => {
@@ -71,11 +75,46 @@ export function CouponPage() {
 
                 <button
                     type="button"
+                    onClick={() => setInquiryOpen(true)}
                     className="text-black-700 mt-auto self-end pb-22 text-lg font-medium"
                 >
                     문의하기
                 </button>
             </div>
+
+            <Modal open={inquiryOpen} onClose={() => setInquiryOpen(false)}>
+                <InquiryDialog onClose={() => setInquiryOpen(false)} />
+            </Modal>
+        </div>
+    );
+}
+
+function InquiryDialog({ onClose }: { onClose: () => void }) {
+    return (
+        <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
+            <p className="text-black-800 text-base font-semibold tracking-tight">문의 채널</p>
+            <p className="text-black-500 text-center text-sm leading-22 font-medium tracking-tight">
+                서비스 이용 중 궁금한 점이 있다면
+                <br />
+                아래 채널로 편하게 연락 주세요.
+            </p>
+            <div className="flex w-full flex-col gap-8">
+                <a
+                    href={CONTACT.KAKAO_CHANNEL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-kakao-yellow text-kakao-text rounded-14 flex h-50 w-full items-center justify-center text-base font-semibold tracking-tight"
+                >
+                    카카오톡 1:1 문의
+                </a>
+            </div>
+            <button
+                type="button"
+                onClick={onClose}
+                className="text-black-400 text-sm font-medium tracking-tight"
+            >
+                닫기
+            </button>
         </div>
     );
 }
