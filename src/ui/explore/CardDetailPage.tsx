@@ -167,7 +167,7 @@ export function CardDetailPage() {
                                 src={lockFillIcon}
                                 alt=""
                                 aria-hidden
-                                className="size-32 object-contain"
+                                className="size-24 object-contain"
                             />
                             <span className="text-pink-point text-xl font-semibold">
                                 쿠폰으로 열람하기
@@ -229,14 +229,14 @@ type NoCouponDialogProps = {
 function NoCouponDialog({ onGoToCoupon }: NoCouponDialogProps) {
     return (
         <div className="rounded-20 bg-white-default flex flex-col items-center gap-16 px-22 py-24">
-            <img src={lockImg} alt="" aria-hidden className="h-100 w-auto object-contain" />
+            <img src={lockImg} alt="" aria-hidden className="h-180 w-auto object-contain" />
             <p className="text-black-800 text-center text-base font-medium">
                 프로필 상세 정보를 확인하려면
                 <br />
-                이용권이 필요해요!
+                쿠폰이 필요해요!
             </p>
             <CtaButton className="w-full" onClick={onGoToCoupon}>
-                이용권 구매하기
+                쿠폰 구매하기
             </CtaButton>
         </div>
     );
