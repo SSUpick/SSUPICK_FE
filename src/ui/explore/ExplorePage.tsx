@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { CtaButton } from '@/components/button/CtaButton';
@@ -28,6 +28,8 @@ export function ExplorePage() {
     const { data: profile } = useUserProfile();
 
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
+    const tooltipRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScroll = () => setShowScrollTop(window.scrollY > SCROLL_THRESHOLD);
@@ -35,28 +37,61 @@ export function ExplorePage() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        if (!showTooltip) return;
+        const handleClickOutside = (e: MouseEvent) => {
+            if (tooltipRef.current && !tooltipRef.current.contains(e.target as Node)) {
+                setShowTooltip(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showTooltip]);
+
     const filtered = filter === 'all' ? (cards ?? []) : (cards ?? []).filter(p => p.gender === filter);
     const showProfileCta = profile?.onboardingStatus === 'INCOMPLETE';
+    const hasGeneratedPhoto =
+        !!profile?.profileUrl && !profile.profileUrl.includes('kakaocdn.net');
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
             <FeedHeader title="이상형을 찾아보세요!" />
 
-            <div className="flex gap-10 pb-16">
-                {FILTER_OPTIONS.map(({ label, value }) => (
+            <div className="flex items-center justify-between pb-16">
+                <div className="flex gap-10">
+                    {FILTER_OPTIONS.map(({ label, value }) => (
+                        <button
+                            key={value}
+                            type="button"
+                            onClick={() => setFilter(value)}
+                            className={`inline-flex items-center justify-center rounded-full px-10 py-6 text-xs font-medium ${
+                                filter === value
+                                    ? 'bg-pink-light text-pink-default'
+                                    : 'bg-black-100 text-black-400'
+                            }`}
+                        >
+                            {label}
+                        </button>
+                    ))}
+                </div>
+
+                <div ref={tooltipRef} className="relative">
                     <button
-                        key={value}
                         type="button"
-                        onClick={() => setFilter(value)}
-                        className={`inline-flex items-center justify-center rounded-full px-10 py-6 text-xs font-medium ${
-                            filter === value
-                                ? 'bg-pink-light text-pink-default'
-                                : 'bg-black-100 text-black-400'
-                        }`}
+                        aria-label="피드 안내"
+                        onClick={() => setShowTooltip(v => !v)}
+                        className="bg-black-200 text-black-500 flex size-22 items-center justify-center rounded-full text-xs font-bold"
                     >
-                        {label}
+                        ?
                     </button>
-                ))}
+                    {showTooltip && (
+                        <div className="bg-black-800/80 absolute right-0 top-30 z-30 w-260 rounded-14 px-16 py-12 shadow-lg">
+                            <p className="text-white-default text-xs font-medium leading-snug tracking-tight">
+                            내 프로필은 내 피드에 보이지 않아요. ‘내 정보 수정’ 버튼이 보이면 정상 등록된 상태예요.
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {isLoading ? (
@@ -87,7 +122,14 @@ export function ExplorePage() {
             {/* 프로필 미등록 유저 CTA */}
             {showProfileCta && (
                 <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-linear-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
-                    <CtaButton onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
+                    <CtaButton
+                        onClick={() =>
+                            navigate(
+                                ROUTES.PROFILE_CREATE,
+                                hasGeneratedPhoto ? { state: { skipToForm: true } } : undefined,
+                            )
+                        }
+                    >
                         내 프로필 등록하기
                     </CtaButton>
                 </div>
