@@ -145,7 +145,7 @@ export function CardDetailPage() {
                 <section className="mt-auto flex w-full flex-col gap-16">
                     <div className="flex items-center gap-6">
                         <img src={airplaneImg} alt="" aria-hidden className="size-24" />
-                        <h2 className="text-black-700 text-xl font-semibold">공개 정보</h2>
+                        <h2 className="text-black-700 text-xl font-semibold">연락처</h2>
                     </div>
 
                     {unlocked ? (
@@ -154,7 +154,7 @@ export function CardDetailPage() {
                             <button
                                 type="button"
                                 onClick={handleCopy}
-                                aria-label="공개 정보 복사"
+                                aria-label="연락처 복사"
                                 className="absolute right-20"
                             >
                                 <svg
