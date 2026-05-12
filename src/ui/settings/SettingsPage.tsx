@@ -5,11 +5,10 @@ import { Link } from 'react-router-dom';
 import { Modal } from '@/components/feedback/Modal';
 import { ChevronRightIcon } from '@/components/icon/ChevronRightIcon';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { CONTACT } from '@/constants/contact';
 import { ROUTES } from '@/constants/routes';
 import { useLogout } from '@/features/auth/hooks/useLogout';
 import { useWithdraw } from '@/features/auth/hooks/useWithdraw';
-
-const KAKAO_CHANNEL = 'http://pf.kakao.com/_xjJrxbX/chat';
 
 type ModalKind = 'inquiry' | 'logout' | 'withdraw' | null;
 
@@ -165,7 +164,7 @@ function InquiryDialog({ onClose }: InquiryDialogProps) {
 
             <div className="flex w-full flex-col gap-8">
                 <a
-                    href={KAKAO_CHANNEL}
+                    href={CONTACT.KAKAO_CHANNEL}
                     target="_blank"
                     rel="noreferrer"
                     className="bg-kakao-yellow text-kakao-text rounded-14 flex h-50 w-full items-center justify-center text-base font-semibold tracking-tight"

@@ -1,3 +1,4 @@
+import { CONTACT } from '@/constants/contact';
 import { PageHeader } from '@/components/layout/PageHeader';
 
 import { Article, OL, Table } from './_parts/Article';
@@ -374,8 +375,8 @@ export function PrivacyPage() {
                     <ul className="text-black-700 flex flex-col gap-2">
                         <li>개인정보 보호책임자: 백승현</li>
                         <li>직위: 대표</li>
-                        <li>이메일: seunghyun020907@naver.com</li>
-                        <li>문의 채널: http://pf.kakao.com/_xjJrxbX/chat</li>
+                        <li>이메일: {CONTACT.EMAIL}</li>
+                        <li>문의 채널: {CONTACT.KAKAO_CHANNEL}</li>
                     </ul>
                     <p>
                         개인정보와 관련한 문의는 위 연락처로 접수할 수 있으며, 슈픽은 접수된 문의에
@@ -420,8 +421,8 @@ export function PrivacyPage() {
                         <p>서비스명: 슈픽(SSUpick)</p>
                         <p>대표자: 백승현</p>
                         <p>사업자등록번호: 2824501301</p>
-                        <p>이메일: seunghyun020907@naver.com</p>
-                        <p>문의 채널: http://pf.kakao.com/_xjJrxbX/chat</p>
+                        <p>이메일: {CONTACT.EMAIL}</p>
+                        <p>문의 채널: {CONTACT.KAKAO_CHANNEL}</p>
                     </div>
                 </section>
             </div>
