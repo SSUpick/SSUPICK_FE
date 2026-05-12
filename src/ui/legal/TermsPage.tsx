@@ -1,3 +1,4 @@
+import { CONTACT } from '@/constants/contact';
 import { PageHeader } from '@/components/layout/PageHeader';
 
 import { Article, OL } from './_parts/Article';
@@ -480,8 +481,8 @@ export function TermsPage() {
                         <li>서비스명: 슈픽(SSUpick)</li>
                         <li>대표자: 백승현</li>
                         <li>사업자등록번호: 2824501301</li>
-                        <li>이메일: seunghyun020907@naver.com</li>
-                        <li>문의 채널: http://pf.kakao.com/_xjJrxbX/chat</li>
+                        <li>이메일: {CONTACT.EMAIL}</li>
+                        <li>문의 채널: {CONTACT.KAKAO_CHANNEL}</li>
                     </ul>
                 </Article>
 
