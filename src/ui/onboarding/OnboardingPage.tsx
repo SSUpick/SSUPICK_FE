@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import helloVideo from '@/assets/hello.mov';
+import helloVideo from '@/assets/hello_loop.mp4';
 import { CtaButton } from '@/components/button/CtaButton';
 import { DialogBubble } from '@/components/feedback/DialogBubble';
 import { PageBackground } from '@/components/layout/PageBackground';
@@ -83,7 +83,7 @@ export function OnboardingPage() {
                         muted
                         loop
                         playsInline
-                        className="absolute inset-0 size-full object-cover"
+                        className="absolute bottom-0 left-1/2 w-[120dvw] max-w-520 -translate-x-1/2 object-cover"
                     />
                 </div>
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { CtaButton } from '@/components/button/CtaButton';
 
@@ -7,14 +7,27 @@ import { BackdropScene } from './BackdropScene';
 type PhotoPreviewStepProps = {
     file: File;
     onConfirm: () => void;
+    onChangePhoto: (file: File) => void;
 };
 
-export function PhotoPreviewStep({ file, onConfirm }: PhotoPreviewStepProps) {
-    const previewUrl = useMemo(() => URL.createObjectURL(file), [file]);
+export function PhotoPreviewStep({ file, onConfirm, onChangePhoto }: PhotoPreviewStepProps) {
+    const [previewUrl, setPreviewUrl] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        return () => URL.revokeObjectURL(previewUrl);
-    }, [previewUrl]);
+        const url = URL.createObjectURL(file);
+        setPreviewUrl(url);
+        return () => URL.revokeObjectURL(url);
+    }, [file]);
+
+    const handlePick = () => inputRef.current?.click();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const next = e.target.files?.[0];
+        e.target.value = '';
+        if (!next) return;
+        onChangePhoto(next);
+    };
 
     return (
         <BackdropScene>
@@ -23,10 +36,25 @@ export function PhotoPreviewStep({ file, onConfirm }: PhotoPreviewStepProps) {
                     이 사진으로 할까?
                 </p>
 
-                <img
-                    src={previewUrl}
-                    alt="업로드한 사진"
-                    className="rounded-20 h-360 w-260 object-cover"
+                <button
+                    type="button"
+                    onClick={handlePick}
+                    aria-label="사진 다시 선택"
+                    className="rounded-20 h-360 w-260 overflow-hidden"
+                >
+                    <img
+                        src={previewUrl}
+                        alt="업로드한 사진"
+                        className="h-full w-full object-cover"
+                    />
+                </button>
+
+                <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/jpeg,image/png"
+                    hidden
+                    onChange={handleChange}
                 />
             </section>
 

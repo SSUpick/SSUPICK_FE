@@ -3,6 +3,16 @@
 /* 짧은 세로 viewport (≤ 800px) 대응 — 인트로/스플래시 등 캔버스 화면에서 사용 */
 @custom-variant short (@media (max-height: 800px));
 @custom-variant supershort (@media (max-height: 700px));
+/* 긴 세로 viewport (> 1000px) 대응 — 큰 디바이스에서 캔버스 요소 축소 */
+@custom-variant tall (@media (min-height: 1001px));
+/* 좁은 가로 viewport (≤ 480px) 대응 — Layout max-w-3xl(480px) 미만, 실제 모바일 범위 */
+@custom-variant narrow (@media (max-width: 480px));
+/* 더 좁은 가로 viewport (≤ 435px) 대응 — 텍스트 강제 줄바꿈 등 세밀한 분기 */
+@custom-variant narrower (@media (max-width: 440px));
+/* ㅈㄴ 좁은 가로 viewport (≤ 350px) 대응 — 텍스트 강제 줄바꿈 등 세밀한 분기 */
+@custom-variant narrowest (@media (max-width: 410px));
+/* ㅅㅂ 좁은 가로 viewport (≤ 350px) 대응 — 텍스트 강제 줄바꿈 등 세밀한 분기 */
+@custom-variant fuckinNarrowest (@media (max-width: 350px));
 
 @theme {
     /* Spacing: 0.1rem = 1px @ 1rem=10px → 클래스 숫자 = px값 (mt-13 = 13px) */

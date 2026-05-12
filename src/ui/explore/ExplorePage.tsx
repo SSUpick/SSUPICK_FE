@@ -10,7 +10,7 @@ import { ROUTES, cardDetailPath } from '@/constants/routes';
 import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 
-import { FeedHeader } from '../feed/_parts/FeedHeader';
+import { FeedHeader } from './_parts/FeedHeader';
 
 // 성별 필터 — 임시 비노출
 // type GenderFilter = 'all' | Gender;
@@ -73,7 +73,7 @@ export function ExplorePage() {
                 </div>
             ) : (
                 <main
-                    className={`grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 px-22 ${showProfileCta ? 'pb-110' : 'pb-30'}`}
+                    className={`grid grid-cols-2 justify-items-center gap-x-23 gap-y-26 ${showProfileCta ? 'pb-110' : 'pb-30'}`}
                 >
                     {filtered.map(p => (
                         <ProfileCard
@@ -85,7 +85,9 @@ export function ExplorePage() {
                 </main>
             )}
 
-            <div className={`text-black-400 mt-auto flex flex-col gap-3 border-t border-black-200 pt-16 text-xs leading-18 tracking-tight ${showProfileCta ? 'pb-110' : 'pb-30'}`}>
+            <div
+                className={`text-black-400 border-black-200 mt-auto flex flex-col gap-3 border-t pt-16 text-xs leading-18 tracking-tight ${showProfileCta ? 'pb-110' : 'pb-30'}`}
+            >
                 <p>상호: 슈픽 · 대표자: 백승현</p>
                 <p>사업자등록번호: 282-45-01301</p>
                 <p>통신판매신고번호: 신고 진행 중</p>
@@ -96,7 +98,7 @@ export function ExplorePage() {
 
             {/* 프로필 미등록 유저 CTA */}
             {showProfileCta && (
-                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-gradient-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
+                <div className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-3xl bg-linear-to-t from-white via-white/90 to-transparent px-20 pt-12 pb-24">
                     <CtaButton onClick={() => navigate(ROUTES.PROFILE_CREATE)}>
                         내 프로필 등록하기
                     </CtaButton>

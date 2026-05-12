@@ -19,6 +19,10 @@ const TIMELINE: { time: number; text: string }[] = [
 const TOP_CLASSES = ['top-240', 'top-160', 'top-80'];
 const MAX_BUBBLES = 3;
 const POLL_INTERVAL = 2000;
+const PROGRESS_TICK = 150;
+const PROGRESS_TAU = 10000;
+const PROGRESS_CAP = 90;
+const COMPLETE_DELAY = 400;
 
 type GeneratingStepProps = {
     aiImageId: number | null;
@@ -28,6 +32,7 @@ type GeneratingStepProps = {
 
 export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepProps) {
     const [bubbles, setBubbles] = useState<Bubble[]>([]);
+    const [progress, setProgress] = useState(0);
     const handledRef = useRef(false);
 
     // 말풍선 애니메이션 타임라인
@@ -39,6 +44,18 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
             }, time),
         );
         return () => timers.forEach(window.clearTimeout);
+    }, []);
+
+    // 시간 기반 점근선 progress — 90%에서 점근, DONE 시 100% 스냅
+    useEffect(() => {
+        const startTime = Date.now();
+        const interval = window.setInterval(() => {
+            if (handledRef.current) return;
+            const elapsed = Date.now() - startTime;
+            const target = PROGRESS_CAP * (1 - Math.exp(-elapsed / PROGRESS_TAU));
+            setProgress(prev => Math.max(prev, target));
+        }, PROGRESS_TICK);
+        return () => window.clearInterval(interval);
     }, []);
 
     // 상태 폴링
@@ -57,12 +74,16 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
         if (!statusData || handledRef.current) return;
         if (statusData.status === 'DONE') {
             handledRef.current = true;
-            onDone(statusData);
+            const timer = window.setTimeout(() => onDone(statusData), COMPLETE_DELAY);
+            return () => window.clearTimeout(timer);
         } else if (statusData.status === 'FAILED') {
             handledRef.current = true;
             onError();
         }
     }, [statusData, onDone, onError]);
+
+    // DONE 도착 시 화면에 표시되는 progress는 100% — 실제 state는 점근선 그대로 둠
+    const displayProgress = statusData?.status === 'DONE' ? 100 : progress;
 
     return (
         <div className="relative min-h-dvh w-full">
@@ -97,6 +118,19 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
                     </div>
                 );
             })}
+
+            <div
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(displayProgress)}
+                className="bg-white-default/40 absolute inset-x-0 bottom-40 h-12 overflow-hidden rounded-full"
+            >
+                <div
+                    className="bg-pink-default h-full rounded-full transition-[width] duration-300 ease-out"
+                    style={{ width: `${displayProgress}%` }}
+                />
+            </div>
         </div>
     );
 }

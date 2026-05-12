@@ -25,7 +25,7 @@ export function CouponPage() {
         <div className="relative flex min-h-dvh w-full flex-col">
             <div
                 aria-hidden
-                className="bg-linear-to-b from-white-default to-pink-50 pointer-events-none absolute top-0 -right-20 bottom-0 -left-20"
+                className="from-white-default pointer-events-none absolute top-0 -right-20 bottom-0 -left-20 bg-linear-to-b to-pink-50"
             />
 
             <div className="relative flex flex-1 flex-col">
@@ -42,24 +42,26 @@ export function CouponPage() {
                                 <button
                                     type="button"
                                     onClick={() => handleSelect(plan)}
-                                    className="rounded-14 bg-white-default border-pink-100 drop-shadow-coupon flex h-111 w-full items-center gap-28 border pt-24 pb-24 pl-24 pr-27"
+                                    className="rounded-14 bg-white-default drop-shadow-coupon narrow:pl-13 narrow:pr-16 narrow:py-20 flex h-111 w-full items-center justify-between border border-pink-100 pt-24 pr-27 pb-24 pl-24"
                                 >
                                     <img
                                         src={couponImg}
                                         alt=""
                                         aria-hidden
-                                        className="h-63 w-89 shrink-0 object-contain"
+                                        className="fuckinNarrowest:mr-10 mr-20 h-63 w-89 shrink-0 object-contain"
                                     />
-                                    <div className="flex flex-1 items-center justify-between">
-                                        <div className="flex flex-col items-start gap-2">
-                                            <span className="text-black-800 text-lg font-medium">
-                                                프로필 조회 이용권 {plan.couponCount}개
+                                    <div className="flex min-w-0 flex-1 items-center justify-between gap-10">
+                                        <div className="flex min-w-0 flex-col items-start gap-2">
+                                            <span className="text-black-800 narrower:text-base text-left text-lg font-medium">
+                                                프로필 조회{' '}
+                                                <br className="narrowest:inline hidden" />
+                                                이용권 {plan.couponCount}개
                                             </span>
-                                            <span className="text-black-700 text-xs font-normal">
+                                            <span className="text-black-700 narrower:text-2xs text-xs font-normal">
                                                 {plan.couponCount}회 조회
                                             </span>
                                         </div>
-                                        <span className="text-pink-point text-22 font-medium whitespace-nowrap">
+                                        <span className="text-pink-point narrower:text-xl text-22 font-medium whitespace-nowrap">
                                             {formatPrice(plan.price)}
                                         </span>
                                     </div>

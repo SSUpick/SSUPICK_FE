@@ -7,7 +7,7 @@ import { toast } from '@/store/toastStore';
  * navigate state로 전달된 토스트 메시지를 도착 페이지에서 1회 표시한다.
  *
  * 사용 패턴:
- * - 출발 페이지: `navigate(ROUTES.FEED, { state: { toast: '저장 완료!' } })`
+ * - 출발 페이지: `navigate(ROUTES.EXPLORE, { state: { toast: '저장 완료!' } })`
  * - 도착 페이지: `useNavigateToast()` 한 줄 호출
  *
  * 특징:
