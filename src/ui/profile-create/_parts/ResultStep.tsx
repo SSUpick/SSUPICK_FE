@@ -49,10 +49,9 @@ export function ResultStep({
                 </p>
                 <p className="text-black-600 short:text-lg supershort:text-base text-xl font-semibold">
                     {isMaxed ? (
-                        <>
-                            최대 이미지 생성 횟수를
+                        <>남은 기회가 없어 이 사진이
                             <br />
-                            모두 소비했어.
+                            자동으로 선택돼요!
                         </>
                     ) : (
                         <>
