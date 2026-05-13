@@ -102,6 +102,10 @@ export function SettingsPage() {
                                 복구할 수 없어요.
                             </>
                         }
+                        notice={[
+                            '탈퇴 후 다시 가입해도 기존 이미지 생성 횟수가 초기화되지 않아요.',
+                            '남은 생성 횟수가 없으면 프로필 생성이 제한돼요.',
+                        ]}
                         confirmLabel="탈퇴하기"
                         onCancel={closeModal}
                         onConfirm={handleWithdraw}
@@ -187,6 +191,7 @@ function InquiryDialog({ onClose }: InquiryDialogProps) {
 type ConfirmDialogProps = {
     title: string;
     description?: ReactNode;
+    notice?: string[];
     confirmLabel: string;
     onCancel: () => void;
     onConfirm: () => void;
@@ -195,6 +200,7 @@ type ConfirmDialogProps = {
 function ConfirmDialog({
     title,
     description,
+    notice,
     confirmLabel,
     onCancel,
     onConfirm,
@@ -211,6 +217,22 @@ function ConfirmDialog({
                     </p>
                 )}
             </div>
+
+            {notice && notice.length > 0 && (
+                <ul className="bg-black-100 rounded-12 flex w-full flex-col gap-4 px-14 py-12">
+                    {notice.map(item => (
+                        <li
+                            key={item}
+                            className="text-black-500 flex gap-6 text-left text-xs leading-18 font-medium tracking-tight"
+                        >
+                            <span className="text-black-400" aria-hidden>
+                                •
+                            </span>
+                            <span className="flex-1">{item}</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
 
             <div className="grid w-full grid-cols-2 gap-8">
                 <button
