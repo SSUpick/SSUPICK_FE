@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,12 +65,28 @@ const ONBOARDING_SEEN_KEY = 'onboarding_seen';
 export function OnboardingPage() {
     const [step, setStep] = useState(0);
     const navigate = useNavigate();
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         if (localStorage.getItem(ONBOARDING_SEEN_KEY)) {
             navigate(ROUTES.EXPLORE, { replace: true });
         }
     }, [navigate]);
+
+    // 모바일에서 백그라운드 → 복귀 시 자동 재생 보장
+    useEffect(() => {
+        const resume = () => {
+            const v = videoRef.current;
+            if (!v || document.visibilityState !== 'visible') return;
+            if (v.paused) v.play().catch(() => {});
+        };
+        document.addEventListener('visibilitychange', resume);
+        window.addEventListener('pageshow', resume);
+        return () => {
+            document.removeEventListener('visibilitychange', resume);
+            window.removeEventListener('pageshow', resume);
+        };
+    }, []);
 
     const current = STEPS[step];
     const isLast = step === STEPS.length - 1;
@@ -92,6 +108,7 @@ export function OnboardingPage() {
             <div onClick={handleTap} className="relative min-h-dvh w-full">
                 <div className="absolute top-0 -right-20 bottom-0 -left-20 overflow-hidden">
                     <video
+                        ref={videoRef}
                         src={helloVideo}
                         autoPlay
                         muted
