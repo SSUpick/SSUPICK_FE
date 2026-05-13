@@ -48,10 +48,10 @@ export function ExplorePage() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [showTooltip]);
 
-    const filtered = filter === 'all' ? (cards ?? []) : (cards ?? []).filter(p => p.gender === filter);
+    const filtered =
+        filter === 'all' ? (cards ?? []) : (cards ?? []).filter(p => p.gender === filter);
     const showProfileCta = profile?.onboardingStatus === 'INCOMPLETE';
-    const hasGeneratedPhoto =
-        !!profile?.profileUrl && !profile.profileUrl.includes('kakaocdn.net');
+    const hasGeneratedPhoto = !!profile?.profileUrl && !profile.profileUrl.includes('kakaocdn.net');
 
     return (
         <div className="bg-white-default flex min-h-svh w-full flex-col">
@@ -85,9 +85,10 @@ export function ExplorePage() {
                         ?
                     </button>
                     {showTooltip && (
-                        <div className="bg-black-800/80 absolute right-0 top-30 z-30 w-260 rounded-14 px-16 py-12 shadow-lg">
-                            <p className="text-white-default text-xs font-medium leading-snug tracking-tight">
-                            내 프로필은 내 피드에 보이지 않아요. ‘내 정보 수정’ 버튼이 보이면 정상 등록된 상태예요.
+                        <div className="bg-black-800/80 rounded-14 absolute top-30 right-0 z-30 w-260 px-16 py-12 shadow-lg">
+                            <p className="text-white-default text-xs leading-snug font-medium tracking-tight">
+                                내 프로필은 내 피드에 보이지 않아요. ‘내 정보 수정’ 버튼이 보이면
+                                정상 등록된 상태예요.
                             </p>
                         </div>
                     )}

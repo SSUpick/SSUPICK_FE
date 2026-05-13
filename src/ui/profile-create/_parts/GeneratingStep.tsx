@@ -120,7 +120,7 @@ export function GeneratingStep({ aiImageId, onDone, onError }: GeneratingStepPro
             })}
 
             <div className="absolute inset-x-0 bottom-14 flex flex-col items-center gap-8">
-                <p className="text-white-default/90 text-center text-xs font-semibold tracking-tight leading-snug">
+                <p className="text-white-default/90 text-center text-xs leading-snug font-semibold tracking-tight">
                     생성이 완료되기 전까지 새로고침, 페이지 이동, 화면 끄기를
                     <br />
                     하면 작업이 중단될 수 있어요.

@@ -39,8 +39,12 @@ export function ProfileCreatePage() {
                 setStep('result');
             }
         },
-        onError: () => {
-            toast.error('이미지 생성에 실패했어요.');
+        onError: err => {
+            if (axios.isAxiosError(err) && err.response?.data?.code === 'AI_429_1') {
+                toast.error('이미지 생성 횟수를 모두 사용했어요.');
+            } else {
+                toast.error('이미지 생성에 실패했어요.');
+            }
             setStep('upload');
         },
     });

@@ -166,6 +166,7 @@ body {
 .dialog-bubble-gradient-border {
     background:
         linear-gradient(#ffffff00, rgba(255, 255, 255, 0)) padding-box,
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.356), rgba(255, 255, 255, 0.357)) border-box;
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.356), rgba(255, 255, 255, 0.357))
+            border-box;
     border: 2px solid transparent;
 }

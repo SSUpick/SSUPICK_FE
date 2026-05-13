@@ -73,7 +73,8 @@ export function ResultStep({
                 </p>
                 <p className="text-black-600 short:text-lg supershort:text-base text-xl font-semibold">
                     {isMaxed ? (
-                        <>남은 기회가 없어 이 사진이
+                        <>
+                            남은 기회가 없어 이 사진이
                             <br />
                             자동으로 선택돼요!
                         </>

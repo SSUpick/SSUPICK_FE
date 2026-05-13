@@ -414,7 +414,6 @@ export function PrivacyPage() {
                         <p>공고일자: 2026년 5월 6일</p>
                         <p>시행일자: 2026년 5월 6일</p>
                     </div>
-
                 </section>
             </div>
         </div>
