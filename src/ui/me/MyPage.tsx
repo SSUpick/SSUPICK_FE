@@ -89,7 +89,8 @@ export function MyPage() {
                     <OutlineChipButton
                         onClick={() => {
                             if (needsPhoto) navigate(ROUTES.PROFILE_CREATE);
-                            else if (needsInfoOnly) navigate(ROUTES.PROFILE_CREATE, { state: { skipToForm: true } });
+                            else if (needsInfoOnly)
+                                navigate(ROUTES.PROFILE_CREATE, { state: { skipToForm: true } });
                             else navigate(ROUTES.ME_EDIT);
                         }}
                     >

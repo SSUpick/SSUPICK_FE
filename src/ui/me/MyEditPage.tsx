@@ -199,7 +199,12 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
             </div>
 
             <div className="mt-auto pt-30 pb-22">
-                <CtaButton type="submit" disabled={!formValid} loading={isPending} className="w-full">
+                <CtaButton
+                    type="submit"
+                    disabled={!formValid}
+                    loading={isPending}
+                    className="w-full"
+                >
                     {isPending ? '저장 중...' : '저장하기'}
                 </CtaButton>
             </div>

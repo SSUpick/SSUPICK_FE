@@ -473,7 +473,7 @@ export function TermsPage() {
                     </OL>
                 </Article>
 
-<section className="border-black-200 text-black-500 flex flex-col gap-4 border-t pt-16 text-xs tracking-tight">
+                <section className="border-black-200 text-black-500 flex flex-col gap-4 border-t pt-16 text-xs tracking-tight">
                     <p className="text-black-700 text-sm font-semibold">부칙</p>
                     <p>본 약관은 2026년 5월 6일부터 적용됩니다.</p>
                 </section>

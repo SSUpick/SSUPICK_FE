@@ -166,7 +166,6 @@ export function PaymentPage() {
                     </button>
                 </section>
 
-
                 {/* 아코디언 */}
                 <section className="border-black-200 border-t">
                     <AccordionItem title="상품 정보">

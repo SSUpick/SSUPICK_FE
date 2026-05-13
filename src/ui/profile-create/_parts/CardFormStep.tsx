@@ -198,12 +198,17 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
                 </FormSection>
             </div>
 
-            <div className="px-8 pt-14 pb-22 flex flex-col gap-12">
-                <p className="text-black-400 text-left text-xs font-medium tracking-tight leading-snug">
-                    <span className="font-semibold">주의사항:</span> 사실과 다른 정보나 부적절한 내용이 포함된 경우,{' '}
-                    관리자 확인 후 프로필이 삭제될 수 있습니다.
+            <div className="flex flex-col gap-12 px-8 pt-14 pb-22">
+                <p className="text-black-400 text-left text-xs leading-snug font-medium tracking-tight">
+                    <span className="font-semibold">주의사항:</span> 사실과 다른 정보나 부적절한
+                    내용이 포함된 경우, 관리자 확인 후 프로필이 삭제될 수 있습니다.
                 </p>
-                <CtaButton type="submit" disabled={!formValid} loading={submitting} className="w-full">
+                <CtaButton
+                    type="submit"
+                    disabled={!formValid}
+                    loading={submitting}
+                    className="w-full"
+                >
                     {submitting ? '등록 중...' : '등록하기'}
                 </CtaButton>
             </div>

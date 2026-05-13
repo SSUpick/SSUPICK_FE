@@ -25,8 +25,8 @@ export function RefundPage() {
                             있습니다.
                         </li>
                         <li>
-                            환불 요청은 고객센터 이메일({CONTACT.EMAIL}) 혹은 문의
-                            채널({CONTACT.KAKAO_CHANNEL_BASE})을 통해 접수할 수 있으며, 결제자 정보,
+                            환불 요청은 고객센터 이메일({CONTACT.EMAIL}) 혹은 문의 채널(
+                            {CONTACT.KAKAO_CHANNEL_BASE})을 통해 접수할 수 있으며, 결제자 정보,
                             결제일, 결제 금액, 환불 사유를 함께 전달해야 합니다.
                         </li>
                         <li>
