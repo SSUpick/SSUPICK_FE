@@ -9,6 +9,7 @@ import { ROUTES, cardDetailPath } from '@/constants/routes';
 import type { Gender } from '@/features/user/types';
 import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import { useNavigateToast } from '@/hooks/useNavigateToast';
 
 import { FeedHeader } from './_parts/FeedHeader';
 
@@ -27,6 +28,8 @@ export function ExplorePage() {
     const [filter, setFilter] = useState<GenderFilter>('all');
     const { data: cards, isLoading } = useUserCardList();
     const { data: profile } = useUserProfile();
+
+    useNavigateToast();
 
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
