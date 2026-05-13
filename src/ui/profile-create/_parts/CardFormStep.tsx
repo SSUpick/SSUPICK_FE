@@ -8,6 +8,7 @@ import { TextInput } from '@/components/input/TextInput';
 import { PageHeader } from '@/components/layout/PageHeader';
 
 import type { Gender } from '@/features/user/types';
+import { NICKNAME_MAX_LENGTH, isValidNicknameLength } from '@/schemas/nickname';
 
 const MBTI_PAIRS: [string, string][] = [
     ['E', 'I'],
@@ -15,7 +16,6 @@ const MBTI_PAIRS: [string, string][] = [
     ['T', 'F'],
     ['J', 'P'],
 ];
-const NICKNAME_MAX = 10;
 const KEYWORD_MAX = 8;
 const CONTACT_MIN = 2;
 const CONTACT_MAX = 50;
@@ -36,6 +36,7 @@ type CardFormStepProps = {
 
 export function CardFormStep({ onSubmit }: CardFormStepProps) {
     const [nickname, setNickname] = useState('');
+    const [nicknameFocused, setNicknameFocused] = useState(false);
     const [gender, setGender] = useState<Gender | null>(null);
     const [letters, setLetters] = useState<Record<number, string>>({});
     const [appeals, setKeywords] = useState<string[]>(['']);
@@ -54,8 +55,7 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
     const validKeywords = appeals.map(k => k.trim()).filter(k => k.length > 0);
 
     const formValid =
-        nickname.length > 0 &&
-        nickname.length <= NICKNAME_MAX &&
+        isValidNicknameLength(nickname) &&
         gender !== null &&
         mbti.length === 4 &&
         validKeywords.length >= KEYWORDS_MIN_COUNT &&
@@ -97,15 +97,23 @@ export function CardFormStep({ onSubmit }: CardFormStepProps) {
             <PageHeader title="카드 만들기" showBack={false} />
 
             <div className="flex flex-col gap-34 px-8 pt-12 pb-22">
-                <FormSection
-                    title="닉네임은?"
-                    helpers={[`* 최대 ${NICKNAME_MAX}자 제한이 있어요.`]}
-                >
-                    <TextInput
-                        value={nickname}
-                        onChange={e => setNickname(e.target.value.slice(0, NICKNAME_MAX))}
-                        placeholder="ex. 숭실대 카리나"
-                    />
+                <FormSection title="닉네임은?">
+                    <div className="flex flex-col gap-6">
+                        <TextInput
+                            value={nickname}
+                            onChange={e =>
+                                setNickname(e.target.value.slice(0, NICKNAME_MAX_LENGTH))
+                            }
+                            onFocus={() => setNicknameFocused(true)}
+                            onBlur={() => setNicknameFocused(false)}
+                            placeholder="ex. 숭실대 카리나"
+                        />
+                        {nicknameFocused && (
+                            <p className="text-black-400 self-end text-sm font-medium tracking-tighter">
+                                {nickname.length}/{NICKNAME_MAX_LENGTH}
+                            </p>
+                        )}
+                    </div>
                 </FormSection>
 
                 <FormSection title="성별은?" helpers={['* 성별은 이후에 변경 불가능해요.']}>
