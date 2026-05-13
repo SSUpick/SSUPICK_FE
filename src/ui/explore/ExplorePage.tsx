@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { CtaButton } from '@/components/button/CtaButton';
 import { ProfileCard } from '@/components/card/ProfileCard';
@@ -9,6 +9,7 @@ import { ROUTES, cardDetailPath } from '@/constants/routes';
 import type { Gender } from '@/features/user/types';
 import { useUserCardList } from '@/features/user/hooks/useUserCardList';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
+import { useNavigateToast } from '@/hooks/useNavigateToast';
 
 import { FeedHeader } from './_parts/FeedHeader';
 
@@ -23,13 +24,26 @@ const SCROLL_THRESHOLD = 300;
 
 export function ExplorePage() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [filter, setFilter] = useState<GenderFilter>('all');
     const { data: cards, isLoading } = useUserCardList();
     const { data: profile } = useUserProfile();
 
+    useNavigateToast();
+
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [showTooltip, setShowTooltip] = useState(false);
     const tooltipRef = useRef<HTMLDivElement>(null);
+
+    // 프로필 생성 완료 등 특정 진입 경로에서 상단으로 부드럽게 스크롤
+    useEffect(() => {
+        const state = location.state as { scrollToTop?: boolean } | null;
+        if (state?.scrollToTop) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        // mount 시 1회만 — location.state 변경 추적 불필요
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => setShowScrollTop(window.scrollY > SCROLL_THRESHOLD);

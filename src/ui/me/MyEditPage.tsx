@@ -17,6 +17,7 @@ import { updateUserProfile } from '@/features/user/api';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 import type { UserProfileResponseDto } from '@/features/user/types';
 import { KEYWORD_MAX_LENGTH, MAX_KEYWORDS, keywordsSchema } from '@/schemas/keyword';
+import { NICKNAME_MAX_LENGTH, isValidNicknameLength } from '@/schemas/nickname';
 import { toast } from '@/store/toastStore';
 import { sanitizeInput } from '@/utils/sanitize';
 import { getImageUrl } from '@/utils/getImageUrl';
@@ -39,6 +40,7 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
     const queryClient = useQueryClient();
 
     const [nickname, setNickname] = useState(profile.nickname);
+    const [nicknameFocused, setNicknameFocused] = useState(false);
     const [letters, setLetters] = useState<Record<number, string>>(() => initLetters(profile.mbti));
     const [appeals, setAppeals] = useState<string[]>(
         profile.appeals.length > 0 ? profile.appeals : [''],
@@ -55,7 +57,7 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
     const contactError = contact.length > 0 && !contactValid;
 
     const formValid =
-        nickname.trim().length > 0 &&
+        isValidNicknameLength(nickname.trim()) &&
         mbti.length === 4 &&
         appeals.some(k => k.trim().length > 0) &&
         contactValid;
@@ -125,12 +127,21 @@ function EditForm({ profile }: { profile: UserProfileResponseDto }) {
 
             <div className="mt-46 flex flex-col gap-26">
                 <Field label="닉네임">
-                    <EditableInput
-                        value={nickname}
-                        onChange={v => setNickname(v.slice(0, 10))}
-                        onClear={() => setNickname('')}
-                        placeholder="닉네임을 입력해주세요"
-                    />
+                    <div className="flex flex-col gap-6">
+                        <EditableInput
+                            value={nickname}
+                            onChange={v => setNickname(v.slice(0, NICKNAME_MAX_LENGTH))}
+                            onClear={() => setNickname('')}
+                            onFocus={() => setNicknameFocused(true)}
+                            onBlur={() => setNicknameFocused(false)}
+                            placeholder="닉네임을 입력해주세요"
+                        />
+                        {nicknameFocused && (
+                            <p className="text-black-400 self-end text-sm font-medium tracking-tighter">
+                                {nickname.length}/{NICKNAME_MAX_LENGTH}
+                            </p>
+                        )}
+                    </div>
                 </Field>
 
                 <Field label="MBTI">
@@ -250,9 +261,18 @@ type EditableInputProps = {
     onChange: (val: string) => void;
     onClear: () => void;
     placeholder?: string;
+    onFocus?: () => void;
+    onBlur?: () => void;
 };
 
-function EditableInput({ value, onChange, onClear, placeholder }: EditableInputProps) {
+function EditableInput({
+    value,
+    onChange,
+    onClear,
+    placeholder,
+    onFocus,
+    onBlur,
+}: EditableInputProps) {
     const [focused, setFocused] = useState(false);
     return (
         <div className="bg-black-100 rounded-10 flex h-60 items-center px-14">
@@ -260,8 +280,14 @@ function EditableInput({ value, onChange, onClear, placeholder }: EditableInputP
                 value={value}
                 placeholder={placeholder}
                 onChange={e => onChange(sanitizeInput(e.target.value))}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
+                onFocus={() => {
+                    setFocused(true);
+                    onFocus?.();
+                }}
+                onBlur={() => {
+                    setFocused(false);
+                    onBlur?.();
+                }}
                 className="text-black-800 placeholder:text-black-400 min-w-0 flex-1 bg-transparent text-base font-medium outline-none"
             />
             <PencilIcon />

@@ -54,7 +54,7 @@ export function ProfileCreatePage() {
         onSuccess: () => {
             navigate(ROUTES.EXPLORE, {
                 replace: true,
-                state: { toast: '프로필 등록에 성공했어요!' },
+                state: { toast: '프로필 등록에 성공했어요!', scrollToTop: true },
             });
         },
     });
