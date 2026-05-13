@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import chatBubble_white from '@/assets/chatBubble_white.svg';
-import waitingVideo from '@/assets/loop_video.mp4';
+import waitingVideo from '@/assets/waiting_transform_loop.mp4';
 import { getAiImageStatus } from '@/features/ai-image/api';
 import type { AiImageResponseDto } from '@/features/ai-image/types';
 
