@@ -1,73 +1,119 @@
-# React + TypeScript + Vite
+<div align="center">
+  <img src="./docs/images/ssupick-cover.png" alt="슈픽 프로필 탐색 화면이 담긴 프로젝트 커버" width="100%" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  <h1>SSUPICK</h1>
 
-Currently, two official plugins are available:
+  <p>
+    사진 한 장을 AI 캐릭터로 바꾸고,<br />
+    축제에서 새로운 인연을 발견하는 모바일 소개팅 웹 서비스
+  </p>
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 서비스 소개
 
-## React Compiler
+슈픽은 사용자가 자신의 사진으로 AI 캐릭터 프로필을 만들고, 다른 참여자의 프로필을 탐색할 수 있는 서비스입니다. 카카오 계정으로 간편하게 시작해 닉네임, MBTI, 매력 키워드와 연락처를 등록하며, 프로필 조회 이용권으로 관심 있는 상대의 연락처를 확인할 수 있습니다.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+모바일 사용 환경을 중심으로 설계했으며, 브라우저 너비가 넓어져도 콘텐츠 영역을 일정하게 유지해 일관된 경험을 제공합니다.
 
-## Expanding the ESLint configuration
+## 주요 기능
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| 기능           | 설명                                                                                          |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| 카카오 로그인  | OAuth 인가 코드를 백엔드에 전달하고 온보딩 완료 여부에 따라 진입 화면을 분기합니다.           |
+| AI 프로필 생성 | 사진 업로드, 미리보기, 이미지 압축, 생성 상태 확인, 결과 선택까지 단계형 흐름으로 제공합니다. |
+| 프로필 탐색    | 성별 필터와 카드 목록으로 참여자를 살펴보고 상세 프로필을 확인할 수 있습니다.                 |
+| 연락처 열람    | 이용권 보유 여부를 확인한 뒤 연락처를 열람하고 클립보드에 복사할 수 있습니다.                 |
+| 내 정보 관리   | 프로필 수정, 조회 이력 확인, 로그아웃과 회원 탈퇴를 지원합니다.                               |
 
-```js
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
+## 구현 포인트
 
-            // Remove tseslint.configs.recommended and replace with this
-            tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
-            tseslint.configs.strictTypeChecked,
-            // Optionally, add this for stylistic rules
-            tseslint.configs.stylisticTypeChecked,
+### 동시 요청에도 한 번만 수행하는 토큰 재발급
 
-            // Other configs...
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+여러 API 요청에서 동시에 `401`이 발생해도 토큰 재발급 요청은 한 번만 전송합니다. 재발급 중 들어온 요청은 큐에서 대기한 뒤 새로운 액세스 토큰으로 다시 실행하며, 리프레시 토큰까지 만료된 경우에는 인증 상태를 정리하고 세션 만료 UI를 노출합니다.
+
+### 기다림까지 설계한 AI 이미지 생성 흐름
+
+업로드 이미지는 브라우저에서 최대 `1280px`, JPEG 품질 `0.85`로 압축해 전송량을 줄입니다. 생성 중에는 2초 간격으로 상태를 확인하고, 실제 진행률을 알 수 없는 비동기 작업의 특성을 고려해 90%에 점근하는 진행률과 단계별 메시지를 제공합니다. 완료 응답이 도착하면 100%로 전환한 뒤 결과 화면으로 자연스럽게 연결합니다.
+
+### 역할에 따라 분리한 상태 관리
+
+- TanStack Query는 프로필, 카드 목록, 이미지 생성 상태 같은 서버 상태와 캐시를 관리합니다.
+- Zustand는 인증, 세션 만료, 토스트처럼 앱 전역에서 공유하는 클라이언트 상태를 관리합니다.
+- React Router의 보호 라우트는 인증되지 않은 사용자의 서비스 화면 접근을 차단합니다.
+
+## 기술 스택
+
+| 영역            | 기술                        |
+| --------------- | --------------------------- |
+| Core            | React 19, TypeScript, Vite  |
+| Styling         | Tailwind CSS v4, Pretendard |
+| Routing         | React Router v7 Data Router |
+| Server State    | TanStack Query              |
+| Client State    | Zustand                     |
+| HTTP            | Axios                       |
+| Validation      | Zod                         |
+| Analytics       | Google Analytics 4          |
+| Package Manager | pnpm                        |
+
+## 프로젝트 구조
+
+```text
+src/
+├── apps/          # 라우터, 레이아웃, 보호 라우트
+├── ui/            # 라우트 단위 페이지
+├── components/    # 공용 UI 컴포넌트
+├── features/      # 도메인별 API, 훅, 타입
+├── store/         # 전역 클라이언트 상태
+├── schemas/       # 입력값 검증 스키마
+├── constants/     # 라우트와 공용 상수
+├── utils/         # HTTP, 이미지 처리, 분석 유틸리티
+└── assets/        # 이미지, 아이콘, 영상
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 시작하기
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+### 요구 사항
 
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
-            // Enable lint rules for React
-            reactX.configs['recommended-typescript'],
-            // Enable lint rules for React DOM
-            reactDom.configs.recommended,
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+- Node.js
+- pnpm 10 이상
+
+### 설치 및 실행
+
+```bash
+pnpm install
+cp .env.example .env
+pnpm dev
 ```
+
+기본 개발 서버는 `http://localhost:5173`에서 실행됩니다.
+
+### 환경 변수
+
+| 변수                          | 필수 | 설명                                   |
+| ----------------------------- | :--: | -------------------------------------- |
+| `VITE_KAKAO_CLIENT_ID`        |  O   | 카카오 OAuth 클라이언트 식별자         |
+| `VITE_KAKAO_REDIRECT_URI`     |  O   | 카카오 로그인 완료 후 돌아올 URI       |
+| `VITE_IMAGE_BASE_URL`         |  O   | 상대 경로 이미지에 사용할 기본 URL     |
+| `VITE_PAYMENT_ACCOUNT_NUMBER` |  O   | 결제 화면에 표시할 입금 계좌번호       |
+| `VITE_PAYMENT_ACCOUNT_INFO`   |  O   | 결제 화면에 표시할 은행 및 예금주 정보 |
+| `VITE_GA_MEASUREMENT_ID`      |  X   | 프로덕션 환경에서 사용할 GA4 측정 ID   |
+
+> `VITE_` 접두사가 붙은 값은 클라이언트 번들에 포함되어 브라우저에서 확인할 수 있습니다. API 비밀키, 비밀번호, 서버 전용 토큰은 넣지 마세요.
+
+## 스크립트
+
+```bash
+pnpm dev          # 개발 서버 실행
+pnpm build        # 타입 검사 후 프로덕션 빌드
+pnpm lint         # ESLint 검사
+pnpm format:check # Prettier 포맷 검사
+pnpm preview      # 프로덕션 빌드 미리보기
+pnpm generate:api # OpenAPI 명세로 API 타입 생성
+```
+
+## 설계 원칙
+
+- 페이지는 라우트 도메인 기준으로 구성하고, 도메인 로직은 `features`에 모읍니다.
+- 서버 데이터는 Query 캐시를 단일 소스로 사용하며 전역 스토어에 복제하지 않습니다.
+- 모든 라우트는 경로 상수로 관리하고, API 응답은 공통 응답 타입으로 다룹니다.
+- 1rem을 10px로 설정하고 Tailwind spacing 숫자가 디자인의 px 값과 대응하도록 구성합니다.
