@@ -11,8 +11,8 @@ import type { CouponProduct } from '@/features/payment/types';
 import { useUserProfile } from '@/features/user/hooks/useUserProfile';
 import { toast } from '@/store/toastStore';
 
-const ACCOUNT_NUMBER = '3333-22-5066794';
-const ACCOUNT_INFO = '카카오뱅크 (박수민)';
+const ACCOUNT_NUMBER = import.meta.env.VITE_PAYMENT_ACCOUNT_NUMBER as string;
+const ACCOUNT_INFO = import.meta.env.VITE_PAYMENT_ACCOUNT_INFO as string;
 
 const formatPrice = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 

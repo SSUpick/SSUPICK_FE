@@ -52,7 +52,7 @@ export function CouponPage() {
                                         src={couponImg}
                                         alt=""
                                         aria-hidden
-                                        className="fuckinNarrowest:mr-10 mr-20 h-63 w-89 shrink-0 object-contain"
+                                        className="compact:mr-10 mr-20 h-63 w-89 shrink-0 object-contain"
                                     />
                                     <div className="flex min-w-0 flex-1 items-center justify-between gap-10">
                                         <div className="flex min-w-0 flex-col items-start gap-2">
